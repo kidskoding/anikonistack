@@ -1,13 +1,12 @@
 # konistack
 
-My reproducible Claude Code stack — skills, slash commands, status line, hooks, and settings. Clone on any machine, run `setup.sh`, get the same setup.
+My reproducible Claude Code stack — skills, status line, hooks, and settings. Clone on any machine, run `setup.sh`, get the same setup.
 
 ## What's in it
 
 ```
 konistack/
 ├── skills/        # graphify, eli5, update-claude-md
-├── commands/      # /hey — Spotify control (needs a Spotify MCP server)
 ├── hooks/         # statusline.sh + caveman mode hooks
 ├── settings.json  # model, permissions, status line, hooks, plugins
 └── setup.sh       # symlinks everything into ~/.claude
@@ -37,7 +36,6 @@ marketplaces, so Claude Code auto-installs them on next launch:
 
 ## Notes
 
-- `/hey` needs a Spotify MCP server configured separately.
 - Hook and status-line paths use `$HOME`, so they work under any username.
 - The Discord-status hook from my personal setup is intentionally omitted
   (it pointed at a machine-specific `npx` cache path).
