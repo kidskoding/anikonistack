@@ -6,7 +6,7 @@ My reproducible Claude Code stack — skills, status line, and hooks. Clone on a
 
 ```
 anikonistack/
-├── skills/     # graphify, eli5, update-claude-md, commit, pr-review, issue-fix
+├── skills/     # graphify, eli5, coursera-notes, update-claude-md, commit, pr-review, issue-fix
 ├── hooks/      # statusline.sh (enabled-plugin badges)
 └── setup.sh    # symlinks everything into ~/.claude
 ```
