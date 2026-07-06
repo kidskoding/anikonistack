@@ -1,12 +1,12 @@
-# konistack
+# anikonistack
 
 My reproducible Claude Code stack — skills, status line, hooks, and settings. Clone on any machine, run `setup.sh`, get the same setup.
 
 ## What's in it
 
 ```
-konistack/
-├── skills/        # graphify, eli5, update-claude-md
+anikonistack/
+├── skills/        # graphify, eli5, update-claude-md, commit
 ├── hooks/         # statusline.sh + caveman mode hooks
 ├── settings.json  # model, permissions, status line, hooks, plugins
 └── setup.sh       # symlinks everything into ~/.claude
@@ -15,14 +15,14 @@ konistack/
 ## Install
 
 ```bash
-git clone https://github.com/kidskoding/konistack.git
-cd konistack
+git clone https://github.com/kidskoding/anikonistack.git
+cd anikonistack
 ./setup.sh
 ```
 
 Restart Claude Code. `setup.sh` symlinks the skills/commands/hooks into
 `~/.claude/` and copies in `settings.json` (your existing one is backed up to
-`settings.json.pre-konistack.bak`).
+`settings.json.pre-anikonistack.bak`).
 
 ## Plugins
 
