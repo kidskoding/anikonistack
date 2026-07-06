@@ -32,14 +32,8 @@ for f in "$REPO_DIR"/hooks/*; do
   link "$f" "$CLAUDE_DIR/hooks/$(basename "$f")"
 done
 
-# settings.json — back up existing, then copy (not symlink, so you can tweak locally)
-if [ -f "$CLAUDE_DIR/settings.json" ] && [ ! -L "$CLAUDE_DIR/settings.json" ]; then
-  cp "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/settings.json.pre-konistack.bak"
-  echo "  backed up existing settings.json -> settings.json.pre-konistack.bak"
-fi
-cp "$REPO_DIR/settings.json" "$CLAUDE_DIR/settings.json"
-echo "  installed settings.json"
-
 echo
-echo "Done. Restart Claude Code. Plugins (superpowers, caveman, ponytail, duet)"
-echo "auto-install from their marketplaces on next launch."
+echo "Done. Restart Claude Code."
+echo "Your ~/.claude/settings.json is left untouched — add plugins yourself with:"
+echo "  /plugin marketplace add JuliusBrussee/caveman  &&  /plugin install caveman@caveman"
+echo "  /plugin marketplace add DietrichGebert/ponytail &&  /plugin install ponytail@ponytail"
