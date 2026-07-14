@@ -21,7 +21,9 @@ Usage:
 import os
 import re
 import sys
+import shutil
 import difflib
+import subprocess
 
 HOME = os.path.expanduser("~")
 GHOSTTY_CONFIG = os.path.join(HOME, ".config/ghostty/config")
@@ -198,7 +200,23 @@ def run(target_name, dry_run=False):
             f.write(new_stext)
 
     print("done. backups written to *.bak")
-    print("reload: cmux `Reload Configuration` (cmd+shift+,) or new ghostty window; new shell prompt for starship.")
+    reload_cmux()
+    print("open a new shell prompt (or tab) to pick up the new starship colors.")
+
+
+def reload_cmux():
+    """cmux needs an explicit reload for the embedded Ghostty palette/background.
+    A new shell reloads starship but NOT the terminal cell colors."""
+    cli = shutil.which("cmux") or "/Applications/cmux.app/Contents/Resources/bin/cmux"
+    if os.path.exists(cli):
+        try:
+            r = subprocess.run([cli, "reload-config"], capture_output=True, text=True, timeout=10)
+            print("cmux reload-config:", (r.stdout or r.stderr).strip() or f"exit {r.returncode}")
+            return
+        except Exception as e:
+            print(f"cmux reload-config failed ({e}); reload manually: cmux cmd+shift+, or a new Ghostty window.")
+            return
+    print("reload terminal: cmux `Reload Configuration` (cmd+shift+,) or a new Ghostty window.")
 
 
 def self_check():

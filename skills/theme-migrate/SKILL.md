@@ -37,8 +37,11 @@ The engine is `theme_migrate.py` in this skill's directory. It is deterministic 
    ```
    python3 <skill-dir>/theme_migrate.py "<Theme Name>"
    ```
-   Writes both files (backing each up to `*.bak` first) and prints a reload hint.
-4. **Tell the user to reload**: cmux → `Reload Configuration` (`cmd+shift+,`) or a new Ghostty window for terminal cells; a fresh shell prompt picks up starship.
+   Writes both files (backing each up to `*.bak` first) and auto-runs `cmux reload-config`
+   so the terminal cells + background update live.
+4. **Tell the user**: terminal cells/background update on the auto-reload; a fresh shell
+   prompt (new tab/command) picks up the new starship colors. If `cmux` isn't on PATH the
+   script says so — reload manually via cmux `Reload Configuration` (`cmd+shift+,`).
 
 ## Notes
 
