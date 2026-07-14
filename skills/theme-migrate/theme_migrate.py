@@ -15,6 +15,7 @@ Usage:
   theme_migrate.py "<Theme Name>"              migrate ghostty + starship + fastfetch
   theme_migrate.py "<Theme Name>" --dry-run    preview diffs, write nothing
   theme_migrate.py "<Theme>" --from "<Theme>"  override source palette (out-of-sync configs)
+  theme_migrate.py "<Theme>" --arrow "#a3d9a5" override the success-arrow color
   theme_migrate.py --list                      list available theme names
   theme_migrate.py --check                     self-test, no writes
 """
@@ -38,17 +39,24 @@ def main():
         return
 
     dry = "--dry-run" in args
-    from_name = None
-    if "--from" in args:
-        i = args.index("--from")
-        if i + 1 >= len(args):
-            raise SystemExit("error: --from needs a theme name.")
-        from_name = args[i + 1]
-    positional = [a for a in args if not a.startswith("-") and a != from_name]
+    consumed = []
+
+    def opt(flag):
+        if flag in args:
+            i = args.index(flag)
+            if i + 1 >= len(args):
+                raise SystemExit(f"error: {flag} needs a value.")
+            consumed.append(args[i + 1])
+            return args[i + 1]
+        return None
+
+    from_name = opt("--from")
+    arrow = opt("--arrow")  # override the success-arrow color (e.g. #a3d9a5)
+    positional = [a for a in args if not a.startswith("-") and a not in consumed]
     name = positional[0] if positional else None
     if not name:
         raise SystemExit("error: give a theme name. --list to see options.")
-    run(name, dry_run=dry, from_name=from_name)
+    run(name, dry_run=dry, from_name=from_name, arrow=arrow)
 
 
 if __name__ == "__main__":

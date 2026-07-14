@@ -22,7 +22,7 @@ COLOR_TARGETS = [
 ]
 
 
-def run(target_name, dry_run=False, from_name=None):
+def run(target_name, dry_run=False, from_name=None, arrow=None):
     tgt_path = resolve_theme(target_name)
     tgt_name = os.path.basename(tgt_path)
     tgt_theme = parse_theme(tgt_path)
@@ -49,7 +49,8 @@ def run(target_name, dry_run=False, from_name=None):
             old = f.read()
         new, changed, unmatched = migrate_text(old, cur_theme, tgt_theme)
         if path == STARSHIP_CONFIG:
-            new, arrow_n = set_arrow_green(new, theme_green(tgt_theme))
+            # --arrow overrides the theme green (e.g. themes with no true green).
+            new, arrow_n = set_arrow_green(new, arrow or theme_green(tgt_theme))
             changed += arrow_n
         note = f", {len(unmatched)} color(s) left as-is (no ANSI slot): {unmatched}" if unmatched else ""
         print(f"{label}: {changed} color(s) remapped{note}")
