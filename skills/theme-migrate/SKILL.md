@@ -7,10 +7,11 @@ trigger: /theme-migrate <Theme Name>
 
 # theme-migrate
 
-Migrate the whole terminal look to one **named Ghostty theme** in one shot. Two surfaces change together:
+Migrate the whole terminal look to one **named Ghostty theme** in one shot. Surfaces change together:
 
 - **`~/.config/ghostty/config`** — the `theme = …` line → the actual terminal cell colors (cmux embeds Ghostty).
 - **`~/.config/starship.toml`** — every hardcoded hex → remapped to the new theme.
+- **`~/.config/fastfetch/config.jsonc`** — `keyColor` hexes **and** embedded truecolor escapes (`38;2;R;G;B`) → remapped. The ASCII logo file (`logo.source`) is intentionally left alone.
 
 No hardcoded palettes: the target theme's hexes come straight from Ghostty's ~400 shipped theme files. Starship colors are remapped by **ANSI-slot**, not by guessing — each hex in `starship.toml` is matched to its slot in the *current* theme, then replaced with the *target* theme's hex for that same slot. So it works no matter what theme you're on now.
 

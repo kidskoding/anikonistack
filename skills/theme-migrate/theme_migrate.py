@@ -28,12 +28,17 @@ import subprocess
 HOME = os.path.expanduser("~")
 GHOSTTY_CONFIG = os.path.join(HOME, ".config/ghostty/config")
 STARSHIP_CONFIG = os.environ.get("STARSHIP_CONFIG", os.path.join(HOME, ".config/starship.toml"))
+FASTFETCH_CONFIG = os.path.join(HOME, ".config/fastfetch/config.jsonc")
 THEME_DIRS = [
     "/Applications/cmux.app/Contents/Resources/ghostty/themes",
     "/Applications/Ghostty.app/Contents/Resources/ghostty/themes",
     os.path.join(HOME, ".config/ghostty/themes"),
 ]
 HEX = re.compile(r"#[0-9a-fA-F]{6}")
+# truecolor SGR escape params: 38;2;R;G;B (fg) or 48;2;R;G;B (bg), e.g. in
+# fastfetch's embedded ANSI (\033[38;2;251;73;52m). Matched regardless of how
+# the escape byte is spelled (\033, , \x1b) since we only touch the digits.
+TRUECOLOR = re.compile(r"(38|48);2;(\d{1,3});(\d{1,3});(\d{1,3})")
 
 
 def themes_dir():
@@ -100,28 +105,51 @@ def reverse_map(theme):
     return rev
 
 
-def migrate_starship(text, cur_theme, tgt_theme):
-    """Return (new_text, changed, unmatched_hexes)."""
+def migrate_text(text, cur_theme, tgt_theme):
+    """Remap both #rrggbb hexes and truecolor `38;2;R;G;B` escapes by ANSI slot.
+    Return (new_text, changed, sorted_unmatched)."""
     rev = reverse_map(cur_theme)
     unmatched = set()
     changed = 0
 
-    def sub(m):
-        nonlocal changed
-        h = m.group(0).lower()
+    def lookup(h):
+        """current hex -> target hex, or None if the slot can't be mapped."""
         slot = rev.get(h)
         if slot is None:
             unmatched.add(h)
-            return m.group(0)
+            return None
         newhex = tgt_theme.get(slot)
         if newhex is None:
             unmatched.add(h)
+            return None
+        return newhex
+
+    def hex_sub(m):
+        nonlocal changed
+        h = m.group(0).lower()
+        newhex = lookup(h)
+        if newhex is None:
             return m.group(0)
         if newhex != h:
             changed += 1
         return newhex
 
-    return HEX.sub(sub, text), changed, sorted(unmatched)
+    def rgb_sub(m):
+        nonlocal changed
+        prefix = m.group(1)
+        r, g, b = int(m.group(2)), int(m.group(3)), int(m.group(4))
+        h = "#%02x%02x%02x" % (r, g, b)
+        newhex = lookup(h)
+        if newhex is None:
+            return m.group(0)
+        nr, ng, nb = int(newhex[1:3], 16), int(newhex[3:5], 16), int(newhex[5:7], 16)
+        if newhex != h:
+            changed += 1
+        return f"{prefix};2;{nr};{ng};{nb}"
+
+    text = HEX.sub(hex_sub, text)
+    text = TRUECOLOR.sub(rgb_sub, text)
+    return text, changed, sorted(unmatched)
 
 
 def current_ghostty_theme():
@@ -150,58 +178,56 @@ def backup(path):
         f.write(data)
 
 
-def run(target_name, dry_run=False):
+def run(target_name, dry_run=False, from_name=None):
     tgt_path = resolve_theme(target_name)
     tgt_name = os.path.basename(tgt_path)
     tgt_theme = parse_theme(tgt_path)
 
-    cur_name = current_ghostty_theme()
+    # source palette: --from override (use when configs are out of sync with the
+    # ghostty theme line), else the current ghostty theme.
+    cur_name = from_name or current_ghostty_theme()
     if not cur_name:
-        raise SystemExit(f"error: no `theme = ` line in {GHOSTTY_CONFIG}; set one first so the current palette is known.")
+        raise SystemExit(f"error: no `theme = ` line in {GHOSTTY_CONFIG}; set one first, or pass --from <Theme>.")
     cur_theme = parse_theme(resolve_theme(cur_name))
 
     print(f"migrating: {cur_name}  ->  {tgt_name}")
 
-    # ghostty
+    # ghostty config: just the theme line
     with open(GHOSTTY_CONFIG) as f:
         gtext = f.read()
     new_gtext = set_ghostty_theme(gtext, tgt_name)
+    pending = [(GHOSTTY_CONFIG, gtext, new_gtext)]  # (path, old, new)
 
-    # starship
-    stext = None
-    if os.path.isfile(STARSHIP_CONFIG):
-        with open(STARSHIP_CONFIG) as f:
-            stext = f.read()
-        new_stext, changed, unmatched = migrate_starship(stext, cur_theme, tgt_theme)
-        print(f"starship: {changed} color(s) remapped" + (f", {len(unmatched)} hex left as-is: {unmatched}" if unmatched else ""))
-    else:
-        new_stext = None
-        print(f"starship: {STARSHIP_CONFIG} not found, skipping")
+    # color-bearing configs: remap every hex + truecolor escape by slot
+    for label, path in (("starship", STARSHIP_CONFIG), ("fastfetch", FASTFETCH_CONFIG)):
+        if not os.path.isfile(path):
+            print(f"{label}: {path} not found, skipping")
+            continue
+        with open(path) as f:
+            old = f.read()
+        new, changed, unmatched = migrate_text(old, cur_theme, tgt_theme)
+        note = f", {len(unmatched)} color(s) left as-is (no ANSI slot): {unmatched}" if unmatched else ""
+        print(f"{label}: {changed} color(s) remapped{note}")
+        pending.append((path, old, new))
 
     if dry_run:
-        print("\n--- ghostty (dry-run) ---")
-        for l in difflib.unified_diff(gtext.splitlines(), new_gtext.splitlines(), lineterm="", n=0):
-            if l.startswith(("+", "-")) and not l.startswith(("+++", "---")):
-                print(l)
-        if new_stext is not None:
-            print("--- starship (dry-run) ---")
-            for l in difflib.unified_diff(stext.splitlines(), new_stext.splitlines(), lineterm="", n=0):
+        for path, old, new in pending:
+            print(f"\n--- {path} (dry-run) ---")
+            for l in difflib.unified_diff(old.splitlines(), new.splitlines(), lineterm="", n=0):
                 if l.startswith(("+", "-")) and not l.startswith(("+++", "---")):
                     print(l)
         print("\n(dry-run, nothing written)")
         return
 
-    backup(GHOSTTY_CONFIG)
-    with open(GHOSTTY_CONFIG, "w") as f:
-        f.write(new_gtext)
-    if new_stext is not None:
-        backup(STARSHIP_CONFIG)
-        with open(STARSHIP_CONFIG, "w") as f:
-            f.write(new_stext)
+    for path, old, new in pending:
+        if new != old:
+            backup(path)
+            with open(path, "w") as f:
+                f.write(new)
 
     print("done. backups written to *.bak")
     reload_cmux()
-    print("open a new shell prompt (or tab) to pick up the new starship colors.")
+    print("open a new shell prompt (or tab) to pick up starship + fastfetch colors.")
 
 
 def reload_cmux():
@@ -224,9 +250,10 @@ def self_check():
     d = themes_dir()
     gru = parse_theme(resolve_theme("Gruvbox Dark"))
     mocha = parse_theme(resolve_theme("Catppuccin Mocha"))
-    # starship uses these gruvbox accents + #282828 as on-segment text.
-    sample = "fg:#fb4934 bg:#fabd2f green #b8bb26 blue #83a598 #d3869b fg:#282828 bold white"
-    new, changed, unmatched = migrate_starship(sample, gru, mocha)
+    # starship uses these gruvbox accents + #282828 as on-segment text;
+    # fastfetch also embeds a truecolor escape (38;2;251;73;52 == #fb4934).
+    sample = "fg:#fb4934 bg:#fabd2f green #b8bb26 blue #83a598 #d3869b fg:#282828 bold white \033[38;2;251;73;52m"
+    new, changed, unmatched = migrate_text(sample, gru, mocha)
     checks = {
         "#fb4934->slot9":  ("#fb4934", mocha["9"]),   # bright red
         "#fabd2f->slot11": ("#fabd2f", mocha["11"]),  # bright yellow
@@ -244,7 +271,11 @@ def self_check():
             ok = False
         print(f"  [{status}] {label}: expect {want} present -> {present}")
     assert "white" in new, "non-hex tokens must be preserved"
-    assert changed == 6, f"expected 6 remaps, got {changed}"
+    # truecolor escape #fb4934 -> mocha #f37799 == rgb 243;119;153
+    r, g, b = int(mocha["9"][1:3], 16), int(mocha["9"][3:5], 16), int(mocha["9"][5:7], 16)
+    assert f"38;2;{r};{g};{b}" in new, f"truecolor escape not remapped: {new!r}"
+    print(f"  [{'ok' if f'38;2;{r};{g};{b}' in new else 'FAIL'}] 38;2;R;G;B escape -> {r};{g};{b}")
+    assert changed == 7, f"expected 7 remaps (6 hex + 1 escape), got {changed}"
     assert unmatched == [], f"unexpected unmatched: {unmatched}"
     print("self-check:", "PASS" if ok else "FAIL")
     if not ok:
@@ -263,10 +294,17 @@ def main():
         self_check()
         return
     dry = "--dry-run" in args
-    name = next((a for a in args if not a.startswith("-")), None)
+    from_name = None
+    if "--from" in args:
+        i = args.index("--from")
+        if i + 1 >= len(args):
+            raise SystemExit("error: --from needs a theme name.")
+        from_name = args[i + 1]
+    positional = [a for a in args if not a.startswith("-") and a != from_name]
+    name = positional[0] if positional else None
     if not name:
         raise SystemExit("error: give a theme name. --list to see options.")
-    run(name, dry_run=dry)
+    run(name, dry_run=dry, from_name=from_name)
 
 
 if __name__ == "__main__":
