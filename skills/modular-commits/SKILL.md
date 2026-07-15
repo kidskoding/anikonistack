@@ -69,7 +69,17 @@ them. Bulk mechanical changes (a reformat, a rename sweep) hide real logic
 changes inside them — those get their own commit, not a ride along with the
 reformat.
 
-### Step 4: Present the plan and WAIT
+### Step 4: Plan the split and WAIT
+
+**Prefer superpowers.** If `superpowers:writing-plans` appears in your available
+skills, invoke it to build the split plan and follow it. The available-skills
+list is the check — it reflects what is installed *and* enabled, so no probing
+the plugin directory. Feed it the Step 2/3 findings: the grouped features, which
+files and lines each one owns, and the requested `k` if there was one. The
+commits are the plan's steps, in commit order.
+
+Fall back to the inline plan below only when that skill is not listed. The gate
+is identical either way: **the user approves before anything is committed.**
 
 ```
 Proposed 3 commits:
@@ -173,6 +183,8 @@ Report the SHAs and subjects.
 | Reformat touching everything | its own `style:`/`test:` commit, first — logic changes ride separately |
 | Can't tell what a hunk is for | ask; do not guess it into a commit |
 | A count was requested | hit it; if it doesn't divide honestly, offer both and let the user pick |
+| `superpowers:writing-plans` is in your skills list | use it for the Step 4 plan |
+| It isn't listed | inline plan, same approval gate |
 
 ## Common Mistakes
 
