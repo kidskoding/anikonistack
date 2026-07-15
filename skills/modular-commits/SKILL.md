@@ -1,7 +1,7 @@
 ---
 name: modular-commits
 description: Use when the working tree holds several unrelated changes at once — multiple features, a fix, some reformatting — and they need to land as separate commits instead of one dump. Triggers include "modular commits", "split these changes", "split into 3 commits" or any named commit count, "commit this properly", "break this into commits", or asking to commit a tree where git status shows work from more than one thing.
-usage: /modular-commits [k] [--push]
+usage: /modular-commits [k]
 triggers:
   - "modular commits", "split into commits", "break this up into commits"
   - "split into K commits", "make that 4 commits", any named commit count
@@ -20,17 +20,18 @@ skill only covers the split.
 
 ## Invocation
 
-`/modular-commits [k] [--push]`
+`/modular-commits [k]`
 
 | Invocation | Means |
 |------------|-------|
-| `/modular-commits` | split into however many commits the changes honestly divide into |
-| `/modular-commits 4` | a bare number is **k**, the target commit count — aim for exactly 4 |
-| `/modular-commits 4 --push` | same, then push after the last commit |
-| `/modular-commits --push` | natural count, then push |
+| `/modular-commits` | split into however many commits the changes honestly divide into, then push |
+| `/modular-commits 4` | a bare number is **k**, the target commit count — aim for exactly 4, then push |
 
 `k` is also honored from plain speech: "split into 4 commits", "make that 3".
 Without a number, never invent a target — let the changes decide.
+
+**Push is the default**, not a flag — the run ends with the commits on the
+remote. Skip it only if the user says so ("don't push", "commit only").
 
 ## Core Principle
 
@@ -147,11 +148,18 @@ git log --oneline -N
 this is the check that matters. Then run the repo's test/build command **once**,
 not per commit.
 
-### Step 7: Push (only if asked)
+### Step 7: Push
+
+The run is not done until the commits are on the remote. Verify Step 6 passed
+first — a clean `git diff HEAD` and a green test/build — then:
 
 ```bash
 git push
 ```
+
+If the push is rejected (no upstream, protected branch, remote ahead), stop and
+report it. Do not force, and do not rewrite the commits you just made to get
+around it.
 
 Report the SHAs and subjects.
 
@@ -189,4 +197,4 @@ and secrets.
 - Staging a file you have not read the diff of
 - `git apply` failed and you are reaching for `--reject` or `--3way`
 - `git diff HEAD` is non-empty at the end and you cannot name every remaining line
-- Pushing without being asked to push
+- Pushing before Step 6 verified the tree is clean and the build is green
