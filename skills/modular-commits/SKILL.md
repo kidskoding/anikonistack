@@ -18,6 +18,20 @@ line.
 Message format, types, scopes, and attribution: follow the `commit` skill. This
 skill only covers the split.
 
+## Invocation
+
+`/modular-commits [k] [--push]`
+
+| Invocation | Means |
+|------------|-------|
+| `/modular-commits` | split into however many commits the changes honestly divide into |
+| `/modular-commits 4` | a bare number is **k**, the target commit count — aim for exactly 4 |
+| `/modular-commits 4 --push` | same, then push after the last commit |
+| `/modular-commits --push` | natural count, then push |
+
+`k` is also honored from plain speech: "split into 4 commits", "make that 3".
+Without a number, never invent a target — let the changes decide.
+
 ## Core Principle
 
 A commit is the smallest set of lines that expresses one intent. If a commit
