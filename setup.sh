@@ -33,7 +33,7 @@ for f in "$REPO_DIR"/hooks/*; do
 done
 
 echo
-echo "Done. Restart Claude Code."
-echo "Your ~/.claude/settings.json is left untouched — add plugins yourself with:"
+echo "done. restart Claude Code."
+echo "your ~/.claude/settings.json is left untouched — add plugins yourself with:"
 echo "  /plugin marketplace add JuliusBrussee/caveman  &&  /plugin install caveman@caveman"
 echo "  /plugin marketplace add DietrichGebert/ponytail &&  /plugin install ponytail@ponytail"
