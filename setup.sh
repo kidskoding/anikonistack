@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# konistack installer — symlinks skills/commands/hooks into ~/.claude and
+# anikonistack installer: symlinks skills/commands/hooks into ~/.claude and
 # installs settings.json (backing up any existing one).
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
-echo "Installing konistack into $CLAUDE_DIR"
+echo "Installing anikonistack into $CLAUDE_DIR"
 mkdir -p "$CLAUDE_DIR"/{skills,commands,hooks}
 
 link() {  # link <src> <dst>
