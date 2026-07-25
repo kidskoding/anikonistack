@@ -1,9 +1,10 @@
 ---
 name: issue-fix
-description: Triage and fix GitHub issues end-to-end. Fetches the issue, explores relevant code, plans the fix, implements with TDD, and verifies. Use when user says "fix issue #N", "work on this issue", or references a GitHub issue number.
+description: >-
+  Triage and fix GitHub issues end-to-end. Fetches the issue, explores relevant code, plans the fix, implements with TDD, and verifies. Use when user says "fix issue #N", "work on this issue", or references a GitHub issue number.
 usage: /issue-fix <issue-number>
 triggers:
-  - "fix issue #N", "work on issue #N", "resolve issue #N"
+  - '"fix issue #N", "work on issue #N", "resolve issue #N"'
   - User references a GitHub issue number
 skip_for: known bugs with clear cause (just fix directly), PR review (use pr-review)
 ---

@@ -3,7 +3,7 @@ name: commit
 description: Create well-structured git commits following Conventional Commits format. Use when user says "commit", "create a commit", or "save these changes".
 usage: /commit
 triggers:
-  - "commit", "make a commit", "save changes", "git commit"
+  - '"commit", "make a commit", "save changes", "git commit"'
 skip_for: creating PRs (use pr-review), fixing issues (use issue-fix)
 ---
 

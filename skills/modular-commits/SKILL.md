@@ -3,9 +3,9 @@ name: modular-commits
 description: Use when the working tree holds several unrelated changes at once — multiple features, a fix, some reformatting — and they need to land as separate commits instead of one dump. Triggers include "modular commits", "split these changes", "split into 3 commits" or any named commit count, "commit this properly", "break this into commits", or asking to commit a tree where git status shows work from more than one thing.
 usage: /modular-commits [k]
 triggers:
-  - "modular commits", "split into commits", "break this up into commits"
-  - "split into K commits", "make that 4 commits", any named commit count
-  - "commit and push" on a tree with several unrelated changes
+  - '"modular commits", "split into commits", "break this up into commits"'
+  - '"split into K commits", "make that 4 commits", any named commit count'
+  - '"commit and push" on a tree with several unrelated changes'
 skip_for: a tree with one logical change (use commit), creating PRs (use pr-review)
 ---
 

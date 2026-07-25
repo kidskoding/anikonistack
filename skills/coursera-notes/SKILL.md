@@ -3,8 +3,8 @@ name: coursera-notes
 description: Use when the user wants thorough study notes from an online course (Coursera, Udemy, edX, YouTube playlist, LinkedIn Learning, Pluralsight, a school LMS, or any video/reading course) captured to their chosen destination — Markdown / Obsidian, Notion, or Google Docs. "take notes from this course", "course to notion/obsidian/markdown", "note the videos in <course>", or points at an open course and asks for study notes. Mirrors the course's real hierarchy at the destination and writes self-contained study-guide notes from each item's transcript or text.
 usage: /coursera-notes  (have the course open + be logged in on that platform in the Playwright browser first)
 triggers:
-  - "take notes from this course", "course to notion", "course to obsidian", "course to markdown", "note the videos"
-  - "take notes on <course> into <notion|obsidian|markdown|google docs>"
+  - '"take notes from this course", "course to notion", "course to obsidian", "course to markdown", "note the videos"'
+  - '"take notes on <course> into <notion|obsidian|markdown|google docs>"'
   - points at any open course (Coursera, Udemy, edX, YouTube, LMS, …) and asks for notes
 requires: Playwright MCP (browser control), user logged in to the course platform in the Playwright-controlled browser. Destination-dependent — Notion MCP (Notion), Google Drive MCP (Google Docs), or filesystem only (Markdown / Obsidian).
 ---
