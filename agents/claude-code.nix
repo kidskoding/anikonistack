@@ -68,7 +68,7 @@ in
     };
 
     context = lib.concatStringsSep "\n" (
-      [ (builtins.readFile ./claude-md/00-eli5.md) ]
+      [ (builtins.readFile ../claude-md/00-eli5.md) ]
       ++ map (s: builtins.readFile "${spartan}/claude-md/${s}.md") spartanClaudeMd
     );
 

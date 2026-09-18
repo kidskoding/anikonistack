@@ -8,14 +8,15 @@ all of your skills, plugins and MCP servers are declared once; each agent gets a
 
 ```
 skills.nix ─┐
-plugins.nix ├─► home-manager.nix ─► one adapter per agent ─► ~/.<agent>/…
+plugins.nix ├─► home-manager.nix ─► agents/*.nix, one per agent ─► ~/.<agent>/…
 mcp.nix    ─┘        (agents arg)      claude-code.nix, codex.nix, …
 ```
 
 - `skills.nix`: attrset `name -> path`. Own skills from `skills/`, upstream ones from pinned flake inputs.
 - `plugins.nix`: attrset `name -> path` in Claude Code plugin layout. Agents with a native plugin mechanism load them as plugins; others get the plugin's `skills/` flattened in.
 - `mcp.nix`: `programs.mcp.servers`. home-manager translates each server into every agent's own format.
-- `home-manager.nix`: exposes the three as the `agents` module argument and imports the adapters.
+- `home-manager.nix`: exposes the three as the `agents` module argument and imports `agents/`.
+- `agents/`: one adapter per agent, listed in `agents/default.nix`.
 - `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
 
 Adapters currently in the repo are the agents I use. They are examples of the pattern, not the scope.
@@ -49,7 +50,7 @@ Every agent config under `$HOME` becomes a read-only symlink into the nix store,
 One file. Take the `agents` argument, feed it into whatever the agent's home-manager module accepts.
 
 ```nix
-# myagent.nix
+# agents/myagent.nix
 inputs:
 { agents, ... }:
 {
@@ -61,7 +62,7 @@ inputs:
 }
 ```
 
-Then `(import ./myagent.nix inputs)` in the `imports` of `home-manager.nix`.
+Then `(import ./myagent.nix inputs)` in the `imports` of `agents/default.nix`.
 
 What `agents` gives you:
 
@@ -108,7 +109,7 @@ anikonistack/
 ├── skills.nix         skills
 ├── plugins.nix        plugins
 ├── mcp.nix            MCP servers
-├── *.nix              one adapter per agent
+├── agents/            one adapter per agent
 ├── skills/            own skills
 ├── hooks/             statusline.sh
 ├── claude-md/         own CLAUDE.md sections

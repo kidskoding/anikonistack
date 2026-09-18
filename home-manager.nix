@@ -10,10 +10,7 @@ in
 {
   imports = [
     ./mcp.nix
-    (import ./claude-code.nix inputs)
-    (import ./codex.nix inputs)
-    (import ./opencode.nix inputs)
-    (import ./antigravity.nix inputs)
+    (import ./agents inputs)
   ];
 
   _module.args.agents = {
