@@ -13,6 +13,15 @@
     # Spartan AI Toolkit (was installed with `npx @c0x12c/ai-toolkit`)
     spartan = { url = "github:c0x12c/ai-toolkit/v1.27.0"; flake = false; };
 
+    # plugins (were installed with `/plugin install ...`)
+    superpowers             = { url = "github:obra/superpowers"; flake = false; };
+    firecrawl-plugin        = { url = "github:firecrawl/firecrawl-claude-plugin"; flake = false; };
+    claude-plugins-official = { url = "github:anthropics/claude-plugins-official"; flake = false; };
+    caveman                 = { url = "github:JuliusBrussee/caveman"; flake = false; };
+    ponytail                = { url = "github:DietrichGebert/ponytail"; flake = false; };
+    claude-duet             = { url = "github:bokuhe/claude-duet"; flake = false; };
+    understand-anything     = { url = "github:Egonex-AI/Understand-Anything"; flake = false; };
+    last30days              = { url = "github:mvanhorn/last30days-skill"; flake = false; };
   };
 
   outputs = { self, ... }@inputs: {

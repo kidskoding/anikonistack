@@ -102,6 +102,21 @@ in
       ++ map (s: builtins.readFile "${spartan}/claude-md/${s}.md") spartanClaudeMd
     );
 
+    # Personal plugins (Claude Code >= 2.1.157). Each exposes its own
+    # skills/agents/commands/hooks. Replaces `/plugin install` + plugin cache.
+    plugins = {
+      superpowers = inputs.superpowers;
+      firecrawl = inputs.firecrawl-plugin;
+      frontend-design = "${inputs.claude-plugins-official}/plugins/frontend-design";
+      caveman = inputs.caveman;
+      ponytail = inputs.ponytail;
+      duet = "${inputs.claude-duet}/plugins/duet";
+      understand-anything = "${inputs.understand-anything}/understand-anything-plugin";
+      last30days = inputs.last30days;
+    };
+
+    # Skills. firecrawl-* and last30days standalone skills are omitted: the
+    # plugins above already ship them (and names must be unique).
     skills = ownSkills
       // fromList (n: "${spartan}/skills/${n}") spartanSkills
       // {
