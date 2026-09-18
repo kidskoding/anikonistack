@@ -3,9 +3,6 @@ inputs:
 let
   spartan = "${inputs.spartan}/toolkit";
 
-  # Spartan packs in use: core database shared-backend backend-micronaut
-  # frontend-react ux-design infrastructure product ops research.
-  # Lists below are the union of those packs' manifests (toolkit/packs/*.yaml).
   spartanCommands = [
     "spec" "plan" "build" "debug" "onboard" "daily" "context-save" "magic-doc"
     "memory-consolidate" "update" "pr-ready" "ship-pr" "codex" "commit-message"
@@ -43,14 +40,11 @@ let
     "50-ops" "60-research" "90-footer"
   ];
 
-  # name -> path attrset from a list
   fromList = f: names: lib.listToAttrs (map (n: lib.nameValuePair n (f n)) names);
 in
 {
   programs.claude-code = {
     enable = true;
-    # From the claude-code-nix flake, not nixpkgs. mkDefault so you can override:
-    #   programs.claude-code.package = pkgs.claude-code;
     package = lib.mkDefault inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     settings = {
@@ -70,22 +64,15 @@ in
         type = "command";
         command = "bash \"${config.programs.claude-code.configDir}/hooks/statusline.sh\"";
       };
-      # caveman + ponytail hooks come from the plugins themselves (plugin.json).
-      # The discord-status hook from the old Mac (npx claude-code-discord-status)
-      # is intentionally dropped; re-add under `hooks` here if wanted.
     };
 
-    # CLAUDE.md = own eli5 header + Spartan sections for the packs above
     context = lib.concatStringsSep "\n" (
       [ (builtins.readFile ./claude-md/00-eli5.md) ]
       ++ map (s: builtins.readFile "${spartan}/claude-md/${s}.md") spartanClaudeMd
     );
 
-    # Personal plugins (Claude Code >= 2.1.157). Each exposes its own
-    # skills/agents/commands/hooks. Replaces `/plugin install` + plugin cache.
     inherit (agents) plugins skills;
 
-    # Spartan: commands/spartan.md + commands/spartan/<cmd>.md
     commands = { spartan = "${spartan}/commands/spartan.md"; }
       // lib.listToAttrs (map
         (n: lib.nameValuePair "spartan/${n}" "${spartan}/commands/spartan/${n}.md")
@@ -112,6 +99,5 @@ in
     };
   };
 
-  # CLI tools the skills / MCP servers shell out to
   home.packages = with pkgs; [ gh nodejs starship ];
 }

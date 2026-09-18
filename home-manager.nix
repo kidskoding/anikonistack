@@ -1,25 +1,15 @@
-# home-manager module: every coding agent (claude-code, codex, opencode,
-# antigravity) fed from the same skills and plugins.
-#
-# Usage in your home-manager flake:
-#   inputs.anikonistack.url = "github:kidskoding/anikonistack";
-#   imports = [ inputs.anikonistack.homeManagerModules.default ];
 inputs:
 { lib, pkgs, ... }:
 let
   spartan = "${inputs.spartan}/toolkit";
   mp = inputs.mattpocock-skills;
 
-  # every <dir>/<name>/SKILL.md -> { name = "<dir>/<name>"; }
   skillDirs = dir:
     lib.filterAttrs (name: _: builtins.pathExists "${dir}/${name}/SKILL.md")
       (lib.mapAttrs (name: _: "${dir}/${name}") (builtins.readDir dir));
 
-  # name -> path attrset from a list
   fromList = f: names: lib.listToAttrs (map (n: lib.nameValuePair n (f n)) names);
 
-  # Spartan packs in use: core database shared-backend backend-micronaut
-  # frontend-react ux-design infrastructure product ops research.
   spartanSkills = [
     "database-patterns" "database-table-creator" "api-endpoint-creator"
     "backend-api-design" "kotlin-best-practices" "testing-strategies"
@@ -32,7 +22,6 @@ let
     "startup-pipeline"
   ];
 
-  # Plugin sources in Claude Code plugin layout (.claude-plugin/plugin.json).
   plugins = {
     superpowers = inputs.superpowers;
     firecrawl = inputs.firecrawl-plugin;
@@ -55,24 +44,18 @@ in
   _module.args.agents = {
     inherit skillDirs plugins;
 
-    # skills/ of the named plugins, merged. For agents without a plugin
-    # mechanism, or for plugins that lack that agent's manifest.
     pluginSkills = names:
       lib.foldl' (acc: n: acc // skillDirs "${plugins.${n}}/skills") { } names;
 
-    # hooks/statusline.sh with jq on PATH; setup.sh (non-nix) uses the file directly.
     statusline = lib.getExe (pkgs.writeShellApplication {
       name = "statusline.sh";
       runtimeInputs = [ pkgs.jq ];
       text = builtins.readFile ./hooks/statusline.sh;
     });
 
-    # Skills. firecrawl-* and last30days standalone skills are omitted: the
-    # plugins above already ship them (and names must be unique).
     skills = skillDirs ./skills
       // fromList (n: "${spartan}/skills/${n}") spartanSkills
       // {
-        # mattpocock/skills (paths from ~/.agents/.skill-lock.json, Sept 2026)
         ask-matt = "${mp}/skills/engineering/ask-matt";
         claude-handoff = "${mp}/skills/in-progress/claude-handoff";
         code-review = "${mp}/skills/engineering/code-review";
@@ -105,7 +88,6 @@ in
         writing-beats = "${mp}/skills/in-progress/writing-beats";
         writing-fragments = "${mp}/skills/in-progress/writing-fragments";
         writing-shape = "${mp}/skills/in-progress/writing-shape";
-        # others
         find-skills = "${inputs.vercel-skills}/skills/find-skills";
         presenterm = "${inputs.lanej-dotfiles}/claude/skills/presenterm";
         tui-designer = "${inputs.ckorhonen-skills}/skills/tui-designer";
