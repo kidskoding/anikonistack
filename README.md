@@ -1,29 +1,47 @@
 # anikonistack
 
-A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one `home-manager` module wires them into many coding agents at once!
+A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one home-manager module wires them into many coding agents at once.
 
-```
-anikonistack/
-├── flake.nix          pins claude-code and every upstream skill / plugin repo
-├── home-manager.nix   module entry, wires the files below together
-├── skills.nix         every skill: own + mattpocock + spartan + others
-├── plugins.nix        plugin sources
-├── mcp.nix            MCP servers, shared by all agents
-├── claude-code.nix    settings, CLAUDE.md, commands, rules, agents
-├── codex.nix
-├── opencode.nix
-├── antigravity.nix
-├── skills/            own skills (eli5, coursera-notes, course-quiz, commit, pr-review, ...)
-├── hooks/             statusline.sh
-├── claude-md/         own CLAUDE.md sections
-└── setup.sh           non-nix fallback
-```
+Nothing here is tied to a particular agent. Skills, plugins and MCP servers are declared once; each agent gets a small adapter file that maps them onto that agent's config format. Add an agent, it gets the whole stack. Add a skill, every agent gets it.
 
 ## How it works
 
-`skills.nix`, `plugins.nix` and `mcp.nix` are the single source of truth. Each agent is one small file that consumes them through the `agents` module argument. Add an agent, and it gets the whole stack; add a skill, and every agent gets it.
+```
+skills.nix ─┐
+plugins.nix ├─► home-manager.nix ─► one adapter per agent ─► ~/.<agent>/…
+mcp.nix    ─┘        (agents arg)      claude-code.nix, codex.nix, …
+```
 
-Agents wired so far are the ones I use. Any tool with a home-manager module fits the same pattern:
+- `skills.nix`: attrset `name -> path`. Own skills from `skills/`, upstream ones from pinned flake inputs.
+- `plugins.nix`: attrset `name -> path` in Claude Code plugin layout. Agents with a native plugin mechanism load them as plugins; others get the plugin's `skills/` flattened in.
+- `mcp.nix`: `programs.mcp.servers`. home-manager translates each server into every agent's own format.
+- `home-manager.nix`: exposes the three as the `agents` module argument and imports the adapters.
+- `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
+
+Adapters currently in the repo are the agents I use. They are examples of the pattern, not the scope.
+
+## Install
+
+Nix is the install mechanism. It runs on NixOS, any Linux, and macOS.
+
+```nix
+# flake.nix
+inputs.anikonistack.url = "github:kidskoding/anikonistack";
+
+# home.nix
+imports = [ inputs.anikonistack.homeManagerModules.default ];
+```
+
+```bash
+nix flake lock --update-input anikonistack
+home-manager switch --flake .   # or nixos-rebuild switch
+```
+
+Every agent config under `$HOME` becomes a read-only symlink into the nix store, rebuilt from the pinned inputs.
+
+## Adding an agent
+
+One file. Take the `agents` argument, feed it into whatever the agent's home-manager module accepts.
 
 ```nix
 # myagent.nix
@@ -38,75 +56,58 @@ inputs:
 }
 ```
 
-Then add `(import ./myagent.nix inputs)` to the imports in `home-manager.nix`.
+Then `(import ./myagent.nix inputs)` in the `imports` of `home-manager.nix`.
 
-| | Claude Code | Codex | OpenCode | Antigravity |
-|---|:---:|:---:|:---:|:---:|
-| skills | ✓ | ✓ | ✓ | ✓ |
-| plugins | 8 native | 4 native, rest as skills | 2 native, rest as skills | as skills |
-| MCP servers | ✓ | ✓ | ✓ | ✓ |
-| settings | ✓ | | | |
-| CLAUDE.md, commands, rules, agents | ✓ | | | |
-| statusline | ✓ | | | |
+What `agents` gives you:
 
-Plugins: superpowers, caveman, ponytail, duet, firecrawl, frontend-design, understand-anything, last30days.
+| field | what |
+|---|---|
+| `skills` | every skill, `name -> path` |
+| `plugins` | every plugin, `name -> path` |
+| `pluginSkills [ names ]` | the `skills/` of those plugins, merged |
+| `skillDirs dir` | scan a directory for `*/SKILL.md` |
+| `statusline` | wrapped `hooks/statusline.sh` with its runtime deps |
 
-Skills come from this repo's `skills/`, [mattpocock/skills](https://github.com/mattpocock/skills), the [Spartan AI Toolkit](https://github.com/c0x12c/ai-toolkit), and a few standalone repos.
+No home-manager module for the agent yet? `home.file."<its skills dir>"` with `agents.skills` still works.
 
-## Install with home-manager
+## Adding content
 
-```nix
-# flake.nix
-inputs.anikonistack.url = "github:kidskoding/anikonistack";
+| what | where |
+|---|---|
+| a skill you wrote | dir with `SKILL.md` under `skills/` |
+| an upstream skill | flake input, one line in `skills.nix` |
+| a plugin | flake input, one line in `plugins.nix` |
+| an MCP server | one entry in `mcp.nix` |
 
-# home.nix
-imports = [ inputs.anikonistack.homeManagerModules.default ];
-```
+Secrets never go in the repo. Reference them as `${VAR}` in `mcp.nix` and export the variable before launching.
 
-```bash
-nix flake lock --update-input anikonistack
-home-manager switch --flake .#<user>
-```
+## Machine-specific config
 
-Machine-specific bits stay in your own config: trusted directories, auto-mode context, which package provides each binary.
+Lives in your own home-manager config, not here: trusted directories, which package provides a binary, per-machine context.
 
 ```nix
-programs.claude-code.package = null;   # already installed some other way
-programs.codex.settings.projects."/path/to/repo".trust_level = "trusted";
+programs.claude-code.package = null;   # binary already installed another way
 ```
-
-The `claude` binary defaults to [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix), which tracks releases faster than nixpkgs. Override with `programs.claude-code.package`.
-
-## MCP servers
-
-Declared once in `mcp.nix` via `programs.mcp.servers`; home-manager translates them for each agent.
-
-| server | transport | needs |
-|---|---|---|
-| composio | http | nothing |
-| github | http | `GITHUB_MCP_TOKEN` in the environment |
-| playwright | stdio | `PLAYWRIGHT_MCP_EXTENSION_TOKEN` in the environment |
 
 ## Updating
 
 ```bash
-nix flake update          # in this repo, then commit flake.lock
+nix flake update                             # here, commit flake.lock
 nix flake lock --update-input anikonistack   # in your home-manager repo
 ```
 
-Spartan is pinned to a release tag in `flake.nix`, bump by hand. If a mattpocock skill moves folders upstream, the build fails on that path; fix it in `skills.nix`.
+## Layout
 
-## Install without nix
-
-```bash
-git clone https://github.com/kidskoding/anikonistack.git
-cd anikonistack && ./setup.sh
 ```
-
-Symlinks `skills/` and `hooks/` into `~/.claude/`. Settings, plugins and upstream skills are not covered; install those by hand.
-
-To use the status line, add to `~/.claude/settings.json`:
-
-```json
-"statusLine": { "type": "command", "command": "bash \"$HOME/.claude/hooks/statusline.sh\"" }
+anikonistack/
+├── flake.nix          pins every upstream repo
+├── home-manager.nix   module entry
+├── skills.nix         skills
+├── plugins.nix        plugins
+├── mcp.nix            MCP servers
+├── *.nix              one adapter per agent
+├── skills/            own skills
+├── hooks/             statusline.sh
+├── claude-md/         own CLAUDE.md sections
+└── setup.sh           non-nix fallback: symlinks skills/ and hooks/ into ~/.claude
 ```
