@@ -1,5 +1,5 @@
 {
-  description = "anikonistack — declarative Claude Code setup (home-manager module)";
+  description = "a declarative and reproducible setup for coding agents!";
 
   inputs = {
     # claude-code binary
@@ -12,7 +12,7 @@
     ckorhonen-skills  = { url = "github:ckorhonen/claude-skills"; flake = false; };
     graphify          = { url = "github:Graphify-Labs/graphify"; flake = false; };
 
-    # Spartan AI Toolkit
+    # spartan AI toolkit
     spartan = { url = "github:c0x12c/ai-toolkit/v1.27.0"; flake = false; };
 
     # plugins
