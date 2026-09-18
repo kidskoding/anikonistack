@@ -1,24 +1,40 @@
 # anikonistack
 
-My reproducible Claude Code stack — skills, status line, hooks, and a home-manager module that declares the whole `~/.claude`.
-
-## What's in it
+A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one `home-manager` module wires them into **Claude Code**, **Codex**, **OpenCode** and **Antigravity** at the same time.
 
 ```
 anikonistack/
-├── skills/     # my own custom skills: eli5, coursera-notes, course-quiz, commit, pr-review, issue-fix, theme-migrate, ...
-├── hooks/      # statusline.sh (enabled-plugin badges)
-├── claude-md/  # own CLAUDE.md sections (Spartan sections are pulled from upstream at build time)
-├── home-manager.nix          # module entry, wires the files below together
-├── skills.nix                # every skill, own + upstream
-├── plugins.nix               # plugin sources
-├── mcp.nix                   # MCP servers, shared by all agents
-├── claude-code.nix, codex.nix, opencode.nix, antigravity.nix
-├── flake.nix   # pins claude-code + every upstream skill/plugin repo
-└── setup.sh    # non-nix fallback: symlinks skills/hooks into ~/.claude
+├── flake.nix          pins claude-code and every upstream skill / plugin repo
+├── home-manager.nix   module entry, wires the files below together
+├── skills.nix         every skill: own + mattpocock + spartan + others
+├── plugins.nix        plugin sources
+├── mcp.nix            MCP servers, shared by all agents
+├── claude-code.nix    settings, CLAUDE.md, commands, rules, agents
+├── codex.nix
+├── opencode.nix
+├── antigravity.nix
+├── skills/            own skills (eli5, coursera-notes, course-quiz, commit, pr-review, ...)
+├── hooks/             statusline.sh
+├── claude-md/         own CLAUDE.md sections
+└── setup.sh           non-nix fallback
 ```
 
-## Install (NixOS / home-manager)
+## What you get
+
+| | Claude Code | Codex | OpenCode | Antigravity |
+|---|:---:|:---:|:---:|:---:|
+| skills | ✓ | ✓ | ✓ | ✓ |
+| plugins | 8 native | 4 native, rest as skills | 2 native, rest as skills | as skills |
+| MCP servers | ✓ | ✓ | ✓ | ✓ |
+| settings | ✓ | | | |
+| CLAUDE.md, commands, rules, agents | ✓ | | | |
+| statusline | ✓ | | | |
+
+Plugins: superpowers, caveman, ponytail, duet, firecrawl, frontend-design, understand-anything, last30days.
+
+Skills come from this repo's `skills/`, [mattpocock/skills](https://github.com/mattpocock/skills), the [Spartan AI Toolkit](https://github.com/c0x12c/ai-toolkit), and a few standalone repos. Add one in `skills.nix`, every agent gets it on the next switch.
+
+## Install with home-manager
 
 ```nix
 # flake.nix
@@ -33,37 +49,44 @@ nix flake lock --update-input anikonistack
 home-manager switch --flake .#<user>
 ```
 
-One `switch` gives you: settings.json, CLAUDE.md, all skills (own + mattpocock
-+ Spartan), Spartan commands/rules/agents, statusline, MCP servers, and the
-plugins (superpowers, firecrawl, frontend-design, caveman, ponytail, duet,
-understand-anything, last30days) as personal plugins. The same skills and
-plugins are wired into Codex, OpenCode and Antigravity. No `/plugin install`,
-no `npx skills add`, no `npx @c0x12c/ai-toolkit`.
+Machine-specific bits stay in your own config: trusted directories, auto-mode context, which package provides each binary.
 
-The `claude` binary comes from [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix),
-not nixpkgs. Override with `programs.claude-code.package = ...;` if you want another source.
+```nix
+programs.claude-code.package = null;   # already installed some other way
+programs.codex.settings.projects."/path/to/repo".trust_level = "trusted";
+```
 
-Update upstreams: `nix flake update` in this repo, commit `flake.lock`, then
-`nix flake lock --update-input anikonistack` in your home-manager repo.
-Spartan is pinned to a release tag in `flake.nix`; bump the tag by hand.
+The `claude` binary defaults to [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix), which tracks releases faster than nixpkgs. Override with `programs.claude-code.package`.
 
-First build may fail on a mattpocock skill path if a skill moved folders
-upstream (engineering / in-progress / deprecated). Fix the path in
-`home-manager.nix`.
+## MCP servers
 
-## Install (no nix)
+Declared once in `mcp.nix` via `programs.mcp.servers`; home-manager translates them for each agent.
+
+| server | transport | needs |
+|---|---|---|
+| composio | http | nothing |
+| github | http | `GITHUB_MCP_TOKEN` in the environment |
+| playwright | stdio | `PLAYWRIGHT_MCP_EXTENSION_TOKEN` in the environment |
+
+## Updating
+
+```bash
+nix flake update          # in this repo, then commit flake.lock
+nix flake lock --update-input anikonistack   # in your home-manager repo
+```
+
+Spartan is pinned to a release tag in `flake.nix`, bump by hand. If a mattpocock skill moves folders upstream, the build fails on that path; fix it in `skills.nix`.
+
+## Install without nix
 
 ```bash
 git clone https://github.com/kidskoding/anikonistack.git
-cd anikonistack
-./setup.sh
+cd anikonistack && ./setup.sh
 ```
 
-`setup.sh` symlinks the skills and hooks into `~/.claude/`. It does **not**
-touch your `~/.claude/settings.json` — configure model, status line, and
-permissions there yourself.
+Symlinks `skills/` and `hooks/` into `~/.claude/`. Settings, plugins and upstream skills are not covered; install those by hand.
 
-To use `statusline.sh`, point your `settings.json` at it:
+To use the status line, add to `~/.claude/settings.json`:
 
 ```json
 "statusLine": { "type": "command", "command": "bash \"$HOME/.claude/hooks/statusline.sh\"" }
