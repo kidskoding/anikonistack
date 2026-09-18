@@ -5,6 +5,9 @@
     # claude-code binary (tracks upstream releases faster than nixpkgs)
     claude-code-nix.url = "github:sadjow/claude-code-nix";
 
+    # Spartan AI Toolkit (was installed with `npx @c0x12c/ai-toolkit`)
+    spartan = { url = "github:c0x12c/ai-toolkit/v1.27.0"; flake = false; };
+
   };
 
   outputs = { self, ... }@inputs: {

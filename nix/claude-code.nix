@@ -7,6 +7,13 @@
 inputs:
 { config, lib, pkgs, ... }:
 let
+  spartan = "${inputs.spartan}/toolkit";
+
+  spartanClaudeMd = [
+    "00-header" "01-core" "05-database" "11-backend-micronaut"
+    "20-frontend-react" "25-ux-design" "30-infrastructure" "40-product"
+    "50-ops" "60-research" "90-footer"
+  ];
 
 in
 {
@@ -36,6 +43,12 @@ in
       # The discord-status hook from the old Mac (npx claude-code-discord-status)
       # is intentionally dropped; re-add under `hooks` here if wanted.
     };
+
+    # CLAUDE.md = own eli5 header + Spartan sections for the packs above
+    context = lib.concatStringsSep "\n" (
+      [ (builtins.readFile ../claude-md/00-eli5.md) ]
+      ++ map (s: builtins.readFile "${spartan}/claude-md/${s}.md") spartanClaudeMd
+    );
 
   };
 
