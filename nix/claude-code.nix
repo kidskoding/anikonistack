@@ -15,6 +15,9 @@ let
     "50-ops" "60-research" "90-footer"
   ];
 
+  # own skills: every directory under ../skills
+  ownSkills = lib.mapAttrs (n: _: ../skills + "/${n}")
+    (lib.filterAttrs (_: t: t == "directory") (builtins.readDir ../skills));
 in
 {
   programs.claude-code = {
@@ -50,6 +53,7 @@ in
       ++ map (s: builtins.readFile "${spartan}/claude-md/${s}.md") spartanClaudeMd
     );
 
+    skills = ownSkills;
   };
 
   # CLI tools the skills / MCP servers shell out to
