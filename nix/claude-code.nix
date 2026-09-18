@@ -175,6 +175,8 @@ in
     rules = fromList (n: "${spartan}/rules/${n}.md") spartanRules;
     agents = fromList (n: "${spartan}/agents/${n}.md") spartanAgents;
 
+    hooks."statusline.sh" = ../hooks/statusline.sh;
+
   };
 
   # CLI tools the skills / MCP servers shell out to
