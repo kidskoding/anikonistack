@@ -51,7 +51,6 @@ One file. Take the `agents` argument, feed it into whatever the agent's home-man
 
 ```nix
 # agents/myagent.nix
-inputs:
 { agents, ... }:
 {
   programs.myagent = {
@@ -62,7 +61,7 @@ inputs:
 }
 ```
 
-Then `(import ./myagent.nix inputs)` in the `imports` of `agents/default.nix`.
+Then add `./myagent.nix` to `imports` in `agents/default.nix`.
 
 What `agents` gives you:
 
@@ -73,6 +72,7 @@ What `agents` gives you:
 | `pluginSkills [ names ]` | the `skills/` of those plugins, merged |
 | `skillDirs dir` | scan a directory for `*/SKILL.md` |
 | `statusline` | wrapped `hooks/statusline.sh` with its runtime deps |
+| `inputs` | the flake inputs, for adapters that need a pinned repo directly |
 
 ## Adding content
 

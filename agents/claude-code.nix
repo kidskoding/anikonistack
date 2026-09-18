@@ -1,7 +1,6 @@
-inputs:
 { agents, config, lib, pkgs, ... }:
 let
-  spartan = "${inputs.spartan}/toolkit";
+  spartan = "${agents.inputs.spartan}/toolkit";
 
   # same pack union as spartanSkills in skills.nix
   spartanCommands = [
@@ -46,7 +45,7 @@ in
 {
   programs.claude-code = {
     enable = true;
-    package = lib.mkDefault inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    package = lib.mkDefault agents.inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     settings = {
       model = "claude-fable-5-1[1m]";

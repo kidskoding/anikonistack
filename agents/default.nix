@@ -1,9 +1,8 @@
-inputs:
 {
   imports = [
-    (import ./claude-code.nix inputs)
-    (import ./codex.nix inputs)
-    (import ./opencode.nix inputs)
-    (import ./antigravity.nix inputs)
+    ./claude-code.nix
+    ./codex.nix
+    ./opencode.nix
+    ./antigravity.nix
   ];
 }

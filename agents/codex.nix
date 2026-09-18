@@ -1,4 +1,3 @@
-inputs:
 { agents, ... }:
 {
   programs.codex = {
@@ -6,7 +5,7 @@ inputs:
 
     plugins = [
       # caveman's .codex-plugin manifest lives under plugins/caveman, not the repo root
-      "${inputs.caveman}/plugins/caveman"
+      "${agents.inputs.caveman}/plugins/caveman"
       agents.plugins.ponytail
       agents.plugins.superpowers
       agents.plugins.last30days

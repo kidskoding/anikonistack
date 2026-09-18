@@ -10,11 +10,11 @@ in
 {
   imports = [
     ./mcp.nix
-    (import ./agents inputs)
+    ./agents
   ];
 
   _module.args.agents = {
-    inherit skillDirs plugins;
+    inherit inputs skillDirs plugins;
 
     skills = import ./skills.nix { inherit inputs lib skillDirs; };
 
