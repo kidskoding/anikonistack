@@ -8,14 +8,14 @@ all of your skills, plugins and MCP servers are declared once; each agent gets a
 
 ```
 skills.nix ─┐
-plugins.nix ├─► home-manager.nix ─► agents/*.nix, one per agent ─► ~/.<agent>/…
+plugins.nix ├─► module.nix ─► agents/*.nix, one per agent ─► ~/.<agent>/…
 mcp.nix    ─┘        (agents arg)      claude-code.nix, codex.nix, …
 ```
 
 - `skills.nix`: attrset `name -> path`. Own skills from `skills/`, upstream ones from pinned flake inputs.
 - `plugins.nix`: attrset `name -> path` in Claude Code plugin layout. Agents with a native plugin mechanism load them as plugins; others get the plugin's `skills/` flattened in.
 - `mcp.nix`: `programs.mcp.servers`. home-manager translates each server into every agent's own format.
-- `home-manager.nix`: exposes the three as the `agents` module argument and imports `agents/`.
+- `module.nix`: exposes the three as the `agents` module argument and imports `agents/`.
 - `agents/`: one adapter per agent, listed in `agents/default.nix`.
 - `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
 
@@ -105,7 +105,7 @@ nix flake lock --update-input anikonistack   # in your home-manager repo
 ```
 anikonistack/
 ├── flake.nix          pins every upstream repo
-├── home-manager.nix   module entry
+├── module.nix         module entry
 ├── skills.nix         skills
 ├── plugins.nix        plugins
 ├── mcp.nix            MCP servers

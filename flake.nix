@@ -27,6 +27,6 @@
   };
 
   outputs = { self, ... }@inputs: {
-    homeManagerModules.default = import ./home-manager.nix inputs;
+    homeManagerModules.default = import ./module.nix inputs;
   };
 }
