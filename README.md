@@ -6,10 +6,10 @@ My reproducible Claude Code stack — skills, status line, hooks, and a home-man
 
 ```
 anikonistack/
-├── skills/     # own skills: eli5, coursera-notes, course-quiz, commit, pr-review, issue-fix, job-autofill, theme-migrate, ...
+├── skills/     # my own custom skills: eli5, coursera-notes, course-quiz, commit, pr-review, issue-fix, theme-migrate, ...
 ├── hooks/      # statusline.sh (enabled-plugin badges)
 ├── claude-md/  # own CLAUDE.md sections (Spartan sections are pulled from upstream at build time)
-├── home-manager.nix          # module entry: shared skills + plugin sources, imports the four below
+├── home-manager.nix          # module entry for shared skills + plugin sources, imports the four below
 ├── claude-code.nix           # settings, CLAUDE.md, plugins, MCP servers
 ├── codex.nix, opencode.nix, antigravity.nix
 ├── flake.nix   # pins claude-code + every upstream skill/plugin repo
@@ -34,7 +34,8 @@ home-manager switch --flake .#<user>
 One `switch` gives you: settings.json, CLAUDE.md, all skills (own + mattpocock
 + Spartan), Spartan commands/rules/agents, statusline, MCP servers, and the
 plugins (superpowers, firecrawl, frontend-design, caveman, ponytail, duet,
-understand-anything, last30days) as personal plugins. No `/plugin install`,
+understand-anything, last30days) as personal plugins. The same skills and
+plugins are wired into Codex, OpenCode and Antigravity. No `/plugin install`,
 no `npx skills add`, no `npx @c0x12c/ai-toolkit`.
 
 The `claude` binary comes from [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix),
@@ -72,19 +73,3 @@ To use `statusline.sh`, point your `settings.json` at it:
 ```json
 "statusLine": { "type": "command", "command": "bash \"$HOME/.claude/hooks/statusline.sh\"" }
 ```
-
-## Plugins
-
-Install these separately (they self-wire their own hooks/skills):
-
-```
-/plugin marketplace add JuliusBrussee/caveman   && /plugin install caveman@caveman
-/plugin marketplace add DietrichGebert/ponytail && /plugin install ponytail@ponytail
-/plugin marketplace add bokuhe/claude-duet      && /plugin install duet@duet-marketplace
-/plugin install superpowers@claude-plugins-official
-```
-
-- [superpowers](https://github.com/anthropics/claude-plugins) — skill framework
-- [caveman](https://github.com/JuliusBrussee/caveman) — terse output mode
-- [ponytail](https://github.com/DietrichGebert/ponytail) — laziest-solution mode
-- [duet](https://github.com/bokuhe/claude-duet) — Gemini-assisted review/PR
