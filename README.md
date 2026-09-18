@@ -22,9 +22,12 @@ Adapters currently in the repo are the agents I use. They are examples of the pa
 
 ## Install
 
-Requires [nix](https://nixos.org/download) with flakes and [home-manager](https://nix-community.github.io/home-manager/). This is a home-manager module, nothing else applies it. Nix runs on NixOS, any Linux, macOS, and WSL; NixOS itself is not required.
+Requires [nix (the package manager!)](https://nixos.org/download) with flakes enabled! Nix runs on NixOS, any Linux, macOS, and WSL; NixOS itself is not required!
 
-Starting from zero on a non-NixOS machine: install nix, then `nix run home-manager -- init` to get a starter `flake.nix` and `home.nix`, then continue below.
+Since this is also a [home-manager](https://nix-community.github.io/home-manager/) module, [home-manager](https://nix-community.github.io/home-manager/) is also necessary in order to reproduce this setup!
+
+1. install [nix (the package manager!)](https://nixos.org/download)
+2. then `nix run home-manager -- init` to get a starter `flake.nix` and `home.nix`, then continue below
 
 ```nix
 # flake.nix
@@ -69,8 +72,6 @@ What `agents` gives you:
 | `pluginSkills [ names ]` | the `skills/` of those plugins, merged |
 | `skillDirs dir` | scan a directory for `*/SKILL.md` |
 | `statusline` | wrapped `hooks/statusline.sh` with its runtime deps |
-
-No home-manager module for the agent yet? `home.file."<its skills dir>"` with `agents.skills` still works.
 
 ## Adding content
 
