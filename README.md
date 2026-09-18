@@ -6,10 +6,12 @@ My reproducible Claude Code stack — skills, status line, hooks, and a home-man
 
 ```
 anikonistack/
-├── skills/     # own skills: eli5, graphify, coursera-notes, course-quiz, commit, pr-review, issue-fix, job-autofill, tui-designer, ...
+├── skills/     # own skills: eli5, coursera-notes, course-quiz, commit, pr-review, issue-fix, job-autofill, theme-migrate, ...
 ├── hooks/      # statusline.sh (enabled-plugin badges)
 ├── claude-md/  # own CLAUDE.md sections (Spartan sections are pulled from upstream at build time)
-├── nix/        # home-manager module: settings, CLAUDE.md, skills, plugins, MCP servers
+├── home-manager.nix          # module entry: shared skills + plugin sources, imports the four below
+├── claude-code.nix           # settings, CLAUDE.md, plugins, MCP servers
+├── codex.nix, opencode.nix, antigravity.nix
 ├── flake.nix   # pins claude-code + every upstream skill/plugin repo
 └── setup.sh    # non-nix fallback: symlinks skills/hooks into ~/.claude
 ```
@@ -51,7 +53,7 @@ Spartan is pinned to a release tag in `flake.nix`; bump the tag by hand.
 
 First build may fail on a mattpocock skill path if a skill moved folders
 upstream (engineering / in-progress / deprecated). Fix the path in
-`nix/claude-code.nix`.
+`home-manager.nix`.
 
 ## Install (no nix)
 

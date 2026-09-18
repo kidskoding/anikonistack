@@ -22,7 +22,8 @@ OUT=""
 
 if [ ${#BADGES[@]} -gt 0 ]; then
   LABEL=$(printf '\033[38;5;245mplugins enabled:\033[0m')
-  BADGE_STR="$LABEL $(IFS=,; echo "${BADGES[*]}" | sed 's/,/, /g')"
+  BADGE_STR="$LABEL $(printf '%s, ' "${BADGES[@]}")"
+  BADGE_STR="${BADGE_STR%, }"
   [ -n "$OUT" ] && OUT="$OUT $(printf '\033[38;5;240m|\033[0m') $BADGE_STR" || OUT="$BADGE_STR"
 fi
 
