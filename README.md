@@ -9,9 +9,11 @@ anikonistack/
 ├── skills/     # my own custom skills: eli5, coursera-notes, course-quiz, commit, pr-review, issue-fix, theme-migrate, ...
 ├── hooks/      # statusline.sh (enabled-plugin badges)
 ├── claude-md/  # own CLAUDE.md sections (Spartan sections are pulled from upstream at build time)
-├── home-manager.nix          # module entry for shared skills + plugin sources, imports the four below
-├── claude-code.nix           # settings, CLAUDE.md, plugins, MCP servers
-├── codex.nix, opencode.nix, antigravity.nix
+├── home-manager.nix          # module entry, wires the files below together
+├── skills.nix                # every skill, own + upstream
+├── plugins.nix               # plugin sources
+├── mcp.nix                   # MCP servers, shared by all agents
+├── claude-code.nix, codex.nix, opencode.nix, antigravity.nix
 ├── flake.nix   # pins claude-code + every upstream skill/plugin repo
 └── setup.sh    # non-nix fallback: symlinks skills/hooks into ~/.claude
 ```

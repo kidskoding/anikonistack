@@ -3,7 +3,7 @@ inputs:
 let
   spartan = "${inputs.spartan}/toolkit";
 
-  # same pack union as spartanSkills in home-manager.nix
+  # same pack union as spartanSkills in skills.nix
   spartanCommands = [
     "spec" "plan" "build" "debug" "onboard" "daily" "context-save" "magic-doc"
     "memory-consolidate" "update" "pr-ready" "ship-pr" "codex" "commit-message"
@@ -83,21 +83,6 @@ in
     agents = fromList (n: "${spartan}/agents/${n}.md") spartanAgents;
 
     hooks."statusline.sh" = agents.statusline;
-
-    mcpServers = {
-      composio = { type = "http"; url = "https://connect.composio.dev/mcp"; };
-      github = {
-        type = "http";
-        url = "https://api.githubcopilot.com/mcp";
-        headers.Authorization = "Bearer \${GITHUB_MCP_TOKEN}";
-      };
-      playwright = {
-        type = "stdio";
-        command = "npx";
-        args = [ "@playwright/mcp@latest" "--extension" ];
-        env.PLAYWRIGHT_MCP_EXTENSION_TOKEN = "\${PLAYWRIGHT_MCP_EXTENSION_TOKEN}";
-      };
-    };
   };
 
   home.packages = with pkgs; [ gh nodejs starship ];
