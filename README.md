@@ -1,8 +1,8 @@
 # anikonistack
 
-A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one home-manager module wires them into many coding agents at once.
+a declarative and reproducible setup for all of your coding agents!
 
-Nothing here is tied to a particular agent. Skills, plugins and MCP servers are declared once; each agent gets a small adapter file that maps them onto that agent's config format. Add an agent, it gets the whole stack. Add a skill, every agent gets it.
+all of your skills, plugins and MCP servers are declared once; each agent gets a small adapter file that maps them onto that agent's config format. Add an agent, it gets the whole stack. Add a skill, and every agent you want gets it
 
 ## How it works
 
@@ -22,7 +22,9 @@ Adapters currently in the repo are the agents I use. They are examples of the pa
 
 ## Install
 
-Nix is the install mechanism. It runs on NixOS, any Linux, and macOS.
+Requires [nix](https://nixos.org/download) with flakes and [home-manager](https://nix-community.github.io/home-manager/). This is a home-manager module, nothing else applies it. Nix runs on NixOS, any Linux, macOS, and WSL; NixOS itself is not required.
+
+Starting from zero on a non-NixOS machine: install nix, then `nix run home-manager -- init` to get a starter `flake.nix` and `home.nix`, then continue below.
 
 ```nix
 # flake.nix
