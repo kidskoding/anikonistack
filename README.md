@@ -1,14 +1,17 @@
 # anikonistack
 
-My reproducible Claude Code stack — skills, status line, and hooks. Clone on any machine, run `setup.sh`, get the same setup.
+My reproducible Claude Code stack — skills, status line, hooks, and a home-manager module that declares the whole `~/.claude`.
 
 ## What's in it
 
 ```
 anikonistack/
-├── skills/     # graphify, eli5, coursera-notes, course-quiz, update-claude-md, commit, modular-commits, pr-review, issue-fix
+├── skills/     # own skills: eli5, graphify, coursera-notes, course-quiz, commit, pr-review, issue-fix, job-autofill, tui-designer, ...
 ├── hooks/      # statusline.sh (enabled-plugin badges)
-└── setup.sh    # symlinks everything into ~/.claude
+├── claude-md/  # own CLAUDE.md sections (Spartan sections are pulled from upstream at build time)
+├── nix/        # home-manager module: settings, CLAUDE.md, skills, plugins, MCP servers
+├── flake.nix   # pins claude-code + every upstream skill/plugin repo
+└── setup.sh    # non-nix fallback: symlinks skills/hooks into ~/.claude
 ```
 
 ## Install (NixOS / home-manager)
@@ -50,7 +53,7 @@ First build may fail on a mattpocock skill path if a skill moved folders
 upstream (engineering / in-progress / deprecated). Fix the path in
 `nix/claude-code.nix`.
 
-## Install
+## Install (no nix)
 
 ```bash
 git clone https://github.com/kidskoding/anikonistack.git
