@@ -3,6 +3,7 @@ inputs:
 let
   spartan = "${inputs.spartan}/toolkit";
 
+  # same pack union as spartanSkills in home-manager.nix
   spartanCommands = [
     "spec" "plan" "build" "debug" "onboard" "daily" "context-save" "magic-doc"
     "memory-consolidate" "update" "pr-ready" "ship-pr" "codex" "commit-message"

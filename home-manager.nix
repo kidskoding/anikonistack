@@ -10,6 +10,8 @@ let
 
   fromList = f: names: lib.listToAttrs (map (n: lib.nameValuePair n (f n)) names);
 
+  # union of packs core database shared-backend backend-micronaut frontend-react
+  # ux-design infrastructure product ops research (toolkit/packs/*.yaml)
   spartanSkills = [
     "database-patterns" "database-table-creator" "api-endpoint-creator"
     "backend-api-design" "kotlin-best-practices" "testing-strategies"
@@ -53,6 +55,7 @@ in
       text = builtins.readFile ./hooks/statusline.sh;
     });
 
+    # firecrawl and last30days skills come from their plugins, not listed here
     skills = skillDirs ./skills
       // fromList (n: "${spartan}/skills/${n}") spartanSkills
       // {

@@ -5,6 +5,7 @@ inputs:
     enable = true;
 
     plugins = [
+      # caveman's .codex-plugin manifest lives under plugins/caveman, not the repo root
       "${inputs.caveman}/plugins/caveman"
       agents.plugins.ponytail
       agents.plugins.superpowers
