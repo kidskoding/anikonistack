@@ -1,6 +1,3 @@
-# Secrets are NOT in here. Export before launching claude:
-#   GITHUB_MCP_TOKEN, PLAYWRIGHT_MCP_EXTENSION_TOKEN
-# (Claude Code expands ${VAR} inside the generated MCP config at load time.)
 inputs:
 { agents, config, lib, pkgs, ... }:
 let
@@ -99,20 +96,7 @@ in
 
     hooks."statusline.sh" = agents.statusline;
 
-    mcpServers = {
-      composio = { type = "http"; url = "https://connect.composio.dev/mcp"; };
-      github = {
-        type = "http";
-        url = "https://api.githubcopilot.com/mcp";
-        headers.Authorization = "Bearer \${GITHUB_MCP_TOKEN}";
-      };
-      playwright = {
-        type = "stdio";
-        command = "npx";
-        args = [ "@playwright/mcp@latest" "--extension" ];
-        env.PLAYWRIGHT_MCP_EXTENSION_TOKEN = "\${PLAYWRIGHT_MCP_EXTENSION_TOKEN}";
-      };
-    };
+    mcpServers.composio = { type = "http"; url = "https://connect.composio.dev/mcp"; };
   };
 
   # CLI tools the skills / MCP servers shell out to

@@ -2,20 +2,20 @@
   description = "anikonistack — declarative Claude Code setup (home-manager module)";
 
   inputs = {
-    # claude-code binary (tracks upstream releases faster than nixpkgs)
+    # claude-code binary
     claude-code-nix.url = "github:sadjow/claude-code-nix";
 
-    # skill repos (were installed with `npx skills add ...`)
+    # skill repos
     mattpocock-skills = { url = "github:mattpocock/skills"; flake = false; };
     vercel-skills     = { url = "github:vercel-labs/skills"; flake = false; };
     lanej-dotfiles    = { url = "github:lanej/dotfiles"; flake = false; };
     ckorhonen-skills  = { url = "github:ckorhonen/claude-skills"; flake = false; };
     graphify          = { url = "github:Graphify-Labs/graphify"; flake = false; };
 
-    # Spartan AI Toolkit (was installed with `npx @c0x12c/ai-toolkit`)
+    # Spartan AI Toolkit
     spartan = { url = "github:c0x12c/ai-toolkit/v1.27.0"; flake = false; };
 
-    # plugins (were installed with `/plugin install ...`)
+    # plugins
     superpowers             = { url = "github:obra/superpowers"; flake = false; };
     firecrawl-plugin        = { url = "github:firecrawl/firecrawl-claude-plugin"; flake = false; };
     claude-plugins-official = { url = "github:anthropics/claude-plugins-official"; flake = false; };

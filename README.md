@@ -41,13 +41,6 @@ no `npx skills add`, no `npx @c0x12c/ai-toolkit`.
 The `claude` binary comes from [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix),
 not nixpkgs. Override with `programs.claude-code.package = ...;` if you want another source.
 
-Secrets stay out of the repo. Export before launching `claude`:
-
-```
-GITHUB_MCP_TOKEN                # github MCP (api.githubcopilot.com)
-PLAYWRIGHT_MCP_EXTENSION_TOKEN  # playwright MCP --extension
-```
-
 Update upstreams: `nix flake update` in this repo, commit `flake.lock`, then
 `nix flake lock --update-input anikonistack` in your home-manager repo.
 Spartan is pinned to a release tag in `flake.nix`; bump the tag by hand.
