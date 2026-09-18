@@ -1,6 +1,6 @@
 # anikonistack
 
-A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one `home-manager` module wires them into **Claude Code**, **Codex**, **OpenCode** and **Antigravity** at the same time.
+A declarative, reproducible setup for coding agents. One flake pins every skill, plugin and MCP server; one `home-manager` module wires them into many coding agents at once!
 
 ```
 anikonistack/
@@ -19,7 +19,26 @@ anikonistack/
 └── setup.sh           non-nix fallback
 ```
 
-## What you get
+## How it works
+
+`skills.nix`, `plugins.nix` and `mcp.nix` are the single source of truth. Each agent is one small file that consumes them through the `agents` module argument. Add an agent, and it gets the whole stack; add a skill, and every agent gets it.
+
+Agents wired so far are the ones I use. Any tool with a home-manager module fits the same pattern:
+
+```nix
+# myagent.nix
+inputs:
+{ agents, ... }:
+{
+  programs.myagent = {
+    enable = true;
+    skills = agents.skills // agents.pluginSkills [ "caveman" "superpowers" ];
+    enableMcpIntegration = true;
+  };
+}
+```
+
+Then add `(import ./myagent.nix inputs)` to the imports in `home-manager.nix`.
 
 | | Claude Code | Codex | OpenCode | Antigravity |
 |---|:---:|:---:|:---:|:---:|
@@ -32,7 +51,7 @@ anikonistack/
 
 Plugins: superpowers, caveman, ponytail, duet, firecrawl, frontend-design, understand-anything, last30days.
 
-Skills come from this repo's `skills/`, [mattpocock/skills](https://github.com/mattpocock/skills), the [Spartan AI Toolkit](https://github.com/c0x12c/ai-toolkit), and a few standalone repos. Add one in `skills.nix`, every agent gets it on the next switch.
+Skills come from this repo's `skills/`, [mattpocock/skills](https://github.com/mattpocock/skills), the [Spartan AI Toolkit](https://github.com/c0x12c/ai-toolkit), and a few standalone repos.
 
 ## Install with home-manager
 
