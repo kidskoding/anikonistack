@@ -8,6 +8,7 @@ inputs:
 { config, lib, pkgs, ... }:
 let
   spartan = "${inputs.spartan}/toolkit";
+  mp = inputs.mattpocock-skills;
 
   # Spartan packs in use: core database shared-backend backend-micronaut
   # frontend-react ux-design infrastructure product ops research.
@@ -102,7 +103,54 @@ in
     );
 
     skills = ownSkills
-      // fromList (n: "${spartan}/skills/${n}") spartanSkills;
+      // fromList (n: "${spartan}/skills/${n}") spartanSkills
+      // {
+        # mattpocock/skills (paths from ~/.agents/.skill-lock.json, Sept 2026)
+        ask-matt = "${mp}/skills/engineering/ask-matt";
+        batch-grill-me = "${mp}/skills/in-progress/batch-grill-me";
+        claude-handoff = "${mp}/skills/in-progress/claude-handoff";
+        code-review = "${mp}/skills/engineering/code-review";
+        codebase-design = "${mp}/skills/engineering/codebase-design";
+        design-an-interface = "${mp}/skills/deprecated/design-an-interface";
+        diagnosing-bugs = "${mp}/skills/engineering/diagnosing-bugs";
+        domain-modeling = "${mp}/skills/engineering/domain-modeling";
+        edit-article = "${mp}/skills/personal/edit-article";
+        git-guardrails-claude-code = "${mp}/skills/misc/git-guardrails-claude-code";
+        grill-me = "${mp}/skills/productivity/grill-me";
+        grill-with-docs = "${mp}/skills/engineering/grill-with-docs";
+        grilling = "${mp}/skills/productivity/grilling";
+        handoff = "${mp}/skills/productivity/handoff";
+        implement = "${mp}/skills/engineering/implement";
+        improve-codebase-architecture = "${mp}/skills/engineering/improve-codebase-architecture";
+        loop-me = "${mp}/skills/in-progress/loop-me";
+        migrate-to-shoehorn = "${mp}/skills/misc/migrate-to-shoehorn";
+        obsidian-vault = "${mp}/skills/personal/obsidian-vault";
+        prototype = "${mp}/skills/engineering/prototype";
+        qa = "${mp}/skills/deprecated/qa";
+        request-refactor-plan = "${mp}/skills/deprecated/request-refactor-plan";
+        research = "${mp}/skills/engineering/research";
+        resolving-merge-conflicts = "${mp}/skills/engineering/resolving-merge-conflicts";
+        scaffold-exercises = "${mp}/skills/misc/scaffold-exercises";
+        setup-matt-pocock-skills = "${mp}/skills/engineering/setup-matt-pocock-skills";
+        setup-pre-commit = "${mp}/skills/misc/setup-pre-commit";
+        setup-ts-deep-modules = "${mp}/skills/in-progress/setup-ts-deep-modules";
+        tdd = "${mp}/skills/engineering/tdd";
+        teach = "${mp}/skills/productivity/teach";
+        to-spec = "${mp}/skills/engineering/to-spec";
+        to-tickets = "${mp}/skills/engineering/to-tickets";
+        triage = "${mp}/skills/engineering/triage";
+        ubiquitous-language = "${mp}/skills/deprecated/ubiquitous-language";
+        wayfinder = "${mp}/skills/engineering/wayfinder";
+        wizard = "${mp}/skills/in-progress/wizard";
+        writing-beats = "${mp}/skills/in-progress/writing-beats";
+        writing-fragments = "${mp}/skills/in-progress/writing-fragments";
+        writing-great-skills = "${mp}/skills/productivity/writing-great-skills";
+        writing-shape = "${mp}/skills/in-progress/writing-shape";
+        # others
+        find-skills = "${inputs.vercel-skills}/skills/find-skills";
+        presenterm = "${inputs.lanej-dotfiles}/claude/skills/presenterm";
+      };
+
     # Spartan: commands/spartan.md + commands/spartan/<cmd>.md
     commands = { spartan = "${spartan}/commands/spartan.md"; }
       // lib.listToAttrs (map
