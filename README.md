@@ -11,6 +11,45 @@ anikonistack/
 └── setup.sh    # symlinks everything into ~/.claude
 ```
 
+## Install (NixOS / home-manager)
+
+```nix
+# flake.nix
+inputs.anikonistack.url = "github:kidskoding/anikonistack";
+
+# home.nix
+imports = [ inputs.anikonistack.homeManagerModules.default ];
+```
+
+```bash
+nix flake lock --update-input anikonistack
+home-manager switch --flake .#<user>
+```
+
+One `switch` gives you: settings.json, CLAUDE.md, all skills (own + mattpocock
++ Spartan), Spartan commands/rules/agents, statusline, MCP servers, and the
+plugins (superpowers, firecrawl, frontend-design, caveman, ponytail, duet,
+understand-anything, last30days) as personal plugins. No `/plugin install`,
+no `npx skills add`, no `npx @c0x12c/ai-toolkit`.
+
+The `claude` binary comes from [sadjow/claude-code-nix](https://github.com/sadjow/claude-code-nix),
+not nixpkgs. Override with `programs.claude-code.package = ...;` if you want another source.
+
+Secrets stay out of the repo. Export before launching `claude`:
+
+```
+GITHUB_MCP_TOKEN                # github MCP (api.githubcopilot.com)
+PLAYWRIGHT_MCP_EXTENSION_TOKEN  # playwright MCP --extension
+```
+
+Update upstreams: `nix flake update` in this repo, commit `flake.lock`, then
+`nix flake lock --update-input anikonistack` in your home-manager repo.
+Spartan is pinned to a release tag in `flake.nix`; bump the tag by hand.
+
+First build may fail on a mattpocock skill path if a skill moved folders
+upstream (engineering / in-progress / deprecated). Fix the path in
+`nix/claude-code.nix`.
+
 ## Install
 
 ```bash
