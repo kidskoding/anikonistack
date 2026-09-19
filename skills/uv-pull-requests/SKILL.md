@@ -27,6 +27,7 @@ Consequences, no exceptions:
 - Never run `gh pr create` or `git push` for a uv branch. Print the commands. The user runs them.
 - No AI footer, no `Co-Authored-By: Claude`, no `codex-thread` comment in anything the user submits.
 - Never draft a reply to a review comment. Summarize what the reviewer asked and which code it points at. The user answers.
+- The policy requires a human who understands the work. The facts sheet opens with a hunk walkthrough (below). The user confirms they can explain each hunk before writing the body. A hunk the user cannot explain does not ship.
 
 ## House rules (pre-read, verified 2026-09)
 
@@ -64,6 +65,14 @@ Full workspace `cargo nextest run` is a cold multi-minute build. Run the touched
 
 ## Facts sheet additions for uv
 
+Prepend to the standard sheet:
+
+```
+HUNK WALKTHROUGH
+  <path>:<line>  <what changes, one clause>  <why, one clause>
+  ...one row per hunk, no hunk skipped
+```
+
 Append to the standard sheet:
 
 ```
@@ -78,6 +87,6 @@ PYTHONS USED      <versions the touched tests ran against>
 - **`VersionFormat`-style shared enums serve multiple commands.** Help text in `crates/uv-cli/src/lib.rs` is often shared between `uv <cmd>` and `uv self <cmd>` or `uv pip <cmd>`. Grep every use site before describing behavior in a docstring.
 - **`origin/main` on a fork is stale.** `git fetch upstream` then compare against `upstream/main`. A branch that is "0 behind origin/main" can be 40 behind upstream.
 - **A comment-only Rust diff still runs `cargo fmt --all --check`.** rustfmt reflows doc comments over 100 columns.
-- **`cargo dev generate-all` drift is a CI failure, not a warning.** Any change to clap args, settings structs, or environment variables regenerates docs and JSON schema. Run the dry-run gate every time.
+- **`cargo dev generate-all` drift is a CI failure, not a warning.** Changes to settings structs, environment variables, or the JSON schema regenerate committed files. Run the dry-run gate every time. A clap docstring change alone produces no drift: its only output is the gitignored `docs/reference/cli.md`.
 - **Any `println!`/`eprintln!`/`dbg!` left in the diff is a clippy error, not a warning.** Workspace `Cargo.toml` sets `print_stdout`/`print_stderr` to warn and CI runs clippy with `-D warnings`. Grep the diff for them before the cold clippy build.
 - **`test:*` and `build:*` labels are maintainer switches.** Never suggest them. They enable extended CI, not categorization.
