@@ -30,6 +30,11 @@ Record both lists. They drive every query below.
 gh issue list --label "<invite label>" --state open --limit 50 \
   --json number,title,labels,comments,assignees,updatedAt
 
+# Then the second-tier label CONTRIBUTING names (often `bug`), filtered hard
+gh issue list --label "<second-tier label>" --state open --limit 100 \
+  --search "no:assignee comments:<=6 -label:<block label> sort:updated-desc" \
+  --json number,title,labels,comments,assignees,updatedAt
+
 # Then maintainer-filed issues in bounded areas (error messages, docs, CLI hints)
 gh issue list --state open --limit 100 --search "author:<maintainer> -label:<block label>" \
   --json number,title,labels,comments,assignees,updatedAt
@@ -95,4 +100,5 @@ NEXT STEP     claim needed: yes/no | comment must state: <who to address>, <the 
 - **Maintainer-filed issues with zero comments beat labeled issues with ten.** The maintainer already wants it and nobody is arguing about the design.
 - **Stale open PR still blocks.** Ask on the issue whether the PR is abandoned before starting. Never open a competing PR silently.
 - **Do not comment, assign, or react on anyone's behalf.** Output what the claim comment must contain, never its text. Repos with an AI policy close PRs whose comments read as generated. GREEN test drafted a full comment; that is the failure this line exists for.
+- **CONTRIBUTING's tier list is the query order.** uv names `help wanted`, then `bug`, then everything else with a check-in. First three runs never queried `bug` at all and recommended only tier-3 issues. Read the tiers, query each tier in order.
 - **Eight vetted candidates, not fourteen.** GREEN test vetted 14 because the cap was phrased as a stopping point for collection, not a ceiling for vetting. The cap is a ceiling.
