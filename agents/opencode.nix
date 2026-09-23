@@ -1,5 +1,4 @@
-{ agents, ... }:
-{
+{agents, ...}: {
   programs.opencode = {
     enable = true;
 
@@ -9,7 +8,8 @@
       "${agents.plugins.superpowers}/.opencode/plugins/superpowers.js"
     ];
 
-    skills = agents.skills
-      // agents.pluginSkills [ "caveman" "firecrawl" "frontend-design" "understand-anything" "last30days" ];
+    skills =
+      agents.skills
+      // agents.pluginSkills ["caveman" "firecrawl" "frontend-design" "understand-anything" "last30days"];
   };
 }

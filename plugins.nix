@@ -1,5 +1,4 @@
-inputs:
-{
+inputs: {
   superpowers = inputs.superpowers;
   firecrawl = inputs.firecrawl-plugin;
   frontend-design = "${inputs.claude-plugins-official}/plugins/frontend-design";

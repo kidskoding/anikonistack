@@ -9,7 +9,7 @@
       };
       playwright = {
         command = "npx";
-        args = [ "@playwright/mcp@latest" "--extension" ];
+        args = ["@playwright/mcp@latest" "--extension"];
         env.PLAYWRIGHT_MCP_EXTENSION_TOKEN = "\${PLAYWRIGHT_MCP_EXTENSION_TOKEN}";
       };
     };

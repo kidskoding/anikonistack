@@ -1,5 +1,4 @@
-{ agents, ... }:
-{
+{agents, ...}: {
   programs.codex = {
     enable = true;
 
@@ -11,7 +10,8 @@
       agents.plugins.last30days
     ];
 
-    skills = agents.skills
-      // agents.pluginSkills [ "firecrawl" "frontend-design" "understand-anything" ];
+    skills =
+      agents.skills
+      // agents.pluginSkills ["firecrawl" "frontend-design" "understand-anything"];
   };
 }
