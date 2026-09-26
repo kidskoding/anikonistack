@@ -26,6 +26,10 @@
       url = "github:Graphify-Labs/graphify";
       flake = false;
     };
+    typst-claude-skill = {
+      url = "github:ChanMeng666/typst-claude-skill";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {
