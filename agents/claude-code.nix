@@ -136,8 +136,8 @@ in {
     package = lib.mkDefault agents.inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     settings = {
-      model = "claude-fable-5-1[1m]";
-      modelSettings.claude-fable-5-1.effortLevel = "high";
+      model = "claude-opus-5-5[1m]";
+      modelSettings.claude-opus-5-5.effortLevel = "high";
       effortLevel = "xhigh";
       theme = "dark";
       tui = "fullscreen";
