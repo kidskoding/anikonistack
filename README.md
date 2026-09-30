@@ -2,20 +2,26 @@
 
 a declarative and reproducible setup for all of your coding agents!
 
-all of your skills, plugins and MCP servers are declared once; each agent gets a small adapter file that maps them onto that agent's config format. Add an agent, it gets the whole stack. Add a skill, and every agent you want gets it
+all of your skills, plugins and MCP servers are declared once, grouped into bundles you switch on and off; each agent gets a small adapter file that maps them onto that agent's config format. Add an agent, it gets the whole stack. Add a skill, and every agent you want gets it
 
 ## How it works
 
 ```
 skills.nix ─┐
-plugins.nix ├─► module.nix ─► agents/*.nix, one per agent ─► ~/.<agent>/…
-mcp.nix    ─┘        (agents arg)      claude-code.nix, codex.nix, …
+mcp.nix    ─┴─► module.nix ─► agents/*.nix, one per agent ─► ~/.<agent>/…
+                (enabled bundles    claude-code.nix, codex.nix, …
+                 → agents arg)
 ```
 
-- `skills.nix`: attrset `name -> path`. Own skills from `skills/`, upstream ones from pinned flake inputs.
-- `plugins.nix`: attrset `name -> path` in Claude Code plugin layout. Agents with a native plugin mechanism load them as plugins; others get the plugin's `skills/` flattened in.
+- `skills.nix`: everything the agents get, pinned via flake inputs. Four sections:
+  - `skills`: groups of plain skills (`own` = `skills/`, `mattpocock`, `obsidian`, `extras`). Every agent gets them.
+  - `plugins`: plugins in Claude Code layout. Agents with a native plugin mechanism load them; others get the plugin's `skills/` flattened in.
+  - `claudePlugins`: plugins only Claude Code gets.
+  - `spartan`: the Spartan toolkit. Skills for every agent; commands, rules, subagents and CLAUDE.md sections for Claude Code.
+
+  Every group and every plugin is a bundle, toggled by `anikonistack.bundles.<name>.enable` (on by default).
 - `mcp.nix`: `programs.mcp.servers`. home-manager translates each server into every agent's own format.
-- `module.nix`: exposes the three as the `agents` module argument and imports `agents/`.
+- `module.nix`: declares the bundle options, merges the enabled bundles into the `agents` module argument, and imports `agents/`. Your own `claude-md/*.md` always go first in CLAUDE.md. Evaluation fails if two enabled bundles define the same skill, plugin, command, rule or subagent name.
 - `agents/`: one adapter per agent, listed in `agents/default.nix`.
 - `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
 
@@ -45,6 +51,19 @@ home-manager switch --flake .   # or nixos-rebuild switch
 
 Every agent config under `$HOME` becomes a read-only symlink into the nix store, rebuilt from the pinned inputs.
 
+## Choosing bundles
+
+Every bundle is on by default. Turn off what you don't want, per machine, in your own home-manager config:
+
+```nix
+anikonistack.bundles = {
+  spartan.enable = false;
+  caveman.enable = false;
+};
+```
+
+Disabling a plugin bundle removes it from every agent, whether that agent loads it natively or flattens its skills.
+
 ## Adding an agent
 
 One file. Take the `agents` argument, feed it into whatever the agent's home-manager module accepts.
@@ -55,7 +74,7 @@ One file. Take the `agents` argument, feed it into whatever the agent's home-man
 {
   programs.myagent = {
     enable = true;
-    skills = agents.skills // agents.pluginSkills [ "caveman" "superpowers" ];
+    skills = agents.skills // agents.pluginSkills (builtins.attrNames agents.plugins);
     enableMcpIntegration = true;
   };
 }
@@ -67,9 +86,10 @@ What `agents` gives you:
 
 | field | what |
 |---|---|
-| `skills` | every skill, `name -> path` |
-| `plugins` | every plugin, `name -> path` |
-| `pluginSkills [ names ]` | the `skills/` of those plugins, merged |
+| `skills` | skills of enabled bundles, `name -> path` |
+| `plugins` | plugins of enabled bundles that work outside Claude Code, `name -> path` |
+| `pluginSkills [ names ]` | the `skills/` of those plugins, merged; disabled ones are skipped |
+| `claude` | Claude Code extras: `plugins` (all), `commands`, `rules`, `agents`, `context` (list of CLAUDE.md sections, in bundle name order) |
 | `skillDirs dir` | scan a directory for `*/SKILL.md` |
 | `statusline` | wrapped `hooks/statusline.sh` with its runtime deps |
 | `inputs` | the flake inputs, for adapters that need a pinned repo directly |
@@ -79,8 +99,8 @@ What `agents` gives you:
 | what | where |
 |---|---|
 | a skill you wrote | dir with `SKILL.md` under `skills/` |
-| an upstream skill | flake input, one line in `skills.nix` |
-| a plugin | flake input, one line in `plugins.nix` |
+| an upstream skill | flake input, one line in a group in `skills.nix` |
+| a plugin | flake input, one line under `plugins` in `skills.nix` |
 | an MCP server | one entry in `mcp.nix` |
 
 Secrets never go in the repo. Reference them as `${VAR}` in `mcp.nix` and export the variable before launching.
@@ -105,9 +125,8 @@ nix flake lock --update-input anikonistack   # in your home-manager repo
 ```
 anikonistack/
 ├── flake.nix          pins every upstream repo
-├── module.nix         module entry
-├── skills.nix         skills
-├── plugins.nix        plugins
+├── module.nix         bundle options, merge, module entry
+├── skills.nix         skills, plugins, spartan
 ├── mcp.nix            MCP servers
 ├── agents/            one adapter per agent
 ├── skills/            own skills
