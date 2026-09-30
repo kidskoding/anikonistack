@@ -30,6 +30,10 @@
       url = "github:ChanMeng666/typst-claude-skill";
       flake = false;
     };
+    obsidian-skills = {
+      url = "github:kepano/obsidian-skills";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

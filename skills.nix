@@ -41,10 +41,19 @@
     "content-engine"
     "startup-pipeline"
   ];
+
+  obsidianSkills = [
+    "obsidian-markdown"
+    "obsidian-bases"
+    "obsidian-cli"
+    "json-canvas"
+    "defuddle"
+  ];
 in
   # firecrawl and last30days skills come from their plugins, not listed here
   skillDirs ./skills
   // fromList (n: "${spartan}/skills/${n}") spartanSkills
+  // fromList (n: "${inputs.obsidian-skills}/skills/${n}") obsidianSkills
   // {
     ask-matt = "${mp}/skills/engineering/ask-matt";
     claude-handoff = "${mp}/skills/in-progress/claude-handoff";
