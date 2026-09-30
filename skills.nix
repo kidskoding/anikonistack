@@ -111,7 +111,7 @@
     "content"
     "write"
   ];
-  
+
   spartanRules = [
     "core/NAMING_CONVENTIONS"
     "core/TIMEZONE"
@@ -136,7 +136,7 @@
     "infrastructure/VARIABLES"
     "infrastructure/PROVIDERS"
   ];
-  
+
   spartanAgents = [
     "phase-reviewer"
     "micronaut-backend-expert"
@@ -148,7 +148,7 @@
     "idea-killer"
     "research-planner"
   ];
-  
+
   spartanClaudeMd = [
     "00-header"
     "01-core"
