@@ -79,10 +79,11 @@ Every bundle is an attrset with the same optional fields:
   commands  = { <name> = <path>; };
   rules     = { <name> = <path>; };
   subagents = { <name> = <path>; };
-  context   = [ <text> ];                      # CLAUDE.md / AGENTS.md sections
+  context   = { <key> = <text>; };             # CLAUDE.md / AGENTS.md sections, joined in key order
 }
 ```
 
+- Context keys fix the order of CLAUDE.md sections independently of the `bundles` list order: `custom` uses `00-custom/<file>`, Spartan uses `50-spartan/<section file>`. This keeps the current order (own sections first, Spartan sections by file number) and keeps output identical however a user orders their list.
 - `native.claude-code` defaults to `plugin`, so Claude Code loads every plugin natively.
 - For any other agent, a plugin without a `native.<agent>` entry contributes its `skills/` directory, flattened.
 - A plugin with no `skills/` directory (duet) contributes nothing to agents that cannot load it natively. The separate `claudePlugins` category is removed.
@@ -133,7 +134,7 @@ agents/
   commands  = { ... };
   rules     = { ... };
   subagents = { ... };
-  context   = [ <text> ];          # in bundles-list order, then file name order within a bundle
+  context   = [ <text> ];          # sorted by context key (see Catalog)
 }
 ```
 
