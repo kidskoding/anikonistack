@@ -2,8 +2,8 @@
   description = "a declarative and reproducible setup for coding agents!";
 
   inputs = {
-    # claude-code binary
-    claude-code-nix.url = "github:sadjow/claude-code-nix";
+    # only for the CI formatter
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # skill repos
     mattpocock-skills = {

@@ -1,7 +1,15 @@
-{agents, ...}: {
-  programs.antigravity-cli = {
-    enable = true;
+{
+  anikonistack,
+  config,
+  lib,
+  ...
+}: {
+  config = lib.mkIf config.anikonistack.agents.antigravity.enable {
+    programs.antigravity-cli = {
+      enable = true;
+      enableMcpIntegration = true;
 
-    skills = agents.skills // agents.pluginSkills (builtins.attrNames agents.plugins);
+      inherit (anikonistack.for "antigravity") skills;
+    };
   };
 }

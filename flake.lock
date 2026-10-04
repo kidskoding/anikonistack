@@ -32,25 +32,6 @@
         "type": "github"
       }
     },
-    "claude-code-nix": {
-      "inputs": {
-        "nixpkgs": "nixpkgs",
-        "systems": "systems"
-      },
-      "locked": {
-        "lastModified": 1790373703,
-        "narHash": "sha256-K4bkqmIIQraMokq3xAaZo/Vm/fptjLBA5ajXbUvzwOg=",
-        "owner": "sadjow",
-        "repo": "claude-code-nix",
-        "rev": "0bbe2588524a0280307c81c14fd5631c7cd277b0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "sadjow",
-        "repo": "claude-code-nix",
-        "type": "github"
-      }
-    },
     "claude-duet": {
       "flake": false,
       "locked": {
@@ -165,16 +146,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1790238896,
-        "narHash": "sha256-ym4BG18Pu2awiJIehla1Lo9xiB2QYRcCzW3SB74gEBY=",
+        "lastModified": 1790822859,
+        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "34ca302a9572963c02e385c056be37c85ff51b77",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -215,7 +196,6 @@
       "inputs": {
         "caveman": "caveman",
         "ckorhonen-skills": "ckorhonen-skills",
-        "claude-code-nix": "claude-code-nix",
         "claude-duet": "claude-duet",
         "claude-plugins-official": "claude-plugins-official",
         "firecrawl-plugin": "firecrawl-plugin",
@@ -223,6 +203,7 @@
         "lanej-dotfiles": "lanej-dotfiles",
         "last30days": "last30days",
         "mattpocock-skills": "mattpocock-skills",
+        "nixpkgs": "nixpkgs",
         "obsidian-skills": "obsidian-skills",
         "ponytail": "ponytail",
         "spartan": "spartan",
@@ -262,21 +243,6 @@
       "original": {
         "owner": "obra",
         "repo": "superpowers",
-        "type": "github"
-      }
-    },
-    "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
         "type": "github"
       }
     },
