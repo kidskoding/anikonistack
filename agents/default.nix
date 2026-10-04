@@ -4,5 +4,6 @@
     ./codex.nix
     ./opencode.nix
     ./antigravity.nix
+    ./cursor.nix
   ];
 }
