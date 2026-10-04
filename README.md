@@ -131,6 +131,5 @@ anikonistack/
 ├── agents/            one adapter per agent
 ├── skills/            own skills
 ├── hooks/             statusline.sh
-├── claude-md/         own CLAUDE.md sections
-└── setup.sh           non-nix fallback: symlinks skills/ and hooks/ into ~/.claude
+└── claude-md/         own CLAUDE.md sections
 ```
