@@ -2,7 +2,6 @@
   description = "a declarative and reproducible setup for coding agents!";
 
   inputs = {
-    # only for the CI formatter
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # skill repos
@@ -76,7 +75,28 @@
     };
   };
 
-  outputs = {self, ...} @ inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    inherit (nixpkgs) lib;
+    resolve = import ./lib/resolve.nix {inherit lib;};
+  in {
     homeManagerModules.default = import ./module.nix inputs;
+
+    checks.x86_64-linux.catalog = let
+      catalog = import ./catalog {inherit inputs lib;};
+
+      paths = b:
+        lib.concatMap lib.attrValues [b.skills b.commands b.rules b.subagents b.scripts b.native (resolve.pluginSkills b)]
+        ++ lib.optional (b.plugin != null) b.plugin;
+
+      missing = lib.filter (p: !builtins.pathExists p) (lib.concatMap paths (lib.attrValues catalog));
+    in
+      if missing != []
+      then throw "anikonistack: catalog points at missing paths:\n${lib.concatStringsSep "\n" missing}"
+      else builtins.deepSeq (lib.mapAttrs (_: b: b.context) catalog) (pkgs.runCommand "anikonistack-catalog" {} "touch $out");
   };
 }

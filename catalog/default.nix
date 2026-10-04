@@ -1,4 +1,3 @@
-# every bundle, all fields filled in: { <bundle> = { description; depends; skills; plugin; native; commands; rules; subagents; context; }; }
 {
   inputs,
   lib,
@@ -17,7 +16,6 @@
     ./spartan.nix
   ];
 
-  # claude code loads every plugin natively
   fill = b:
     {
       description = "";
@@ -27,6 +25,7 @@
       commands = {};
       rules = {};
       subagents = {};
+      scripts = {};
       context = {};
     }
     // b

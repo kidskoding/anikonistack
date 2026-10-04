@@ -1,5 +1,3 @@
-# plugins in Claude Code layout; `native.<agent>` is the plugin's own loader for that agent,
-# any agent without one gets the plugin's skills/ flattened in
 {inputs, ...}: {
   superpowers = {
     description = "obra's superpowers workflow skills";

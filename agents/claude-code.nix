@@ -14,6 +14,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    home.file = lib.mapAttrs' (rel: source:
+      lib.nameValuePair "${config.programs.claude-code.configDir}/scripts/${rel}" {inherit source;})
+    s.scripts;
+
     programs.claude-code = lib.mkMerge [
       {
         enable = true;

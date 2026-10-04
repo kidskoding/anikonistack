@@ -1,4 +1,3 @@
-# reads the YAML subset spartan's packs/*.yaml use: `key: value`, `key: []`, and `key:` followed by `  - item` lines
 {lib}: file: let
   unquote = s: let
     m = builtins.match ''"(.*)"'' s;
@@ -9,7 +8,6 @@
 
   lines = lib.filter (l: builtins.match "[[:space:]]*(#.*)?" l == null) (lib.splitString "\n" (builtins.readFile file));
 
-  # flow lists, inline comments and trailing spaces are valid YAML this reader would misread
   checked = line: value:
     if (lib.hasPrefix "[" value && value != "[]") || lib.hasInfix " #" value || builtins.match ".*[[:space:]]" value != null
     then throw "anikonistack: unsupported YAML in ${file}: ${line}"

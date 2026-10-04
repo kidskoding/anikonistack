@@ -13,7 +13,6 @@ inputs: {
 
   bundleList = lib.types.listOf (lib.types.enum (lib.attrNames catalog));
 
-  # `bundles.<name>.enable` from before per-agent selection; rejected by an assertion below
   legacy = builtins.isAttrs cfg.bundles;
 
   enabled = lib.filter (a: cfg.agents.${a}.enable) agentNames;
@@ -24,11 +23,15 @@ inputs: {
       inherit (cfg.agents.${agent}) bundles skip;
     };
 
-  knownNames = lib.unique (lib.concatMap (b:
-    lib.concatMap lib.attrNames [b.skills b.commands b.rules b.subagents (resolve.pluginSkills b)])
-  (lib.attrValues catalog));
+  names = f: lib.unique (lib.concatMap f (lib.attrValues catalog));
 
-  unknownSkips = lib.subtractLists knownNames (lib.unique (cfg.skip ++ lib.concatMap (a: cfg.agents.${a}.skip) agentNames));
+  skips = lib.unique (cfg.skip ++ lib.concatMap (a: cfg.agents.${a}.skip) agentNames);
+
+  notBundleNames = lib.subtractLists (names (b: lib.concatMap lib.attrNames [b.skills b.commands b.rules b.subagents b.scripts])) skips;
+  unknownSkips =
+    if notBundleNames == []
+    then []
+    else lib.subtractLists (names (b: lib.attrNames (resolve.pluginSkills b))) notBundleNames;
 in {
   imports = [./agents];
 
@@ -93,6 +96,11 @@ in {
         message = "anikonistack (${agent}): the same name comes from more than one bundle:\n${lib.concatStringsSep "\n" conflicts}";
       })
       enabled;
+
+    warnings = lib.concatMap (agent:
+      map (s: "anikonistack (${agent}): skip ${s} has no effect, the plugin loads natively; leave out its bundle instead")
+      (forAgent agent).nativeSkips)
+    enabled;
 
     _module.args.anikonistackLib = {
       inherit inputs;

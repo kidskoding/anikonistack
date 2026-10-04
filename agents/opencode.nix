@@ -11,7 +11,7 @@ in {
       enable = true;
       enableMcpIntegration = true;
 
-      settings.plugin = lib.attrValues s.plugins;
+      settings.plugin = lib.mkIf (s.plugins != {}) (lib.attrValues s.plugins);
       inherit (s) skills;
     };
   };

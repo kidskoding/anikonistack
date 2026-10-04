@@ -12,12 +12,12 @@ catalog/*.nix ─► lib/resolve.nix ─► agents/*.nix, one per agent ─► ~
                   skips, per agent)
 ```
 
-- `catalog/`: every bundle, pinned via flake inputs. A bundle is one attrset with the same optional fields everywhere: `skills`, `plugin` (a plugin dir in Claude Code layout), `native` (the plugin's own loader file per agent), `commands`, `rules`, `subagents`, `context` (CLAUDE.md sections) and `depends`.
+- `catalog/`: every bundle, pinned via flake inputs. A bundle is one attrset with the same optional fields everywhere: `skills`, `plugin` (a plugin dir in Claude Code layout), `native` (the plugin's own loader file per agent), `commands`, `rules`, `subagents`, `scripts`, `context` (CLAUDE.md sections) and `depends`.
 - `catalog/spartan.nix`: one bundle per [Spartan](https://github.com/c0x12c/ai-toolkit) pack, read from the toolkit's own `packs/*.yaml` by `lib/pack.nix`. A Spartan update brings its new commands in without edits here.
 - `lib/resolve.nix`: turns one agent's bundle list into its content. It adds `depends`, loads a plugin natively when the bundle has a `native` entry for that agent, flattens the plugin's `skills/` in otherwise, and removes `skip` names.
 - `module.nix`: the options, the assertions, and the `anikonistackLib` module argument (`anikonistackLib.for "<agent>"`) that adapters read.
 - `agents/`: one adapter per agent, listed in `agents/default.nix`. Each writes nothing unless `anikonistack.agents.<agent>.enable` is set.
-- `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
+- `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine. `nix flake check` reads the whole catalog and fails if any path it points at is missing, so a lock bump that breaks a bundle fails CI first.
 
 ## Install
 
@@ -73,6 +73,8 @@ anikonistack = {
 ```
 
 - A misspelled bundle name fails evaluation and lists the valid names. An unknown `skip` name fails too.
+- `skip` also settles a clash: skip the name and neither bundle provides it.
+- A plugin an agent loads natively is installed whole, so skipping one of its skills only works for agents that flatten it. For the others you get a warning; leave out the plugin's bundle instead.
 - Choosing a bundle also brings in its `depends`.
 - Evaluation fails if two bundles an agent gets define the same name, of the same kind, pointing at different files.
 - MCP servers are yours: set `programs.mcp = { enable = true; servers = { … }; };` and every enabled agent picks them up. Without `enable = true`, home-manager gives the agents no servers.
@@ -100,7 +102,7 @@ anikonistack = {
 | `spartan-product` | Product thinking before building | skills, commands, context | `spartan-core` |
 | `spartan-research` | Startup research pipeline — from idea to investor-ready | skills, commands, subagents, context | `spartan-core`, `spartan-product` |
 | `spartan-shared-backend` | Shared backend architecture concepts | rules | `spartan-core` |
-| `spartan-ux-design` | UX design workflow — research, define, ideate, design system, prototype, test, AI asset generation | skills, commands, rules, subagents, context | `spartan-core` |
+| `spartan-ux-design` | UX design workflow — research, define, ideate, design system, prototype, test, AI asset generation | skills, commands, rules, subagents, scripts, context | `spartan-core` |
 | `superpowers` | obra's superpowers workflow skills | plugin, skills |  |
 | `understand-anything` | codebase knowledge graphs | plugin, skills |  |
 
@@ -110,7 +112,7 @@ anikonistack = {
 
 | agent | takes |
 |---|---|
-| `claude-code` | plugins, skills, commands, rules, subagents, context; optional `statusline` |
+| `claude-code` | plugins, skills, commands, rules, subagents, scripts (`~/.claude/scripts`), context; optional `statusline` |
 | `codex` | native plugins (caveman, ponytail, superpowers, last30days), skills |
 | `opencode` | native plugins (ponytail, superpowers), skills |
 | `antigravity` | skills |
@@ -145,7 +147,7 @@ Add `./myagent.nix` to `imports` in `agents/default.nix` and `"myagent"` to `age
 |---|---|
 | `plugins` | `{ <bundle> = <path>; }`, the plugins this agent loads natively |
 | `skills` | `{ <name> = <path>; }`, bundle skills plus flattened skills of the other plugins |
-| `commands`, `rules`, `subagents` | `{ <name> = <path>; }` |
+| `commands`, `rules`, `subagents`, `scripts` | `{ <name> = <path>; }` |
 | `context` | list of CLAUDE.md sections, in key order |
 
 Agent-specific options go in the adapter, like `statusline` in `agents/claude-code.nix`.
