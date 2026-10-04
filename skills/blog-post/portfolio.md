@@ -26,7 +26,7 @@ import TweetEmbed from '../../components/TweetEmbed.astro';
 [post body]
 ```
 
-- `draft: true` while iterating. Drafts are excluded from the build, so to preview locally the user flips it to `false`. Remove it when publishing.
+- `draft: true` while iterating. Drafts are excluded from the build and do not appear on `/blog`, even in the dev server. When a draft is ready to read, tell the user it is hidden and offer to flip it to `false`; warn that committing it as `false` publishes it on the next deploy.
 - `coverImage` (served from `public/blog/`) and the `TweetEmbed` import only when used. Tweets embed as `<TweetEmbed url="..." />`.
 - News analysis posts end with a `## References` section and cite inline with `<sup>[N](#references)</sup>`.
 - Add `*Originally published on [DEV](<url>).*` only for posts actually on DEV.
@@ -38,10 +38,16 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 - `##` renders green, `###` yellow. Blockquotes, tables, and `---` rules are styled.
 - `description` is the subtitle. Put the employer or job context there, not in the title.
 
+## Cover Image
+
+`coverImage` renders as a wide banner (about 2.4:1, `object-cover`), so anything near the top or bottom edge gets cropped. Good covers show the post's idea: a monospace diagram or snippet from the post on the gruvbox background, or a real photo the user took. Avoid company or tool logos (reads as an ad, and trademarks), stock "developer at laptop" photos, AI-glow imagery, and screenshots of work code or internal tools.
+
 ## Gotchas
 
 - **Frontmatter is `pubDate`, not `date`, and there is no `tags` or `subtitle` field.** Zod strips unknown keys silently.
 - **MDX treats `<` and `{` in prose as JSX.** `Effect<A, E, R>` or `{id}` outside backticks breaks the build.
 - **Numbered lists render without numbers** in `src/pages/blog/[...id].astro` (only `ul` is styled). Use headings or bullets for sequences.
 - **Mermaid does not render** (only `@astrojs/mdx` is installed). Draw diagrams as ASCII in a ```` ```text ```` fence, or put an image in `public/blog/`.
+- **No `og:image` or Twitter card tags** in the blog layout, so LinkedIn link previews show no cover. Mention it when the user plans to share on LinkedIn.
+- **Bold renders only as weight** (no color change), so it stays subtle; don't compensate by bolding more.
 - **Code blocks use Astro's default Shiki theme**, not gruvbox, and inline code has no styling.

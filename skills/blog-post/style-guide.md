@@ -106,6 +106,20 @@ Not personal branding. The technical idea is the interesting part.
 
 **Avoid:** corporate marketing language, fake enthusiasm, piles of adjectives, motivational LinkedIn tone, "I'm thrilled to announce", "In today's rapidly evolving technological landscape", generic AI introductions, constant bullet lists, unnecessary headings, the thesis repeated word for word in every section, excessive em dashes, a motivational line closing every section.
 
+## Bold
+
+Bold is a skim path, not decoration. A reader who reads only the bold text should still follow the argument, so each bold phrase is one step of it.
+
+- About one per section, roughly 5–8 in a full post.
+- Bold the sentence or clause where a section turns: the realization, the reframe, the line that connects one example to the next. Always bold the thesis sentence when it finally lands.
+- Prefer a clause over a single word. "**the database stopped being something the function grabs from a module and became something it asks for**" beats "**dependency**".
+
+Do not bold:
+- tool or company names (that reads like a résumé, the thing the post argues against)
+- pull quotes (the blockquote already sets them apart)
+- text that repeats a heading
+- the closing lines (the ending should land through white space, not weight)
+
 ## Professional Reflection
 
 One month of experience is not universal expertise. Share an evolving mental model:

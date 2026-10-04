@@ -79,7 +79,7 @@ Write the full post strictly following the approved spec. For every section in t
 **Voice and style:**
 - Analytical, thoughtful, slightly bold — reason through ideas, don't just describe them
 - Short paragraphs. One idea per paragraph.
-- **Bold key terms, numbers, and names** on first mention
+- **Bold key terms, numbers, and names** on first mention (news posts only; Editor-mode posts follow Bold in `style-guide.md`)
 - Blockquotes (`>`) for the most important takeaways — use them like pull quotes, 1–3 per post
 - Horizontal rules (`---`) to break between major narrative shifts
 - Superscript references (`<sup>[N](#references)</sup>`) inline when citing a specific fact
