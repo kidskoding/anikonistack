@@ -125,7 +125,7 @@ agents/
   claude-code.nix  codex.nix  opencode.nix  antigravity.nix  cursor.nix
 ```
 
-`anikonistack.for "<agent>"` returns:
+`anikonistackLib.for "<agent>"` returns:
 
 ```nix
 {
@@ -138,13 +138,13 @@ agents/
 }
 ```
 
-The module argument is renamed from `agents` to `anikonistack`.
+The module argument is renamed from `agents` to `anikonistackLib` (not `anikonistack`, which collides with `extraSpecialArgs = inputs`).
 
 An adapter:
 
 ```nix
-{ config, lib, anikonistack, ... }: let
-  s = anikonistack.for "codex";
+{ config, lib, anikonistackLib, ... }: let
+  s = anikonistackLib.for "codex";
 in lib.mkIf config.anikonistack.agents.codex.enable {
   programs.codex = {
     enable = true;

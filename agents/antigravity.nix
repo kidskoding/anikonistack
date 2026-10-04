@@ -1,5 +1,5 @@
 {
-  anikonistack,
+  anikonistackLib,
   config,
   lib,
   ...
@@ -9,7 +9,7 @@
       enable = true;
       enableMcpIntegration = true;
 
-      inherit (anikonistack.for "antigravity") skills;
+      inherit (anikonistackLib.for "antigravity") skills;
     };
   };
 }

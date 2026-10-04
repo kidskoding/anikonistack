@@ -1,11 +1,11 @@
 {
-  anikonistack,
+  anikonistackLib,
   config,
   lib,
   pkgs,
   ...
 }: let
-  inherit (anikonistack.for "cursor") skills;
+  inherit (anikonistackLib.for "cursor") skills;
 
   servers = lib.mapAttrs (name: server:
     lib.hm.mcp.transformMcpServer {
@@ -26,7 +26,7 @@
 in {
   config.home.file = lib.mkIf config.anikonistack.agents.cursor.enable (
     lib.mapAttrs' (name: path: lib.nameValuePair ".cursor/skills/${name}" {source = path;}) skills
-    // lib.optionalAttrs (servers != {}) {
+    // lib.optionalAttrs (config.programs.mcp.enable && servers != {}) {
       ".cursor/mcp.json".text = envRefs (builtins.toJSON {mcpServers = servers;});
     }
   );

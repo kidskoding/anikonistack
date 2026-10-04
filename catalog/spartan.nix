@@ -7,12 +7,23 @@
   toolkit = "${inputs.spartan}/toolkit";
   read = import ../lib/pack.nix {inherit lib;};
 
+  # keys this catalog reads, plus keys it knowingly ignores; anything else is new upstream and must be looked at
+  keys = ["name" "description" "category" "priority" "hidden" "coming-soon" "depends" "commands" "rules" "skills" "agents" "claude-sections" "scripts"];
+
+  readPack = f: let
+    p = read "${toolkit}/packs/${f}";
+    unknown = lib.subtractLists keys (lib.attrNames p);
+  in
+    if unknown == []
+    then p
+    else throw "anikonistack: unknown key(s) ${lib.concatStringsSep ", " unknown} in ${toolkit}/packs/${f}";
+
   packs =
     lib.filterAttrs (_: p: p."coming-soon" or "false" != "true")
     (lib.mapAttrs' (f: _: let
-      p = read "${toolkit}/packs/${f}";
+      p = readPack f;
     in
-      lib.nameValuePair p.name p) (builtins.readDir "${toolkit}/packs"));
+      lib.nameValuePair p.name p) (lib.filterAttrs (f: _: lib.hasSuffix ".yaml" f) (builtins.readDir "${toolkit}/packs")));
 
   byName = key: path: names: lib.listToAttrs (map (n: lib.nameValuePair (key n) (path n)) names);
 
@@ -20,7 +31,8 @@
 
   bundle = p: {
     description = p.description or "";
-    depends = map (d: "spartan-${d}") (p.depends or []);
+    # spartan's own resolver always adds core to whatever packs are chosen
+    depends = map (d: "spartan-${d}") (lib.unique (lib.optional (p.name != "core") "core" ++ p.depends or []));
     skills = lib.genAttrs (p.skills or []) (n: "${toolkit}/skills/${n}");
     commands = byName (n: "spartan/${n}") (n: "${toolkit}/commands/spartan/${n}.md") (p.commands or []);
     rules = byName (lib.removeSuffix ".md") (r: "${toolkit}/rules/${r}") (p.rules or []);

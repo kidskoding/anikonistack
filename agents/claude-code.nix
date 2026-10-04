@@ -1,11 +1,11 @@
 {
-  anikonistack,
+  anikonistackLib,
   config,
   lib,
   ...
 }: let
   cfg = config.anikonistack.agents.claude-code;
-  s = anikonistack.for "claude-code";
+  s = anikonistackLib.for "claude-code";
 in {
   options.anikonistack.agents.claude-code = lib.mkOption {
     type = lib.types.submodule {
@@ -24,7 +24,7 @@ in {
         context = lib.concatStringsSep "\n" s.context;
       }
       (lib.mkIf cfg.statusline {
-        hooks."statusline.sh" = anikonistack.statusline;
+        hooks."statusline.sh" = anikonistackLib.statusline;
         settings.statusLine = {
           type = "command";
           command = "bash \"${config.programs.claude-code.configDir}/hooks/statusline.sh\"";

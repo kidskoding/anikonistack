@@ -1,10 +1,10 @@
 {
-  anikonistack,
+  anikonistackLib,
   config,
   lib,
   ...
 }: let
-  s = anikonistack.for "codex";
+  s = anikonistackLib.for "codex";
 in {
   config = lib.mkIf config.anikonistack.agents.codex.enable {
     programs.codex = {

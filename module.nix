@@ -94,7 +94,7 @@ in {
       })
       enabled;
 
-    _module.args.anikonistack = {
+    _module.args.anikonistackLib = {
       inherit inputs;
       for = forAgent;
 

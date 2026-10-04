@@ -15,7 +15,7 @@ catalog/*.nix ─► lib/resolve.nix ─► agents/*.nix, one per agent ─► ~
 - `catalog/`: every bundle, pinned via flake inputs. A bundle is one attrset with the same optional fields everywhere: `skills`, `plugin` (a plugin dir in Claude Code layout), `native` (the plugin's own loader file per agent), `commands`, `rules`, `subagents`, `context` (CLAUDE.md sections) and `depends`.
 - `catalog/spartan.nix`: one bundle per [Spartan](https://github.com/c0x12c/ai-toolkit) pack, read from the toolkit's own `packs/*.yaml` by `lib/pack.nix`. A Spartan update brings its new commands in without edits here.
 - `lib/resolve.nix`: turns one agent's bundle list into its content. It adds `depends`, loads a plugin natively when the bundle has a `native` entry for that agent, flattens the plugin's `skills/` in otherwise, and removes `skip` names.
-- `module.nix`: the options, the assertions, and the `anikonistack` module argument (`anikonistack.for "<agent>"`) that adapters read.
+- `module.nix`: the options, the assertions, and the `anikonistackLib` module argument (`anikonistackLib.for "<agent>"`) that adapters read.
 - `agents/`: one adapter per agent, listed in `agents/default.nix`. Each writes nothing unless `anikonistack.agents.<agent>.enable` is set.
 - `flake.nix` + `flake.lock`: every upstream repo pinned to a commit. Same lock, same result, any machine.
 
@@ -75,7 +75,7 @@ anikonistack = {
 - A misspelled bundle name fails evaluation and lists the valid names. An unknown `skip` name fails too.
 - Choosing a bundle also brings in its `depends`.
 - Evaluation fails if two bundles an agent gets define the same name, of the same kind, pointing at different files.
-- MCP servers are yours: set `programs.mcp.servers`, and every enabled agent picks them up.
+- MCP servers are yours: set `programs.mcp = { enable = true; servers = { … }; };` and every enabled agent picks them up. Without `enable = true`, home-manager gives the agents no servers.
 
 ### Bundles
 
@@ -91,16 +91,16 @@ anikonistack = {
 | `mattpocock` | Matt Pocock's engineering and productivity skills | skills |  |
 | `obsidian` | kepano's Obsidian skills | skills |  |
 | `ponytail` | ponytail plugin | plugin, skills |  |
-| `spartan-backend-micronaut` | Kotlin + Micronaut backend | skills, commands, rules, subagents, context | `spartan-database`, `spartan-shared-backend` |
+| `spartan-backend-micronaut` | Kotlin + Micronaut backend | skills, commands, rules, subagents, context | `spartan-core`, `spartan-database`, `spartan-shared-backend` |
 | `spartan-core` | Core workflow (always installed) | commands, rules, subagents, context |  |
-| `spartan-database` | Database patterns, migrations, Exposed ORM | skills, commands, rules, context |  |
-| `spartan-frontend-react` | React + Next.js frontend | skills, commands, rules, context |  |
-| `spartan-infrastructure` | Terraform + AWS infrastructure | skills, commands, rules, subagents, context |  |
-| `spartan-ops` | Deploy & infrastructure | skills, commands, context |  |
-| `spartan-product` | Product thinking before building | skills, commands, context |  |
-| `spartan-research` | Startup research pipeline — from idea to investor-ready | skills, commands, subagents, context | `spartan-product` |
-| `spartan-shared-backend` | Shared backend architecture concepts | rules |  |
-| `spartan-ux-design` | UX design workflow — research, define, ideate, design system, prototype, test, AI asset generation | skills, commands, rules, subagents, context |  |
+| `spartan-database` | Database patterns, migrations, Exposed ORM | skills, commands, rules, context | `spartan-core` |
+| `spartan-frontend-react` | React + Next.js frontend | skills, commands, rules, context | `spartan-core` |
+| `spartan-infrastructure` | Terraform + AWS infrastructure | skills, commands, rules, subagents, context | `spartan-core` |
+| `spartan-ops` | Deploy & infrastructure | skills, commands, context | `spartan-core` |
+| `spartan-product` | Product thinking before building | skills, commands, context | `spartan-core` |
+| `spartan-research` | Startup research pipeline — from idea to investor-ready | skills, commands, subagents, context | `spartan-core`, `spartan-product` |
+| `spartan-shared-backend` | Shared backend architecture concepts | rules | `spartan-core` |
+| `spartan-ux-design` | UX design workflow — research, define, ideate, design system, prototype, test, AI asset generation | skills, commands, rules, subagents, context | `spartan-core` |
 | `superpowers` | obra's superpowers workflow skills | plugin, skills |  |
 | `understand-anything` | codebase knowledge graphs | plugin, skills |  |
 
@@ -120,12 +120,12 @@ Kinds an agent does not take are left out for that agent.
 
 ## Adding an agent
 
-One file. Read `anikonistack.for "<agent>"` and feed it into whatever the agent's home-manager module accepts:
+One file. Read `anikonistackLib.for "<agent>"` and feed it into whatever the agent's home-manager module accepts:
 
 ```nix
 # agents/myagent.nix
-{ anikonistack, config, lib, ... }: let
-  s = anikonistack.for "myagent";
+{ anikonistackLib, config, lib, ... }: let
+  s = anikonistackLib.for "myagent";
 in {
   config = lib.mkIf config.anikonistack.agents.myagent.enable {
     programs.myagent = {
@@ -139,7 +139,7 @@ in {
 
 Add `./myagent.nix` to `imports` in `agents/default.nix` and `"myagent"` to `agentNames` in `module.nix`.
 
-`anikonistack.for "<agent>"` returns:
+`anikonistackLib.for "<agent>"` returns:
 
 | field | what |
 |---|---|

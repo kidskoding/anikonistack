@@ -1,10 +1,10 @@
 {
-  anikonistack,
+  anikonistackLib,
   config,
   lib,
   ...
 }: let
-  s = anikonistack.for "opencode";
+  s = anikonistackLib.for "opencode";
 in {
   config = lib.mkIf config.anikonistack.agents.opencode.enable {
     programs.opencode = {
