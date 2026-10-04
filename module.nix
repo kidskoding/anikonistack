@@ -4,78 +4,99 @@ inputs: {
   pkgs,
   ...
 }: let
-  skillDirs = dir:
-    lib.filterAttrs (name: _: builtins.pathExists "${dir}/${name}/SKILL.md")
-    (lib.mapAttrs (name: _: "${dir}/${name}") (builtins.readDir dir));
+  cfg = config.anikonistack;
 
-  fromList = f: names: lib.listToAttrs (map (n: lib.nameValuePair n (f n)) names);
+  catalog = import ./catalog {inherit inputs lib;};
+  resolve = import ./lib/resolve.nix {inherit lib;};
 
-  all = import ./skills.nix {inherit inputs lib skillDirs fromList;};
+  agentNames = ["claude-code" "codex" "opencode" "antigravity" "cursor"];
 
-  # a bundle is { skills; plugins; claude = { plugins; commands; rules; agents; context; }; }, every field optional
-  bundles =
-    lib.mapAttrs (_: skills: {inherit skills;}) all.skills
-    // lib.mapAttrs (n: p: {plugins.${n} = p;}) all.plugins
-    // lib.mapAttrs (n: p: {claude.plugins.${n} = p;}) all.claudePlugins
-    // {inherit (all) spartan;};
+  bundleList = lib.types.listOf (lib.types.enum (lib.attrNames catalog));
 
-  enabled = lib.attrValues (lib.filterAttrs (name: _: config.anikonistack.bundles.${name}.enable) bundles);
+  # `bundles.<name>.enable` from before per-agent selection; rejected by an assertion below
+  legacy = builtins.isAttrs cfg.bundles;
 
-  merge = f: lib.foldl' (acc: b: acc // f b) {} enabled;
+  enabled = lib.filter (a: cfg.agents.${a}.enable) agentNames;
 
-  duplicates = f: let
-    names = lib.concatMap (b: lib.attrNames (f b)) enabled;
-  in
-    lib.unique (lib.filter (n: lib.count (x: x == n) names > 1) names);
+  forAgent = agent:
+    resolve.for {
+      inherit catalog agent;
+      inherit (cfg.agents.${agent}) bundles skip;
+    };
 
-  plugins = merge (b: b.plugins or {});
+  knownNames = lib.unique (lib.concatMap (b:
+    lib.concatMap lib.attrNames [b.skills b.commands b.rules b.subagents (resolve.pluginSkills b)])
+  (lib.attrValues catalog));
+
+  unknownSkips = lib.subtractLists knownNames (lib.unique (cfg.skip ++ lib.concatMap (a: cfg.agents.${a}.skip) agentNames));
 in {
-  imports = [
-    ./mcp.nix
-    ./agents
-  ];
+  imports = [./agents];
 
-  options.anikonistack.bundles =
-    lib.mapAttrs (name: _: {
-      enable = lib.mkEnableOption "the ${name} bundle" // {default = true;};
-    })
-    bundles;
+  options.anikonistack = {
+    bundles = lib.mkOption {
+      type = lib.types.either bundleList (lib.types.attrsOf lib.types.anything);
+      default = [];
+      example = ["custom" "superpowers" "spartan-core"];
+      description = "Bundles every enabled agent gets, unless the agent sets its own `bundles`.";
+    };
+
+    skip = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      example = ["resolving-merge-conflicts"];
+      description = "Single skills, commands, rules or subagents to remove after merging bundles.";
+    };
+
+    agents = lib.genAttrs agentNames (name:
+      lib.mkOption {
+        default = {};
+        description = "What anikonistack writes for ${name}.";
+        type = lib.types.submodule {
+          options = {
+            enable = lib.mkEnableOption "anikonistack for ${name}";
+            bundles = lib.mkOption {
+              type = bundleList;
+              default =
+                if legacy
+                then []
+                else cfg.bundles;
+              defaultText = lib.literalExpression "config.anikonistack.bundles";
+              description = "Bundles for ${name}; replaces `anikonistack.bundles`.";
+            };
+            skip = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              default = cfg.skip;
+              defaultText = lib.literalExpression "config.anikonistack.skip";
+              description = "Names to skip for ${name}; replaces `anikonistack.skip`.";
+            };
+          };
+        };
+      });
+  };
 
   config = {
     assertions =
-      lib.mapAttrsToList (kind: f: let
-        dups = duplicates f;
+      [
+        {
+          assertion = !legacy;
+          message = "anikonistack.bundles.<name>.enable was removed. Use anikonistack.bundles = [ … ] and anikonistack.agents.<name>.enable. See the README.";
+        }
+        {
+          assertion = unknownSkips == [];
+          message = "anikonistack: unknown skip name(s): ${lib.concatStringsSep ", " unknownSkips}";
+        }
+      ]
+      ++ map (agent: let
+        conflicts = (forAgent agent).conflicts;
       in {
-        assertion = dups == [];
-        message = "anikonistack: ${kind} defined by more than one enabled bundle: ${lib.concatStringsSep ", " dups}";
-      }) {
-        skills = b: b.skills or {};
-        plugins = b: (b.plugins or {}) // (b.claude.plugins or {});
-        commands = b: b.claude.commands or {};
-        rules = b: b.claude.rules or {};
-        agents = b: b.claude.agents or {};
-      };
+        assertion = conflicts == [];
+        message = "anikonistack (${agent}): the same name comes from more than one bundle:\n${lib.concatStringsSep "\n" conflicts}";
+      })
+      enabled;
 
-    _module.args.agents = {
-      inherit inputs skillDirs plugins;
-
-      skills = merge (b: b.skills or {});
-
-      # the `skills/` of those plugins, merged; names of disabled plugins are skipped
-      pluginSkills = names:
-        lib.foldl' (acc: n: acc // skillDirs "${plugins.${n}}/skills") {}
-        (lib.filter (n: plugins ? ${n}) names);
-
-      claude = {
-        plugins = plugins // merge (b: b.claude.plugins or {});
-        commands = merge (b: b.claude.commands or {});
-        rules = merge (b: b.claude.rules or {});
-        agents = merge (b: b.claude.agents or {});
-        # own claude-md/*.md first (always on, file name order), then enabled bundles'
-        context =
-          lib.mapAttrsToList (f: _: builtins.readFile (./claude-md + "/${f}")) (builtins.readDir ./claude-md)
-          ++ lib.concatMap (b: b.claude.context or []) enabled;
-      };
+    _module.args.anikonistack = {
+      inherit inputs;
+      for = forAgent;
 
       statusline = lib.getExe (pkgs.writeShellApplication {
         name = "statusline.sh";
