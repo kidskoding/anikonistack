@@ -9,7 +9,7 @@ description: Use after a commit, finished task, drafted or merged PR, or other m
 
 The user is learning by building. After each milestone, write Obsidian notes that let them **explain what was built, why it matters, and how the tools work** to anyone, from a non-technical friend to a senior engineer.
 
-**Core principle:** notes are about understanding, not code. A note succeeds when the user can close it and explain the work out loud.
+**Core principle:** notes are about deep understanding, not code and not summaries. The goal is for the user to understand the application, its architecture, and every tool it uses on a deep level: what each piece is, how it works internally, why it was chosen, and how the pieces fit together. A note succeeds when the user can close it and explain the work out loud in detail, answer follow-up questions, and reason about how they would change it.
 
 ## When to Use
 
@@ -91,19 +91,19 @@ previous: "[[<previous milestone>]]"
 > <What we built and why, no jargon.>
 
 ## Why it matters
-<The problem for the product or its users. What would break or be painful without it.>
+<The problem for the product or its users, explained fully. Describe what the app looked like before this milestone, what would break or be painful without it, and how it fits into the bigger architecture.>
 
 ## What we built
-<A few connected paragraphs, in plain language, describing what now exists and what it does.>
+<Several connected paragraphs, in plain language, describing what now exists, what each part does, and how it connects to the rest of the application.>
 
 ## How it works
-<Short Mermaid diagram of the moving parts, then a paragraph or two walking through it from start to finish.>
+<Mermaid diagram of the moving parts, then a detailed step-by-step walkthrough in prose: what happens first, what each part does with the data, what happens when something goes wrong, and why it is built this way. Quote short real snippets from the repo (with file paths) where they help, and explain each line in words.>
 
 ## Tools we used
-- [[Tool A]]: <its job in this milestone, one line>
+- [[Tool A]]: <its job in this milestone, in a sentence or two>
 
 ## Decisions and tradeoffs
-<What we chose, what we didn't, and why. Include who decided if known (e.g. "boss asked for...").>
+<Each meaningful choice, the alternatives that existed, and the reasoning, written as connected paragraphs. Include who decided if known (e.g. "boss asked for...").>
 
 ## Problems we hit
 <What broke, the real root cause, how we fixed it. These are the best interview stories.>
@@ -122,7 +122,7 @@ previous: "[[<previous milestone>]]"
 > [!question]- <Question 1>
 > <Answer>
 
-<3-5 questions that test *why*, not trivia.>
+<5-8 questions that test *why* and *how*, not trivia, with full answers.>
 
 ## What's next
 <What this unlocks, linked to the next milestone if known.>
@@ -149,10 +149,23 @@ first-used: "[[<milestone note>]]"
 > <What it is, no jargon.>
 
 ## What problem it solves
+<The problem that existed before this tool, explained fully.>
+
+## How it works under the hood
+<What the tool actually does internally, step by step, in plain language. Enough depth that the user could explain it to an engineer.>
+
 ## Why this project uses it (instead of alternatives)
+<The real alternatives and the tradeoffs between them.>
+
 ## Key ideas to understand
+<Each core concept of the tool, explained in its own paragraph or subsection, with how it shows up in this project.>
+
+## How it fits into our architecture
+<Which parts of the app depend on it, what it talks to, and what would change if we removed it.>
+
 ## How we used it
 - [[<milestone note>]]: <what we did with it>
+
 ## Gotchas we hit
 ```
 
@@ -165,12 +178,13 @@ first-used: "[[<milestone note>]]"
 - **Explain the real thing directly.** Describe what actually happens and why, in concrete terms, rather than comparing it to something from everyday life.
 - **Why before how.** Answer "why does this matter?" before "how does it work?"
 - **Link generously.** Every tool and concept mention is a `[[wikilink]]`.
-- **Keep it short.** A milestone note should be readable in under 5 minutes.
+- **Go deep, not short.** Length is fine when it serves understanding. Explain every moving part, how it works internally, and how it connects to the rest of the system. Never stop at a one-line summary when a thorough explanation is possible. Depth must still come from real sources (the repo, PRs, official docs), never from guessing.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 |---|---|
+| Thin, summary-level notes | Expand into a thorough explanation of how it works, why, and how it connects to the rest of the app |
 | Choppy, clipped sentences or bullet-only explanations | Rewrite as connected paragraphs where each sentence leads into the next |
 | Comparing the idea to something from everyday life instead of explaining it | Describe what actually happens, in plain words |
 | Restating the diff file by file | Describe the capability gained, not the files touched |
