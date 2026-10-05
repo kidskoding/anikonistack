@@ -162,7 +162,7 @@ first-used: "[[<milestone note>]]"
 - **No invented code.** Code is optional; if included, copy a few real lines from the repo with the file path. Never sketch API usage from memory.
 - **Write flowing prose, not fragments.** Use full sentences that connect to each other with words like "because", "so", "which means", and "once that's in place". Each paragraph should read like someone explaining it out loud to a curious friend. Avoid strings of short, clipped sentences and avoid turning explanations into bullet lists.
 - **Plain language, explained thoroughly.** Assume a smart reader with no background. Say what the thing is and what it does directly, then name the technical term: "...a small program that every other part of the app talks to when it needs data. Engineers call this a *service*." Define each term the first time it appears.
-- **No analogies by default.** Explain the real thing clearly instead of comparing it to something else. Only use an analogy if a direct explanation genuinely isn't enough, and never as a required section.
+- **Explain the real thing directly.** Describe what actually happens and why, in concrete terms, rather than comparing it to something from everyday life.
 - **Why before how.** Answer "why does this matter?" before "how does it work?"
 - **Link generously.** Every tool and concept mention is a `[[wikilink]]`.
 - **Keep it short.** A milestone note should be readable in under 5 minutes.
@@ -172,7 +172,7 @@ first-used: "[[<milestone note>]]"
 | Mistake | Fix |
 |---|---|
 | Choppy, clipped sentences or bullet-only explanations | Rewrite as connected paragraphs where each sentence leads into the next |
-| Leaning on analogies instead of explaining | Describe what actually happens, in plain words |
+| Comparing the idea to something from everyday life instead of explaining it | Describe what actually happens, in plain words |
 | Restating the diff file by file | Describe the capability gained, not the files touched |
 | Defining a tool from its docs only | Define it by the job it did in *this* project |
 | Committing notes to the repo | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` |
