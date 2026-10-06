@@ -102,7 +102,7 @@ Cut any visual that only decorates. A reader should understand each diagram with
 
 ## Stage 5 — Draft
 
-Write the file for the output target (see "Output Target" in `SKILL.md`), following the approved outline and `style-guide.md`. Keep one voice throughout. Length follows the idea; do not pad to a word count. Place the bold skim path (Bold in `style-guide.md`) while drafting, not as an afterthought.
+Write the file for the output target (see "Output Target" in `SKILL.md`), following the approved outline and `style-guide.md`. Keep one voice throughout. Length follows the idea; do not pad to a word count. Place the bold skim path (Bold in `style-guide.md`) while drafting, not as an afterthought. Draft in flowing, connected sentences from the start (Flowing Sentences in `style-guide.md`); smoothing choppy prose later costs a full extra pass.
 
 ## Stage 6 — Edit
 
@@ -112,6 +112,7 @@ Review the draft and report findings before changing anything large. Check for:
 - résumé language
 - repetitive thesis statements
 - generic AI wording
+- choppy fragment runs outside the opening hook and closing beat (see Flowing Sentences in `style-guide.md`); merge them
 - sections that don't serve the central argument
 - overly long paragraphs
 - weak transitions

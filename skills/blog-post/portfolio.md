@@ -27,6 +27,7 @@ import TweetEmbed from '../../components/TweetEmbed.astro';
 ```
 
 - `draft: true` while iterating. Drafts are excluded from the build and do not appear on `/blog`, even in the dev server. When a draft is ready to read, tell the user it is hidden and offer to flip it to `false`; warn that committing it as `false` publishes it on the next deploy.
+- Optional `titleLink: { text, href }` links one phrase of the post-page h1. Never put Markdown links in `title`: it is plain text in tabs, cards, and previews.
 - `coverImage` (served from `public/blog/`) and the `TweetEmbed` import only when used. Tweets embed as `<TweetEmbed url="..." />`.
 - News analysis posts end with a `## References` section and cite inline with `<sup>[N](#references)</sup>`.
 - Add `*Originally published on [DEV](<url>).*` only for posts actually on DEV.
@@ -35,7 +36,7 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 
 ## Rendering
 
-- `##` renders green, `###` yellow. Blockquotes, tables, and `---` rules are styled.
+- `##` and `###` render yellow (bold is green, so headings and highlights stay distinct). Blockquotes, tables, and `---` rules are styled.
 - `description` is the subtitle. Put the employer or job context there, not in the title.
 
 ## Cover Image
@@ -49,5 +50,6 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 - **Numbered lists render without numbers** in `src/pages/blog/[...id].astro` (only `ul` is styled). Use headings or bullets for sequences.
 - **Mermaid does not render** (only `@astrojs/mdx` is installed). Draw diagrams as ASCII in a ```` ```text ```` fence, or put an image in `public/blog/`.
 - **No `og:image` or Twitter card tags** in the blog layout, so LinkedIn link previews show no cover. Mention it when the user plans to share on LinkedIn.
-- **Bold renders only as weight** (no color change), so it stays subtle; don't compensate by bolding more.
-- **Code blocks use Astro's default Shiki theme**, not gruvbox, and inline code has no styling.
+- **Bold renders green** (`[&_strong]:text-nvim-green` in `src/pages/blog/[...id].astro`), so every bold phrase is a bright highlight. Keep to the skim-path budget in `style-guide.md`; heavy bolding turns the page green.
+- **Code blocks use Shiki's `gruvbox-dark-hard` theme** (`#1d2021` background, set in `astro.config.mjs`). Hand-built code-like blocks (HTML in MDX) should use `bg-nvim-bg-hard` to match. Inline code renders orange on a dark chip; without that style it would be invisible, because the whole site font is monospace.
+- **Code blocks have no bottom margin**, so the user adds `<br />` (blank line on each side) after each code block before the next paragraph.

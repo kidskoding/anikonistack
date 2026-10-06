@@ -68,6 +68,7 @@ Decide where the post goes before Stage 5:
 
 ## Gotchas
 
+- **Punchy fragments read as choppy to this user.** Default to flowing, connected sentences; keep staccato for the opening hook and the closing beat only (Flowing Sentences in `style-guide.md`).
 - **The first answer is almost never a full draft.** The user wants an editor. Generating 2,000 words before the thesis is agreed wastes the most valuable step.
 - **Never invent numbers, quotes, error messages, or events.** If a detail is missing, ask for it or leave it out.
 - **Internship posts carry disclosure risk.** Run the confidentiality check in `style-guide.md` on every draft about professional work, and never quote employer code into a post.

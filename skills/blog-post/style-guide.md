@@ -102,9 +102,27 @@ The author:
 
 Not personal branding. The technical idea is the interesting part.
 
-**Prefer:** short paragraphs, clear sentences, occasional fragments for emphasis, specific language, natural first-person reflection, confidence without pretending to know everything, sections that flow into each other, rhetorical questions when useful, code and diagrams between prose.
+**Prefer:** short paragraphs, clear sentences that flow into each other (the user's voice: connected, conversational sentences joined with "but rather", "so", "because", not stacks of two-word fragments), specific language, natural first-person reflection, confidence without pretending to know everything, sections that flow into each other, rhetorical questions when useful, code and diagrams between prose.
 
-**Avoid:** corporate marketing language, fake enthusiasm, piles of adjectives, motivational LinkedIn tone, "I'm thrilled to announce", "In today's rapidly evolving technological landscape", generic AI introductions, constant bullet lists, unnecessary headings, the thesis repeated word for word in every section, excessive em dashes, a motivational line closing every section.
+**Avoid:** choppy runs of fragments ("Nothing wrong with it. It works.", "Same query, same builder.", "Checkmark."), which the user reads as choppy; keep staccato lines for the closing beat only. Also avoid corporate marketing language, fake enthusiasm, piles of adjectives, motivational LinkedIn tone, "I'm thrilled to announce", "In today's rapidly evolving technological landscape", generic AI introductions, constant bullet lists, unnecessary headings, the thesis repeated word for word in every section, excessive em dashes, a motivational line closing every section.
+
+## Flowing Sentences
+
+The user's voice is connected and conversational. Sentences flow into each other through connectors ("but rather", "so", "because", "that said", "which"), the way their own line does: "The challenge wasn't using Drizzle, but rather making Drizzle fit alongside Effect." Stacks of short fragments read as choppy to them, even when each fragment is punchy.
+
+| Choppy (don't) | Flowing (do) |
+|---|---|
+| Nothing wrong with it. It works. | There's nothing wrong with it, and it works. |
+| How can it fail? The type doesn't say. What does it need? The type doesn't say. | The type doesn't tell you how it can fail, and it doesn't tell you what it needs. |
+| The Drizzle part is identical. Same query, same builder. | The Drizzle part is identical, with the same query and the same builder. |
+| I knew what serverless meant. Functions, no servers, pay per request. Checkmark. | I knew what serverless meant: functions, no servers to manage, and paying per request. In my head, it already had a checkmark. |
+| Part of it is in the README. Part is in a setup script. Part is in someone's shell config. | Part of it lives in the README, part in a setup script, and part in someone's shell config. |
+
+Rules:
+- Merge a run of two or more fragments into one sentence with a connector, a colon, or a list.
+- Contrast belongs in one sentence ("isn't X, but rather Y"), not split across two.
+- Staccato is allowed only as a deliberate beat: the opening hook (three short lines that set up a question) and the closing lines. Everywhere else, flow.
+- Keep the user's own phrasing when smoothing; connect around it rather than rewriting it.
 
 ## Bold
 
