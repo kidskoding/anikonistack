@@ -29,7 +29,8 @@ in {
         enable = true;
         enableMcpIntegration = true;
 
-        inherit (s) skills plugins commands rules;
+        inherit (s) skills commands rules;
+        plugins = lib.attrValues s.plugins;
         agents = s.subagents;
         context = lib.concatStringsSep "\n" s.context;
       }
