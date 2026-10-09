@@ -5,5 +5,6 @@
     ./opencode.nix
     ./antigravity.nix
     ./cursor.nix
+    ./github-copilot-cli.nix
   ];
 }

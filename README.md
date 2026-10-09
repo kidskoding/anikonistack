@@ -495,6 +495,7 @@ Full command lists live in the toolkit’s `packs/*.yaml`; this repo reads those
 | `opencode` | native plugins (ponytail, superpowers), skills |
 | `antigravity` | skills |
 | `cursor` | skills, `~/.cursor/mcp.json` |
+| `github-copilot-cli` | skills, context |
 
 Kinds an agent doesn’t support are simply omitted.
 

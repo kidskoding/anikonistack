@@ -9,7 +9,7 @@ inputs: {
   catalog = import ./catalog {inherit inputs lib;};
   resolve = import ./lib/resolve.nix {inherit lib;};
 
-  agentNames = ["claude-code" "codex" "opencode" "antigravity" "cursor"];
+  agentNames = ["claude-code" "codex" "opencode" "antigravity" "cursor" "github-copilot-cli"];
 
   bundleList = lib.types.listOf (lib.types.enum (lib.attrNames catalog));
 
