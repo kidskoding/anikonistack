@@ -113,6 +113,7 @@ Review the draft and report findings before changing anything large. Check for:
 - repetitive thesis statements
 - generic AI wording
 - choppy fragment runs outside the opening hook and closing beat (see Flowing Sentences in `style-guide.md`); merge them
+- in tutorials: keys, commands, or syntax used before they're explained, dense key lists, slogan headings, taglines under headings, or repeated label scaffolds (see Tutorials and Guides in `style-guide.md`)
 - sections that don't serve the central argument
 - overly long paragraphs
 - weak transitions

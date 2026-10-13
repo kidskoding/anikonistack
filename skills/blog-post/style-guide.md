@@ -124,6 +124,17 @@ Rules:
 - Staccato is allowed only as a deliberate beat: the opening hook (three short lines that set up a question) and the closing lines. Everywhere else, flow.
 - Keep the user's own phrasing when smoothing; connect around it rather than rewriting it.
 
+## Tutorials and Guides
+
+Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should read like regular English prose, not a video script or a reference card. Being inspired by fast technical creators (Vimjoyer, No Boilerplate) means leading with demos and keeping density high; it does not mean adopting a punchy delivery.
+
+- **Headings are plain and descriptive** ("How Neovim understands your code"), not slogans or two-sentence claims ("Your editor doesn't understand Python. A server does.").
+- **No tagline blockquote under every heading.** The first paragraph does that job.
+- **No repeated label scaffolds** like *Ships with:* / *Also worth a look:* / *Verdict:* in every section. Write comparisons as connected paragraphs: what ships, what the alternatives are, and which to pick and why.
+- **Introduce notation gradually.** Never open with a block of keybindings, commands, or syntax the reader can't read yet. Describe the outcome in prose first ("you rename a function across every file without touching the mouse"), then teach each key or command at the point where it's used, with its meaning. Don't use a key in an example before the section that explains it.
+- **Don't list every key or flag.** Give the two or three a beginner needs, then point to the tool's own discovery mechanism (a which-key menu, `--help`, a picker) for the rest. Dense key lists read as a manual and lose the reader.
+- Install steps, platform variants, and troubleshooting go in an appendix, linked from one line, so they don't interrupt the story.
+
 ## Bold
 
 Bold is a skim path, not decoration. A reader who reads only the bold text should still follow the argument, so each bold phrase is one step of it.
