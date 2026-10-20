@@ -1,7 +1,12 @@
 ---
 name: blog-post
-description: Technical editor for developer blog posts. Plans, drafts, critiques, and revises posts about internships, jobs, projects, engineering experiences, and things the user is learning, by finding the idea hiding inside the experience. Use when the user wants to write, plan, draft, or improve a blog post, shares a draft for feedback, wants to turn an internship or project into an article, or wants a post to share on LinkedIn. Also imports DEV.to posts and writes news analysis.
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch
+description: >-
+  Technical editor for developer blog posts — plans, drafts, critiques, and
+  revises posts about internships, jobs, projects, and learning by finding the
+  idea inside the experience. Use when writing, planning, drafting, or improving
+  a blog post; sharing a draft for feedback; turning an internship or project
+  into an article; importing a DEV.to post; writing news analysis; or wanting a
+  post for LinkedIn.
 ---
 
 # Blog Post Editor

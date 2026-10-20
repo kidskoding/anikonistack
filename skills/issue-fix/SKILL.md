@@ -1,17 +1,19 @@
 ---
 name: issue-fix
 description: >-
-  Triage and fix GitHub issues end-to-end. Fetches the issue, explores relevant code, plans the fix, implements with TDD, and verifies. Use when user says "fix issue #N", "work on this issue", or references a GitHub issue number.
-usage: /issue-fix <issue-number>
-triggers:
-  - '"fix issue #N", "work on issue #N", "resolve issue #N"'
-  - User references a GitHub issue number
-skip_for: known bugs with clear cause (just fix directly), PR review (use pr-review)
+  Triage and fix GitHub issues end-to-end — fetch, explore, plan, implement with
+  TDD, and verify. Use when the user says "fix issue #N", "work on this issue",
+  "resolve issue #N", or references a GitHub issue number. Prefer a direct fix for
+  known bugs with a clear cause; use pr-review for reviewing PRs.
+compatibility: Requires git and gh
 ---
 
-# Issue Fix Skill
+# Issue Fix
 
----
+## When not to use
+
+- Known bug with an obvious one-line fix → just fix it
+- Reviewing a PR → `pr-review`
 
 ## Phase 1: Issue Intake
 

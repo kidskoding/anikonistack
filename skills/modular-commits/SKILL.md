@@ -1,12 +1,12 @@
 ---
 name: modular-commits
-description: Use when the working tree holds several unrelated changes at once — multiple features, a fix, some reformatting — and they need to land as separate commits instead of one dump. Triggers include "modular commits", "split these changes", "split into 3 commits" or any named commit count, "commit this properly", "break this into commits", or asking to commit a tree where git status shows work from more than one thing.
-usage: /modular-commits [k]
-triggers:
-  - '"modular commits", "split into commits", "break this up into commits"'
-  - '"split into K commits", "make that 4 commits", any named commit count'
-  - '"commit and push" on a tree with several unrelated changes'
-skip_for: a tree with one logical change (use commit), creating PRs (use pr-review)
+description: >-
+  Split a messy working tree into one commit per feature (not per file). Use when
+  several unrelated changes need separate commits — "modular commits", "split
+  these changes", "split into 3 commits", "commit this properly", "break this
+  into commits", or a tree with work from more than one thing. Prefer commit for
+  a single logical change; creating-pull-requests for opening a PR.
+compatibility: Requires git
 ---
 
 # Modular Commits
@@ -17,6 +17,11 @@ line.
 
 Message format, types, scopes, and attribution: follow the `commit` skill. This
 skill only covers the split.
+
+## When not to use
+
+- One logical change → `commit`
+- Opening a PR → `creating-pull-requests`
 
 ## Invocation
 

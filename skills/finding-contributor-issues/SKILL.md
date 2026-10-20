@@ -1,11 +1,11 @@
 ---
 name: finding-contributor-issues
-description: "Use when the user wants an issue to work on in an open-source repo, asks 'what should I contribute', 'find me a good first issue', 'what can I pick up in <repo>', or wants to know whether a specific issue is safe to start on."
-allowed_tools:
-  - Read
-  - Bash
-  - Grep
-  - Glob
+description: >-
+  Find a safe first issue in an open-source repo — invite labels, maintainer
+  signal, bounded scope, merge likelihood. Use when the user asks "what should I
+  contribute", "find me a good first issue", "what can I pick up in <repo>", or
+  whether a specific issue is safe to start on.
+compatibility: Requires gh
 ---
 
 # Finding Contributor Issues

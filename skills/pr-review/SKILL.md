@@ -1,19 +1,15 @@
 ---
 name: pr-review
 description: >-
-  Review GitHub pull requests by fetching diffs, analyzing code quality, checking conventions, and optionally posting review comments. Use when user says "review this PR", "check PR #N", or shares a PR URL.
-usage: /pr-review [PR number or URL]
-triggers:
-  - '"review this PR", "check PR #N", "review pull request"'
-  - User shares a GitHub PR URL
-  - User asks to assess code quality of a PR
-  - Before merging a PR
-skip_for: local code review not tied to a PR, bug fixing (use issue-fix), writing code
+  Review GitHub pull requests — fetch diffs, check quality and conventions, and
+  optionally post review comments. Use when the user says "review this PR",
+  "check PR #N", "review pull request", shares a PR URL, or asks to assess a PR
+  before merge. Prefer issue-fix for fixing issues; skip for local review not
+  tied to a PR.
+compatibility: Requires gh
 ---
 
-# PR Review Skill
-
----
+# PR Review
 
 ## Phase 1: Fetch PR Context
 

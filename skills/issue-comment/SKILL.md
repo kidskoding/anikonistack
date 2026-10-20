@@ -1,6 +1,10 @@
 ---
 name: issue-comment
-description: Use when drafting a comment on a lore GitHub issue (EpicGames/lore) before opening a PR — structures the comment into a plain-language problem explanation, repro steps, and a suggested fix.
+description: >-
+  Draft a comment on a lore GitHub issue (EpicGames/lore) before opening a PR —
+  plain-language Problem, Reproduce steps, and Suggested fix. Use when preparing
+  an issue comment for lore or when the user asks to structure a pre-PR issue reply.
+compatibility: Requires gh
 ---
 
 # Issue Comment

@@ -1,7 +1,11 @@
 ---
 name: update-claude-md
-description: Use when CLAUDE.md may be stale — after adding files, changing project structure, adding commands, discovering new conventions, or at the end of any session that touched the codebase. Automatically triggered by the UserPromptSubmit hook on every prompt.
-allowed-tools: Read, Edit, Bash, Glob
+description: >-
+  Audit and update the project's CLAUDE.md so it stays accurate as the codebase
+  evolves. Use when CLAUDE.md may be stale — after adding files, changing
+  structure, adding commands, discovering new conventions, or at the end of a
+  session that touched the codebase.
+allowed-tools: Read Edit Bash Glob
 ---
 
 # Update CLAUDE.md

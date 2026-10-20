@@ -1,15 +1,13 @@
 ---
 name: course-quiz
 description: >-
-  Drive an online-course quiz, exam, or final assessment in the Playwright browser
-  and complete it reliably — discover the question DOM, answer each question, submit,
-  and report the score. Platform-agnostic: works on Coursera, edX, Udemy,
-  Skilljar/Anthropic Academy, Google/Cloud Skills Boost, Canvas/Moodle LMS, and most
-  web quizzes, whether one-question-at-a-time or all-questions-on-one-page. Use when
-  the user says "do the exam/quiz in playwright", "take the final assessment / knowledge
-  check", "answer the quiz for me", "get the certificate", or points at a graded course
-  assessment. Handles single-select, multi-select, opinion/survey items, and free-text,
-  and keeps the user in the loop on every answer.
+  Drive an online-course quiz, exam, or final assessment in the Playwright
+  browser — discover the question DOM, answer each question, submit, and report
+  the score. Platform-agnostic (Coursera, edX, Udemy, Skilljar, Cloud Skills
+  Boost, Canvas/Moodle, and most web quizzes). Use when the user says "do the
+  exam/quiz in playwright", "take the final assessment", "answer the quiz for
+  me", "get the certificate", or points at a graded course assessment.
+compatibility: Requires Playwright MCP; user logged in to the course site in that browser
 ---
 
 # Course quiz → complete it in Playwright

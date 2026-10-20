@@ -1,12 +1,11 @@
 ---
 name: creating-pull-requests
-description: "Use when a branch is ready to become a pull request on any GitHub repo, or when the user says 'open a PR', 'make a PR', 'write the PR description', or 'is this ready to submit'. Covers open-source contributions and internal repos."
-allowed_tools:
-  - Read
-  - Bash
-  - Grep
-  - Glob
-  - Write
+description: >-
+  Open a pull request reviewers can decide on quickly — house rules, branch
+  audit, gates, facts sheet, then draft PR. Use when a branch is ready to become
+  a PR, or the user says "open a PR", "make a PR", "write the PR description",
+  or "is this ready to submit". Covers open-source and internal repos.
+compatibility: Requires git and gh
 ---
 
 # Creating Pull Requests

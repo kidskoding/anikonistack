@@ -1,13 +1,25 @@
 ---
 name: commit
-description: Create well-structured git commits following Conventional Commits format. Use when user says "commit", "create a commit", or "save these changes".
-usage: /commit
-triggers:
-  - '"commit", "make a commit", "save changes", "git commit"'
-skip_for: creating PRs (use pr-review), fixing issues (use issue-fix)
+description: >-
+  Create well-structured git commits following Conventional Commits.
+  Use when the user says "commit", "create a commit", "make a commit",
+  "save these changes", or "git commit". Prefer modular-commits when the
+  tree holds several unrelated changes; prefer creating-pull-requests when
+  opening a PR.
+compatibility: Requires git
 ---
 
-# Git Commit Skill
+# Commit
+
+## When to use
+
+- User asks to commit, save changes, or write a commit message
+- Working tree has **one** logical change (use `modular-commits` for several)
+
+## When not to use
+
+- Opening a PR → `creating-pull-requests`
+- Fixing a GitHub issue end-to-end → `issue-fix`
 
 ## Conventional Commits Format
 
