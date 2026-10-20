@@ -1,7 +1,5 @@
 # anikonistack
 
-[![skills.sh](https://skills.sh/b/kidskoding/anikonistack)](https://skills.sh/kidskoding/anikonistack)
-
 **One catalog. Every agent.** Declare skills, plugins, and MCP once — ship them to Claude Code, Codex, OpenCode, Cursor, and Antigravity.
 
 | Path | Who it's for | Install |
