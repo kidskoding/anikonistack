@@ -1,5 +1,5 @@
 {
-  description = "a declarative and reproducible setup for coding agents!";
+  description = "Declarative multi-agent skill stack — npx/bunx skills add, or Nix home-manager module";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
