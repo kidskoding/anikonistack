@@ -6,7 +6,7 @@
 
 | Path | Who it's for | Install |
 |------|--------------|---------|
-| **Skills only** | Any machine with Node/Bun — no Nix | `npx` / `bunx skills add` (~30s) |
+| **Skills only** | Any machine with npm or bun — no Nix | `npx` / `bunx skills add` (~30s) |
 | **Full stack** | Declarative, reproducible agent configs | Nix + home-manager module |
 
 ---
@@ -27,8 +27,7 @@ Interactive by default. Install everything non-interactively:
 
 ```bash
 npx skills add kidskoding/anikonistack -g -y -a '*' -s '*'
-# same with bunx:
-bunx skills add kidskoding/anikonistack -g -y -a '*' -s '*'
+# or: bunx skills add kidskoding/anikonistack -g -y -a '*' -s '*'
 ```
 
 | Command | What it does |
@@ -38,7 +37,7 @@ bunx skills add kidskoding/anikonistack -g -y -a '*' -s '*'
 | `npx skills update` | Update installed skills |
 | `npx skills use kidskoding/anikonistack@commit` | Use one skill without installing |
 
-Browse on [skills.sh](https://skills.sh/kidskoding/anikonistack).
+Swap `npx` for `bunx` anywhere above. Browse on [skills.sh](https://skills.sh/kidskoding/anikonistack).
 
 ---
 
@@ -130,9 +129,8 @@ Frontmatter is limited to spec fields:
 Validate locally:
 
 ```bash
-bunx skills-ref validate skills/commit
-# or every skill:
-for d in skills/*/; do bunx skills-ref validate "$d"; done
+npx skills-ref validate skills/commit   # or: bunx skills-ref …
+for d in skills/*/; do npx skills-ref validate "$d"; done
 ```
 
 ---
@@ -262,8 +260,8 @@ Kinds an agent does not take are left out for that agent.
 ### Add a skill (skills CLI + Nix)
 
 1. Create `skills/<name>/SKILL.md` with valid frontmatter (`name` must match the directory).
-2. Validate: `bunx skills-ref validate skills/<name>`
-3. It is automatically part of the `custom` bundle and installable via `npx skills add`.
+2. Validate: `npx skills-ref validate skills/<name>` (or `bunx`)
+3. It is automatically part of the `custom` bundle and installable via `npx` / `bunx skills add`.
 
 ### Add an agent
 
@@ -323,8 +321,7 @@ programs.claude-code.package = null;   # binary already installed another way
 
 ```bash
 npx skills update
-# or
-bunx skills update
+# or: bunx skills update
 ```
 
 **Nix stack**
@@ -370,7 +367,7 @@ npx skills add kidskoding/anikonistack -l
 npx skills add . -l
 
 # Spec compliance (every skill)
-for d in skills/*/; do bunx skills-ref validate "$d"; done
+for d in skills/*/; do npx skills-ref validate "$d"; done
 ```
 
 ## License
