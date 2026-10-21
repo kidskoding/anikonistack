@@ -24,7 +24,7 @@ Most people only need path 1. Path 2 is for when you want the whole stack reprod
 - [Suggested workflows](#suggested-workflows)
 - [Full stack (Nix + home-manager)](#full-stack-nix--home-manager)
 - [How the stack works](#how-the-stack-works)
-- [Bundles](#bundles)
+- [Bundles (upstream packs)](#bundles-upstream-packs)
 - [Agents](#agents)
 - [Extending](#extending)
 - [Updating](#updating)
@@ -338,34 +338,126 @@ catalog/*.nix  ──►  lib/resolve.nix  ──►  agents/*.nix  ──►  ~
 - Bundle `depends` are pulled in automatically
 - Native plugins install whole; skipping one of their skills only works when flattened (warning otherwise)
 
-## Bundles
+## Bundles (upstream packs)
 
-| Bundle | What | Contains | Depends on |
-|--------|------|----------|------------|
-| `custom` | **This repo’s skills** + CLAUDE.md sections | skills, context | |
-| `superpowers` | [obra/superpowers](https://github.com/obra/superpowers) | plugin, skills | |
-| `mattpocock` | [mattpocock/skills](https://github.com/mattpocock/skills) | skills | |
-| `caveman` | Terse caveman-style output | plugin, skills | |
-| `obsidian` | kepano’s Obsidian skills | skills | |
-| `extras` | Assorted single skills | skills | |
-| `firecrawl` | Firecrawl scrape / search | plugin, skills | |
-| `frontend-design` | Anthropic frontend-design plugin | plugin, skills | |
-| `last30days` | Research the last 30 days | plugin, skills | |
-| `ponytail` | ponytail plugin | plugin, skills | |
-| `duet` | claude-duet (Claude Code) | plugin | |
-| `understand-anything` | Codebase knowledge graphs | plugin, skills | |
-| `spartan-core` | Spartan core workflow | commands, rules, subagents, context | |
-| `spartan-database` | DB patterns, Exposed ORM | skills, commands, rules, context | `spartan-core` |
-| `spartan-shared-backend` | Shared backend concepts | rules | `spartan-core` |
-| `spartan-backend-micronaut` | Kotlin + Micronaut | skills, commands, rules, subagents, context | `spartan-core`, `spartan-database`, `spartan-shared-backend` |
-| `spartan-frontend-react` | React + Next.js | skills, commands, rules, context | `spartan-core` |
-| `spartan-infrastructure` | Terraform + AWS | skills, commands, rules, subagents, context | `spartan-core` |
-| `spartan-ops` | Deploy & ops | skills, commands, context | `spartan-core` |
-| `spartan-product` | Product thinking | skills, commands, context | `spartan-core` |
-| `spartan-research` | Startup research pipeline | skills, commands, subagents, context | `spartan-core`, `spartan-product` |
-| `spartan-ux-design` | UX design workflow | skills, commands, rules, subagents, scripts, context | `spartan-core` |
+Enable these with `anikonistack.bundles = [ … ]` (Nix path only). Each bundle is pinned in [`flake.lock`](./flake.lock) to a specific commit. Skill lists below match what this repo currently wires in; upstream may add more over time.
 
-`plugin` = agents with a native loader get the whole plugin; others get its `skills/`.
+`plugin` means: agents with a native loader get the whole plugin; others get its `skills/` flattened in.
+
+### `custom` (this repo)
+
+Source: [`skills/`](./skills/) + [`claude-md/`](./claude-md/) in **this** repository.
+
+The 12 skills documented under [Available skills](#available-skills). Also installable without Nix via `npx` / `bunx skills add`.
+
+### `superpowers`
+
+Source: [obra/superpowers](https://github.com/obra/superpowers)
+
+Complete software-dev methodology: brainstorm → plan → TDD → subagents → review. Native on Claude Code, Codex, and OpenCode.
+
+| Skills | |
+|--------|--|
+| Workflow | `using-superpowers`, `brainstorming`, `writing-plans`, `executing-plans`, `subagent-driven-development`, `dispatching-parallel-agents` |
+| Git / branch | `using-git-worktrees`, `finishing-a-development-branch` |
+| Quality | `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review` |
+| Meta | `writing-skills`, `diagnosing-superpowers` |
+
+### `mattpocock`
+
+Source: [mattpocock/skills](https://github.com/mattpocock/skills)
+
+Engineering + productivity skills for real apps (grill sessions, TDD, architecture, specs/tickets). Install `setup-matt-pocock-skills` first when using these.
+
+| Area | Skills |
+|------|--------|
+| Align / plan | `grill-me`, `grilling`, `grill-with-docs`, `ask-matt`, `to-spec`, `to-tickets`, `triage`, `wayfinder`, `implement` |
+| Code quality | `tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `domain-modeling`, `improve-codebase-architecture`, `prototype`, `research`, `wizard` |
+| Productivity | `handoff`, `teach`, `loop-me`, `claude-handoff` |
+| Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `resolving-merge-conflicts`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape` |
+
+### `caveman`
+
+Source: [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+
+Terse “caveman” communication style plus investigate/build helpers. Native on Codex.
+
+Skills: `caveman`, `cavecrew`, `caveman-commit`, `caveman-compress`, `caveman-discover`, `caveman-evidence-review`, `caveman-explore`, `caveman-help`, `caveman-learn`, `caveman-manage`, `caveman-optimize`, `caveman-review`, `caveman-setup`, `caveman-stats`, `investigate-first`, `lean-build`, `megacave`, `migration`, `safe-refactor`, `surgical-patch`, `ultracave`, `verify-and-stop`
+
+### `obsidian`
+
+Source: [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills)
+
+Skills: `obsidian-markdown`, `obsidian-bases`, `obsidian-cli`, `json-canvas`, `defuddle`
+
+### `extras`
+
+Single skills pulled from several repos:
+
+| Skill | Source |
+|-------|--------|
+| `find-skills` | [vercel-labs/skills](https://github.com/vercel-labs/skills) |
+| `presenterm` | [lanej/dotfiles](https://github.com/lanej/dotfiles) |
+| `tui-designer` | [ckorhonen/claude-skills](https://github.com/ckorhonen/claude-skills) |
+| `typst` | [ChanMeng666/typst-claude-skill](https://github.com/ChanMeng666/typst-claude-skill) |
+| `graphify` | [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) |
+
+### `firecrawl`
+
+Source: [firecrawl/firecrawl-claude-plugin](https://github.com/firecrawl/firecrawl-claude-plugin)
+
+Web scraping and search. Skills: `firecrawl`, `firecrawl-developer-index`, `firecrawl-research-index`
+
+### `frontend-design`
+
+Source: [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) (`plugins/frontend-design`)
+
+Skill: `frontend-design`
+
+### `last30days`
+
+Source: [mvanhorn/last30days-skill](https://github.com/mvanhorn/last30days-skill)
+
+Research what happened in the last 30 days. Skill: `last30days`. Native on Codex.
+
+### `ponytail`
+
+Source: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)
+
+Skills: `ponytail`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`, `ponytail-review`. Native on Codex and OpenCode.
+
+### `duet`
+
+Source: [bokuhe/claude-duet](https://github.com/bokuhe/claude-duet)
+
+Claude-duet commands (Claude Code plugin layout). No flattened skills for other agents.
+
+### `understand-anything`
+
+Source: [Egonex-AI/Understand-Anything](https://github.com/Egonex-AI/Understand-Anything)
+
+Codebase knowledge graphs. Skills: `understand`, `understand-chat`, `understand-dashboard`, `understand-diff`, `understand-domain`, `understand-explain`, `understand-figma`, `understand-knowledge`, `understand-onboard`
+
+### Spartan packs
+
+Source: [c0x12c/ai-toolkit](https://github.com/c0x12c/ai-toolkit) (pinned release in `flake.nix`)
+
+One Nix bundle per Spartan pack (`spartan-<pack>`). Packs pull in `spartan-core` (and other `depends`) automatically. Besides skills they also ship commands, rules, subagents, and CLAUDE.md sections.
+
+| Bundle | Depends on | Skills |
+|--------|------------|--------|
+| `spartan-core` | | (commands / rules / subagents / context; no skills) |
+| `spartan-database` | `spartan-core` | `database-patterns`, `database-table-creator` |
+| `spartan-shared-backend` | `spartan-core` | (rules only) |
+| `spartan-backend-micronaut` | `spartan-core`, `spartan-database`, `spartan-shared-backend` | `api-endpoint-creator`, `backend-api-design`, `kotlin-best-practices`, `security-checklist`, `testing-strategies` |
+| `spartan-frontend-react` | `spartan-core` | `browser-qa`, `js-security-audit` |
+| `spartan-infrastructure` | `spartan-core` | `terraform-best-practices`, `terraform-module-creator`, `terraform-review`, `terraform-security-audit`, `terraform-service-scaffold` |
+| `spartan-ops` | `spartan-core` | `ops-investigate-alert`, `ops-oncall-log` |
+| `spartan-product` | `spartan-core` | `web-to-prd` |
+| `spartan-research` | `spartan-core`, `spartan-product` | `article-writing`, `brainstorm`, `competitive-teardown`, `content-engine`, `deep-research`, `idea-validation`, `investor-materials`, `investor-outreach`, `market-research`, `startup-pipeline` |
+| `spartan-ux-design` | `spartan-core` | `design-intelligence`, `design-workflow` |
+
+Full command lists live in the toolkit’s `packs/*.yaml`; this repo reads those packs via [`lib/pack.nix`](./lib/pack.nix).
 
 ## Agents
 
