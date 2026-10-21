@@ -1,5 +1,12 @@
 # anikonistack
 
+[![skills.sh](https://skills.sh/b/kidskoding/anikonistack)](https://skills.sh/kidskoding/anikonistack)
+[![CI](https://img.shields.io/github/actions/workflow/status/kidskoding/anikonistack/ci.yml?branch=main&label=CI)](https://github.com/kidskoding/anikonistack/actions)
+[![Nix](https://img.shields.io/badge/Nix-flakes-informational?logo=nixos&logoColor=white)](https://nixos.org)
+[![skills](https://img.shields.io/badge/skills-12-blue)](./skills)
+[![npm](https://img.shields.io/badge/npx-skills%20add-cb3837?logo=npm&logoColor=white)](https://www.npmjs.com/package/skills)
+[![bun](https://img.shields.io/badge/bunx-skills%20add-f9f1e1?logo=bun&logoColor=black)](https://bun.sh)
+
 **One catalog. Every agent.** Declare skills, plugins, and MCP once — ship them to Claude Code, Codex, OpenCode, Cursor, and Antigravity.
 
 | Path | Who it's for | Install |
