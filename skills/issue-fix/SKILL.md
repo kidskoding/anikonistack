@@ -155,7 +155,7 @@ Follow the `/commit` skill. Use this format:
 git commit -m "$(cat <<'EOF'
 fix(<scope>): resolve issue #<number> — <short description>
 
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Cursor <cursoragent@cursor.com>
 EOF
 )"
 ```

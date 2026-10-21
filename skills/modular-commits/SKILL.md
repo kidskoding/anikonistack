@@ -143,10 +143,13 @@ Then commit with the `commit` skill's format:
 git commit -m "$(cat <<'EOF'
 feat(auth): add OAuth login
 
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Cursor <cursoragent@cursor.com>
 EOF
 )"
 ```
+
+(Use the `commit` skill’s attribution rules: Cursor only, no Claude, no duplicate
+if a hook already added the Cursor trailer.)
 
 Repeat per group. After each commit, `git diff --stat` should shrink by exactly
 that commit's lines.

@@ -77,7 +77,7 @@ Always pass the message via HEREDOC to preserve formatting:
 git commit -m "$(cat <<'EOF'
 <type>(<scope>): <description> (fixes #N if applicable)
 
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Cursor <cursoragent@cursor.com>
 EOF
 )"
 ```
@@ -93,11 +93,14 @@ git log --oneline -3
 
 ## Attribution
 
-When Claude creates a commit, add a co-author line in the commit body:
+When Cursor creates a commit, credit it in the commit body (not Claude or other tools):
 
-- `Co-Authored-By: Claude <noreply@anthropic.com>`
+- `Co-Authored-By: Cursor <cursoragent@cursor.com>`
 
-The human remains the commit `author`; the co-author line credits Claude.
+The human remains the commit `author`; the co-author line credits Cursor.
+
+If a Cursor git hook already appends that same trailer, do **not** add a second copy —
+one Cursor co-author line is enough. Never add `Co-Authored-By: Claude …`.
 
 ---
 
