@@ -3,7 +3,7 @@
 [![skills.sh](https://skills.sh/b/kidskoding/anikonistack)](https://skills.sh/kidskoding/anikonistack)
 [![CI](https://img.shields.io/github/actions/workflow/status/kidskoding/anikonistack/ci.yml?branch=main&label=CI)](https://github.com/kidskoding/anikonistack/actions)
 [![Nix](https://img.shields.io/badge/Nix-flakes-informational?logo=nixos&logoColor=white)](https://nixos.org)
-[![skills](https://img.shields.io/badge/skills-12-blue)](./skills)
+[![skills](https://img.shields.io/badge/skills-13-blue)](./skills)
 [![npm](https://img.shields.io/badge/npx-skills%20add-cb3837?logo=npm&logoColor=white)](https://www.npmjs.com/package/skills)
 [![bun](https://img.shields.io/badge/bunx-skills%20add-f9f1e1?logo=bun&logoColor=black)](https://bun.sh)
 
@@ -195,6 +195,16 @@ Technical editor for developer posts: find the idea inside an experience, then d
 **Use when:** `"write a blog post"`, critique a draft, internship/project → article, LinkedIn, DEV.to import.
 
 Supporting files: `editor-workflow.md`, `style-guide.md`, `portfolio.md`, `news-analysis.md`.
+
+### Desktop & capture
+
+#### [`desktop-screenshot`](./skills/desktop-screenshot/SKILL.md)
+
+Capture the real Linux desktop (any app) via Wayland `grim` / niri — not browser-only Playwright shots. Script under `scripts/capture.sh`; agent must `Read` the PNG afterward.
+
+**Use when:** `"screenshot my screen"`, `"what's on my desktop"`, `"look at this window"`, native UI / compositor debugging.
+
+**Requires:** Wayland session + `grim` (`slurp` optional). Falls back to `nix shell nixpkgs#grim` if needed.
 
 ### Project hygiene
 
