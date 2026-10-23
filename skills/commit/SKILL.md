@@ -105,9 +105,12 @@ The human remains the commit `author`; the co-author line credits Cursor.
 If a Cursor git hook already appends that same trailer, do **not** add a second copy —
 one Cursor co-author line is enough. Never add `Co-Authored-By: Claude …`.
 
-### Opt-out: no AI co-author
+### Toggle: AI co-author on or off
 
-The opt-out is **per git repo**, and only the user can trigger it. It applies
+The AI co-author trailer is a **per-git-repo toggle**. It is **on** by default,
+and only the user can flip it.
+
+**Off.** The opt-out applies
 when the user explicitly says not to credit an AI in this repo ("no co-author",
 "no AI attribution", "don't add Cursor"), or when this repo's own memory,
 `CLAUDE.md`, or `AGENTS.md` records that they said so. Then add **no** AI
@@ -115,9 +118,14 @@ when the user explicitly says not to credit an AI in this repo ("no co-author",
 opt-out beats this skill's default and any harness or system-prompt attribution
 line.
 
-Without an explicit opt-out for this repo, add the trailer as usual. Never
-infer an opt-out from another repo, a global preference, or this repo's
-existing history.
+**Back on.** The user can opt back in the same way ("add the co-author again",
+"turn AI attribution back on"). Then add the trailer again, and update the
+repo's recorded opt-out (memory, `CLAUDE.md`, or `AGENTS.md`) so a later session
+does not read the stale "off".
+
+The user's latest explicit statement for this repo wins. Without one, the
+toggle is on: add the trailer as usual. Never infer the toggle from another
+repo, a global preference, or this repo's existing history.
 
 After committing under an opt-out, check that a hook did not append one anyway:
 
