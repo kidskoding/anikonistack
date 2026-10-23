@@ -117,12 +117,23 @@ The user's voice is connected and conversational. Sentences flow into each other
 | The Drizzle part is identical. Same query, same builder. | The Drizzle part is identical, with the same query and the same builder. |
 | I knew what serverless meant. Functions, no servers, pay per request. Checkmark. | I knew what serverless meant: functions, no servers to manage, and paying per request. In my head, it already had a checkmark. |
 | Part of it is in the README. Part is in a setup script. Part is in someone's shell config. | Part of it lives in the README, part in a setup script, and part in someone's shell config. |
+| The usual reasons not to switch are that setup takes weeks and that you must memorize a wiki of keys. | Many people are hesitant to switch because they expect setup to take weeks and think they have to memorize a long list of keys first. |
 
 Rules:
 - Merge a run of two or more fragments into one sentence with a connector, a colon, or a list.
 - Contrast belongs in one sentence ("isn't X, but rather Y"), not split across two.
 - Staccato is allowed only as a deliberate beat: the opening hook (three short lines that set up a question) and the closing lines. Everywhere else, flow.
 - Keep the user's own phrasing when smoothing; connect around it rather than rewriting it.
+
+## Plain Grammar
+
+Flowing is not the same as long. A sentence that hangs everything off an abstract noun ("The usual reasons not to switch are that X and that Y") is grammatical but reads as a run-on, because the reader has to hold a stacked "that ... and that ..." clause before reaching the point. Give the sentence a person or thing as the subject and a plain verb, then the reason: "Many people are hesitant to switch because X."
+
+- Lead with who does what ("Many people hesitate because...", "Most tutorials start with..."), not with "The reason is that...", "The problem is that...", or "What this means is that...".
+- No stacked "that ... and that ..." clauses. If a sentence needs two, use "because" or split it into two full sentences.
+- One idea per sentence, two at most when joined by a connector. Flowing means connected, not chained.
+- Use words literally ("a long list of keys", not "a wiki of keys"). A figurative noun makes the reader translate before they can follow.
+- Read the sentence aloud. If you would not say it that way to a friend, rewrite it.
 
 ## Tutorials and Guides
 
@@ -132,6 +143,7 @@ Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should 
 - **No tagline blockquote under every heading.** The first paragraph does that job.
 - **No repeated label scaffolds** like *Ships with:* / *Also worth a look:* / *Verdict:* in every section. Write comparisons as connected paragraphs: what ships, what the alternatives are, and which to pick and why.
 - **Introduce notation gradually.** Never open with a block of keybindings, commands, or syntax the reader can't read yet. Describe the outcome in prose first ("you rename a function across every file without touching the mouse"), then teach each key or command at the point where it's used, with its meaning. Don't use a key in an example before the section that explains it.
+- **Teach in chronological order.** Walk the reader through the steps they actually take. Define a term the first time it appears in that sequence, then refer back to it later ("the same `:qa` as after first launch"). Do not front-load glossary tables, dual-installer lectures, or tool names before the reader has a reason to open that screen.
 - **Don't list every key or flag.** Give the two or three you need to start, then point to the tool's own discovery mechanism (a which-key menu, `--help`, a picker) for the rest. Dense key lists read as a manual and lose the reader.
 - **Address the reader as you.** Conversion and setup posts are persuading the person reading, not narrating about "beginners," "newcomers," or "people who switch." Prefer "five rows you will actually use" over "five rows beginners use."
 - Install steps, platform variants, and troubleshooting go in an appendix, linked from one line, so they don't interrupt the story.
