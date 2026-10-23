@@ -170,6 +170,18 @@ Use backticks only for things that are code or point at code. Everything else st
 Wrong: `Lua` files, a `JSON` blob, open the `Marketplace`
 Right: **Lua** files, a **JSON** blob, open the Marketplace; edit `settings.json`; run `:Lazy`
 
+### Vim / Neovim mode names (portfolio)
+
+When a post names editor modes in prose (not inside a code fence), use the `VimMode` chip so they match the gruvbox statusline: yellow Normal, blue Insert, orange Visual, green Command, purple Terminal.
+
+```mdx
+import VimMode from '../../../components/VimMode.astro';
+
+…in <VimMode mode="normal" /> mode… drop into <VimMode mode="insert" />…
+```
+
+Do not backtick or bold mode names in that case; the chip is the highlight. Leave `"Normal"` alone inside Lua/code fences (highlight groups, string literals).
+
 ## Professional Reflection
 
 One month of experience is not universal expertise. Share an evolving mental model:
