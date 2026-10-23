@@ -22,7 +22,7 @@ in {
       // lib.optionalAttrs cfg.gruvbox {
         "${config.programs.claude-code.configDir}/themes/gruvbox.json".text = builtins.toJSON {
           name = "Gruvbox";
-          base = "dark-ansi";
+          base = "dark";
           overrides = {
             userMessageBackground = "#3c3836";
             userMessageBackgroundHover = "#504945";
@@ -38,12 +38,12 @@ in {
             success = "#b8bb26";
             error = "#fb4934";
             warning = "#fabd2f";
-            diffAdded = "#3d4220";
-            diffAddedDimmed = "#32361a";
-            diffAddedWord = "#5b6b1f";
-            diffRemoved = "#4a2523";
-            diffRemovedDimmed = "#3c1f1e";
-            diffRemovedWord = "#7c2b27";
+            diffAdded = "#4f5520";
+            diffAddedDimmed = "#3a3e1c";
+            diffAddedWord = "#79740e";
+            diffRemoved = "#5c2a26";
+            diffRemovedDimmed = "#3f2220";
+            diffRemovedWord = "#9d0006";
           };
         };
       };
