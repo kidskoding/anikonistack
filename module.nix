@@ -46,7 +46,7 @@ in {
     skip = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
-      example = ["resolving-merge-conflicts"];
+      example = ["grill-me"];
       description = "Single skills, commands, rules or subagents to remove after merging bundles.";
     };
 

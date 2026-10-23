@@ -21,7 +21,6 @@ in {
       migrate-to-shoehorn = "${mp}/skills/misc/migrate-to-shoehorn";
       prototype = "${mp}/skills/engineering/prototype";
       research = "${mp}/skills/engineering/research";
-      resolving-merge-conflicts = "${mp}/skills/engineering/resolving-merge-conflicts";
       scaffold-exercises = "${mp}/skills/misc/scaffold-exercises";
       setup-matt-pocock-skills = "${mp}/skills/engineering/setup-matt-pocock-skills";
       setup-pre-commit = "${mp}/skills/misc/setup-pre-commit";

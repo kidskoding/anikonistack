@@ -288,12 +288,13 @@ Nothing is on by default. Pick bundles once; every enabled agent gets them unles
 ```nix
 anikonistack = {
   bundles = [ "custom" "mattpocock" "superpowers" "caveman" "spartan-core" ];
-  skip    = [ "resolving-merge-conflicts" ];
+  skip    = [ "grill-me" ];
 
   agents = {
     claude-code = {
       enable = true;
       statusline = true;                    # hooks/statusline.sh
+      gruvbox = true;                       # Claude Code theme
     };
     codex.enable = true;
     cursor = {
@@ -384,7 +385,7 @@ Engineering + productivity skills for real apps (grill sessions, TDD, architectu
 | Align / plan | `grill-me`, `grilling`, `grill-with-docs`, `ask-matt`, `to-spec`, `to-tickets`, `triage`, `wayfinder`, `implement` |
 | Code quality | `tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `domain-modeling`, `improve-codebase-architecture`, `prototype`, `research`, `wizard` |
 | Productivity | `handoff`, `teach`, `loop-me`, `claude-handoff` |
-| Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `resolving-merge-conflicts`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape` |
+| Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape` |
 
 ### `caveman`
 
@@ -473,7 +474,7 @@ Full command lists live in the toolkit’s `packs/*.yaml`; this repo reads those
 
 | Agent | What the adapter installs |
 |-------|---------------------------|
-| `claude-code` | plugins, skills, commands, rules, subagents, scripts, context; optional `statusline` |
+| `claude-code` | plugins, skills, commands, rules, subagents, scripts, context; optional `statusline`, `gruvbox` |
 | `codex` | native plugins (caveman, ponytail, superpowers, last30days), skills |
 | `opencode` | native plugins (ponytail, superpowers), skills |
 | `antigravity` | skills |
