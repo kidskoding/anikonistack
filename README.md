@@ -437,6 +437,12 @@ Source: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)
 
 Skills: `ponytail`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`, `ponytail-review`. Native on Codex and OpenCode.
 
+### `open-steps`
+
+Source: [kharmanskyi/open-steps](https://github.com/kharmanskyi/open-steps)
+
+Plain-language session reports, decisions, and next steps. Skills: `os-ask-simple`, `os-big-picture`, `os-check-work`, `os-done-or-not`, `os-say-simple`, `os-step-by-step`, `os-what-could-go-wrong`, `os-whats-next`. Appends `docs/routing-block.md` to `CLAUDE.md`.
+
 ### `duet`
 
 Source: [bokuhe/claude-duet](https://github.com/bokuhe/claude-duet)

@@ -73,6 +73,10 @@
       url = "github:mvanhorn/last30days-skill";
       flake = false;
     };
+    open-steps = {
+      url = "github:kharmanskyi/open-steps";
+      flake = false;
+    };
   };
 
   outputs = {

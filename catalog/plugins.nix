@@ -45,6 +45,12 @@
     native.codex = inputs.last30days;
   };
 
+  open-steps = {
+    description = "plain-language session reports, decisions and next steps";
+    plugin = inputs.open-steps;
+    context."90-open-steps/routing-block.md" = builtins.readFile "${inputs.open-steps}/docs/routing-block.md";
+  };
+
   duet = {
     description = "claude-duet commands (Claude Code only)";
     plugin = "${inputs.claude-duet}/plugins/duet";
