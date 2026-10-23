@@ -24,8 +24,8 @@ in {
           name = "Gruvbox";
           base = "dark-ansi";
           overrides = {
-            userMessageBackground = "#282828";
-            userMessageBackgroundHover = "#3c3836";
+            userMessageBackground = "#3c3836";
+            userMessageBackgroundHover = "#504945";
             bashMessageBackgroundColor = "#282828";
             memoryBackgroundColor = "#282828";
             selectionBg = "#504945";
