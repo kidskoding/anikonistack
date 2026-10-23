@@ -149,7 +149,10 @@ EOF
 ```
 
 (Use the `commit` skill’s attribution rules: Cursor only, no Claude, no duplicate
-if a hook already added the Cursor trailer.)
+if a hook already added the Cursor trailer. If the user explicitly opted out
+of AI attribution for this repo, omit the trailer from **every** commit in the
+split, and check each one for a hook-added trailer before the push. No explicit
+opt-out → add the trailer.)
 
 Repeat per group. After each commit, `git diff --stat` should shrink by exactly
 that commit's lines.
@@ -193,6 +196,7 @@ Report the SHAs and subjects.
 | A count was requested | hit it; if it doesn't divide honestly, offer both and let the user pick |
 | `superpowers:writing-plans` is in your skills list | use it for the Step 4 plan |
 | It isn't listed | inline plan, same approval gate |
+| User explicitly opted out of AI co-author in this repo | no `Co-Authored-By` trailer on any commit |
 
 ## Common Mistakes
 

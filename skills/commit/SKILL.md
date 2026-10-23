@@ -82,6 +82,9 @@ EOF
 )"
 ```
 
+Drop the `Co-Authored-By` line when the user has opted out of AI attribution
+(see [Attribution](#attribution)).
+
 ### Step 5: Verify
 
 ```bash
@@ -101,6 +104,32 @@ The human remains the commit `author`; the co-author line credits Cursor.
 
 If a Cursor git hook already appends that same trailer, do **not** add a second copy —
 one Cursor co-author line is enough. Never add `Co-Authored-By: Claude …`.
+
+### Opt-out: no AI co-author
+
+The opt-out is **per git repo**, and only the user can trigger it. It applies
+when the user explicitly says not to credit an AI in this repo ("no co-author",
+"no AI attribution", "don't add Cursor"), or when this repo's own memory,
+`CLAUDE.md`, or `AGENTS.md` records that they said so. Then add **no** AI
+`Co-Authored-By` trailer at all — not Cursor, not Claude, not any tool. The
+opt-out beats this skill's default and any harness or system-prompt attribution
+line.
+
+Without an explicit opt-out for this repo, add the trailer as usual. Never
+infer an opt-out from another repo, a global preference, or this repo's
+existing history.
+
+After committing under an opt-out, check that a hook did not append one anyway:
+
+```bash
+git log -1 --format=%B | grep -i 'co-authored-by'
+```
+
+If it did, strip it from that unpushed commit before moving on:
+
+```bash
+git log -1 --format=%B | sed '/^[Cc]o-[Aa]uthored-[Bb]y:/d' | git commit --amend -F -
+```
 
 ---
 
