@@ -139,15 +139,36 @@ Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should 
 
 Bold is a skim path, not decoration. A reader who reads only the bold text should still follow the argument, so each bold phrase is one step of it.
 
-- About one per section, roughly 5–8 in a full post.
+- About one per section, roughly 5–8 in a full post for argument turns.
 - Bold the sentence or clause where a section turns: the realization, the reframe, the line that connects one example to the next. Always bold the thesis sentence when it finally lands.
 - Prefer a clause over a single word. "**the database stopped being something the function grabs from a module and became something it asks for**" beats "**dependency**".
+- Also bold **language and format names** when they matter in prose (**Lua**, **JSON**, **Python**, **TypeScript**, **Rust**). That is emphasis, not code.
 
 Do not bold:
-- tool or company names (that reads like a résumé, the thing the post argues against)
+- tool or company names used as résumé tokens (Effect, Nix, Cloudflare as a list) — different from language names above
 - pull quotes (the blockquote already sets them apart)
 - text that repeats a heading
 - the closing lines (the ending should land through white space, not weight)
+- UI labels that are not code (Find Word, Marketplace, Settings Sync): leave plain
+
+## Inline code (backticks)
+
+Use backticks only for things that are code or point at code. Everything else stays plain or bold per the rules above.
+
+**Backtick:**
+- file and directory paths: `settings.json`, `lua/plugins/gruvbox.lua`, `~/.config/nvim`
+- commands and keys: `nvim`, `:Lazy`, `:Mason`, `ciw`, `<Leader>ff`, `F7`, `Esc`
+- identifiers, options, and code tokens: `opts`, `nil`, `priority`, `SignColumn`, `owner/repo`, `pack.python`
+- plugin / package / binary ids when naming the installable: `lualine`, `bufferline`, `lazygit`, `claudecode.nvim`, `ty`, `ruff`, `lua_ls`, `gruvbox` (as a colorscheme id), `which-key`
+- short inline snippets: `opts = { ... }`, `"ellisonleao/gruvbox.nvim"`
+
+**Do not backtick:**
+- language or format names in running prose: write **Lua** / **JSON**, not `Lua` / `JSON`
+- product or UI chrome in plain English: Explorer, Marketplace, Command Palette, Find Word, Bookmarks
+- ordinary words that happen to be technical (session, dashboard, plugin, extension) unless you mean a specific code symbol
+
+Wrong: `Lua` files, a `JSON` blob, open the `Marketplace`
+Right: **Lua** files, a **JSON** blob, open the Marketplace; edit `settings.json`; run `:Lazy`
 
 ## Professional Reflection
 

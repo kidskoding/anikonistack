@@ -50,6 +50,8 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 - **Numbered lists render without numbers** in `src/pages/blog/[...id].astro` (only `ul` is styled). Use headings or bullets for sequences.
 - **Mermaid does not render** (only `@astrojs/mdx` is installed). Draw diagrams as ASCII in a ```` ```text ```` fence, or put an image in `public/blog/`.
 - **No `og:image` or Twitter card tags** in the blog layout, so LinkedIn link previews show no cover. Mention it when the user plans to share on LinkedIn.
-- **Bold renders green** (`[&_strong]:text-nvim-green` in `src/pages/blog/[...id].astro`), so every bold phrase is a bright highlight. Keep to the skim-path budget in `style-guide.md`; heavy bolding turns the page green.
-- **Code blocks use Shiki's `gruvbox-dark-hard` theme** (`#1d2021` background, set in `astro.config.mjs`). Hand-built code-like blocks (HTML in MDX) should use `bg-nvim-bg-hard` to match. Inline code renders orange on a dark chip; without that style it would be invisible, because the whole site font is monospace.
+- **Bold renders green** (`[&_strong]:text-nvim-green` in `src/pages/blog/[...id].astro`), so every bold phrase is a bright highlight. Keep to the skim-path budget in `style-guide.md`; heavy bolding turns the page green. Language names (**Lua**, **JSON**, …) are bold by design; do not put them in backticks.
+- **Inline code renders orange** on a dark chip (paths, keys, commands, identifiers). Follow Inline code (backticks) in `style-guide.md`: backtick code refs only, never language names or UI labels.
+- **Code blocks use Shiki's `gruvbox-dark-medium` theme** (with bright-red deleted lines; see `astro.config.mjs`). Hand-built code-like blocks (HTML in MDX) should use `bg-nvim-bg-hard` to match. Without the inline-code style, chips would be invisible, because the whole site font is monospace.
 - **Code blocks have no bottom margin**, so the user adds `<br />` (blank line on each side) after each code block before the next paragraph.
+- **No em dashes** in portfolio posts (use commas, periods, or parentheses). The vscode-to-neovim post and similar conversion guides enforce this.
