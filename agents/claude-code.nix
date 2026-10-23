@@ -38,6 +38,12 @@ in {
             success = "#b8bb26";
             error = "#fb4934";
             warning = "#fabd2f";
+            diffAdded = "#3d4220";
+            diffAddedDimmed = "#32361a";
+            diffAddedWord = "#5b6b1f";
+            diffRemoved = "#4a2523";
+            diffRemovedDimmed = "#3c1f1e";
+            diffRemovedWord = "#7c2b27";
           };
         };
       };
