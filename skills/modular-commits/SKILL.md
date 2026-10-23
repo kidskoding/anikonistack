@@ -143,13 +143,13 @@ Then commit with the `commit` skill's format:
 git commit -m "$(cat <<'EOF'
 feat(auth): add OAuth login
 
-Co-Authored-By: Cursor <cursoragent@cursor.com>
+Co-Authored-By: <your agent's trailer — see commit skill>
 EOF
 )"
 ```
 
-(Use the `commit` skill’s attribution rules: Cursor only, no Claude, no duplicate
-if a hook already added the Cursor trailer. The trailer is a per-repo toggle,
+(Use the `commit` skill’s attribution rules: credit the harness you are running
+in, one trailer per commit, no duplicate if a hook already added it. The trailer is a per-repo toggle,
 on by default. If the user's latest explicit word for this repo turned it off,
 omit the trailer from **every** commit in the split, and check each one for a
 hook-added trailer before the push. Otherwise add the trailer.)

@@ -77,7 +77,7 @@ Always pass the message via HEREDOC to preserve formatting:
 git commit -m "$(cat <<'EOF'
 <type>(<scope>): <description> (fixes #N if applicable)
 
-Co-Authored-By: Cursor <cursoragent@cursor.com>
+Co-Authored-By: <your agent's trailer — see Attribution>
 EOF
 )"
 ```
@@ -96,14 +96,30 @@ git log --oneline -3
 
 ## Attribution
 
-When Cursor creates a commit, credit it in the commit body (not Claude or other tools):
+Credit the **agent harness you are running in** — the tool the user is driving
+(Claude Code, Cursor, Codex, …) — not a fixed tool and not the underlying model.
+Cursor running a Claude model is still Cursor.
 
-- `Co-Authored-By: Cursor <cursoragent@cursor.com>`
+Pick the trailer in this order:
 
-The human remains the commit `author`; the co-author line credits Cursor.
+1. **The harness supplies one.** Some harnesses hand you the exact line (Claude
+   Code does, in a system reminder). Use it verbatim.
+2. **Known harness.** Otherwise use its usual trailer:
 
-If a Cursor git hook already appends that same trailer, do **not** add a second copy —
-one Cursor co-author line is enough. Never add `Co-Authored-By: Claude …`.
+   | Harness | Trailer |
+   |---------|---------|
+   | Claude Code | `Co-Authored-By: Claude <noreply@anthropic.com>` |
+   | Cursor | `Co-Authored-By: Cursor <cursoragent@cursor.com>` |
+
+3. **Anything else** (Codex, other agents) with no documented trailer: ask the
+   user once which line to use, then record the answer in the repo. Do not
+   invent an email address.
+
+The human remains the commit `author`; the co-author line credits the agent.
+
+Exactly one AI co-author line per commit. If a harness git hook already appends
+the trailer, do **not** add a second copy, and never credit a harness you are
+not running in.
 
 ### Toggle: AI co-author on or off
 
@@ -112,9 +128,9 @@ and only the user can flip it.
 
 **Off.** The opt-out applies
 when the user explicitly says not to credit an AI in this repo ("no co-author",
-"no AI attribution", "don't add Cursor"), or when this repo's own memory,
+"no AI attribution", "don't credit the agent"), or when this repo's own memory,
 `CLAUDE.md`, or `AGENTS.md` records that they said so. Then add **no** AI
-`Co-Authored-By` trailer at all — not Cursor, not Claude, not any tool. The
+`Co-Authored-By` trailer at all, whichever harness you are. The
 opt-out beats this skill's default and any harness or system-prompt attribution
 line.
 
