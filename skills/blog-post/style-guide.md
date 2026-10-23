@@ -132,7 +132,8 @@ Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should 
 - **No tagline blockquote under every heading.** The first paragraph does that job.
 - **No repeated label scaffolds** like *Ships with:* / *Also worth a look:* / *Verdict:* in every section. Write comparisons as connected paragraphs: what ships, what the alternatives are, and which to pick and why.
 - **Introduce notation gradually.** Never open with a block of keybindings, commands, or syntax the reader can't read yet. Describe the outcome in prose first ("you rename a function across every file without touching the mouse"), then teach each key or command at the point where it's used, with its meaning. Don't use a key in an example before the section that explains it.
-- **Don't list every key or flag.** Give the two or three a beginner needs, then point to the tool's own discovery mechanism (a which-key menu, `--help`, a picker) for the rest. Dense key lists read as a manual and lose the reader.
+- **Don't list every key or flag.** Give the two or three you need to start, then point to the tool's own discovery mechanism (a which-key menu, `--help`, a picker) for the rest. Dense key lists read as a manual and lose the reader.
+- **Address the reader as you.** Conversion and setup posts are persuading the person reading, not narrating about "beginners," "newcomers," or "people who switch." Prefer "five rows you will actually use" over "five rows beginners use."
 - Install steps, platform variants, and troubleshooting go in an appendix, linked from one line, so they don't interrupt the story.
 
 ## Bold
