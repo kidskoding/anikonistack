@@ -74,7 +74,7 @@ Snippets: 5–30 lines, trimmed with `// ...`, language tag on every fence, expl
 
 ## Diagrams
 
-Recommend diagrams aggressively when a relationship is visual. Use Mermaid only when the target renders it (the portfolio does not; see `portfolio.md`). Otherwise draw them as ASCII in ```` ```text ```` fences.
+Recommend diagrams aggressively when a relationship is visual. Use Mermaid only when the target renders it (the portfolio does; see `portfolio.md`). Otherwise draw them as ASCII in ```` ```text ```` fences.
 
 - **Architecture:** `Client → Worker → Service → Database`
 - **Dependency boundaries:** `Business Logic → Database Service → Drizzle → Database`

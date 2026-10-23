@@ -28,6 +28,7 @@ import TweetEmbed from '../../components/TweetEmbed.astro';
 
 - `draft: true` while iterating. Drafts are excluded from the build and do not appear on `/blog`, even in the dev server. When a draft is ready to read, tell the user it is hidden and offer to flip it to `false`; warn that committing it as `false` publishes it on the next deploy.
 - Optional `titleLink: { text, href }` links one phrase of the post-page h1. Never put Markdown links in `title`: it is plain text in tabs, cards, and previews.
+- Optional `coverCaption` renders as a muted gray line under the cover (say where or what the photo is).
 - `coverImage` (served from `public/blog/`) and the `TweetEmbed` import only when used. Tweets embed as `<TweetEmbed url="..." />`.
 - News analysis posts end with a `## References` section and cite inline with `<sup>[N](#references)</sup>`.
 - Add `*Originally published on [DEV](<url>).*` only for posts actually on DEV.
@@ -48,11 +49,11 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 - **Frontmatter is `pubDate`, not `date`, and there is no `tags` or `subtitle` field.** Zod strips unknown keys silently.
 - **MDX treats `<` and `{` in prose as JSX.** `Effect<A, E, R>` or `{id}` outside backticks breaks the build.
 - **Numbered lists render without numbers** in `src/pages/blog/[...id].astro` (only `ul` is styled). Use headings or bullets for sequences.
-- **Mermaid does not render** (only `@astrojs/mdx` is installed). Draw diagrams as ASCII in a ```` ```text ```` fence, or put an image in `public/blog/`.
+- **Mermaid renders** at build time: a ```` ```mermaid ```` fence becomes a gruvbox SVG (flowchart, state, sequence, class, ER, xychart; via `beautiful-mermaid` in `src/lib/mermaid.mjs`). Use it for flows and boundaries; keep ASCII ```` ```text ```` fences for annotated code, trees, and side-by-side before/after columns, which Mermaid draws worse.
 - **No `og:image` or Twitter card tags** in the blog layout, so LinkedIn link previews show no cover. Mention it when the user plans to share on LinkedIn.
 - **Bold renders green** (`[&_strong]:text-nvim-green` in `src/pages/blog/[...id].astro`), so every bold phrase is a bright highlight. Keep to the skim-path budget in `style-guide.md`; heavy bolding turns the page green. Language names (**Lua**, **JSON**, …) are bold by design; do not put them in backticks.
 - **Inline code renders orange** on a dark chip (paths, keys, commands, identifiers). Follow Inline code (backticks) in `style-guide.md`: backtick code refs only, never language names or UI labels.
 - **Vim mode names in prose** use `<VimMode mode="normal|insert|visual|command|terminal" />` (`src/components/VimMode.astro`): gruvbox statusline colors (yellow / blue / orange / green / purple). Import it at the top of the MDX. Do not backtick mode names when the chip is used.
 - **Code blocks use Shiki's `gruvbox-dark-medium` theme** (with bright-red deleted lines; see `astro.config.mjs`). Hand-built code-like blocks (HTML in MDX) should use `bg-nvim-bg-hard` to match. Without the inline-code style, chips would be invisible, because the whole site font is monospace.
-- **Code blocks have no bottom margin**, so the user adds `<br />` (blank line on each side) after each code block before the next paragraph.
+- **Code blocks already have `margin: 1rem 0`** (`.blog-content pre` in `global.css`). Never add `<br />` after a code block: it stacks a visible gap on top of the margin.
 - **No em dashes** in portfolio posts (use commas, periods, or parentheses). The vscode-to-neovim post and similar conversion guides enforce this.
