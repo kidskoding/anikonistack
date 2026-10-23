@@ -116,7 +116,7 @@ Review the draft and report findings before changing anything large. Check for:
 - run-on or abstract-noun sentences ("The reason is that...", stacked "that ... and that ..." clauses) and figurative wording; rewrite them as subject + verb + because (see Plain Grammar in `style-guide.md`)
 - in tutorials: keys, commands, or syntax used before they're explained, dense key lists, slogan headings, taglines under headings, or repeated label scaffolds (see Tutorials and Guides in `style-guide.md`)
 - sections that don't serve the central argument
-- overly long paragraphs
+- overly long paragraphs: over ~75 words or doing two jobs (see Paragraph Breaks in `style-guide.md`)
 - weak transitions
 - technical details without purpose
 - unsupported claims

@@ -75,6 +75,7 @@ Decide where the post goes before Stage 5:
 
 - **Inline code vs bold is strict.** Backticks = paths, keys, commands, identifiers, plugin/package ids. Bold = skim-path argument turns plus language/format names (**Lua**, **JSON**, …). Never backtick a language name; never bold a file path. See Bold and Inline code in `style-guide.md`.
 - **Punchy fragments read as choppy to this user.** Default to flowing, connected sentences; keep staccato for the opening hook and the closing beat only (Flowing Sentences in `style-guide.md`).
+- **Flowing does not mean one long paragraph.** Break at each turn (context → action, explanation → bold conclusion) and keep paragraphs near 2–4 sentences (Paragraph Breaks in `style-guide.md`).
 - **Flowing does not mean run-on.** "The usual reasons not to switch are that X and that Y" is grammatical but clunky; write "Many people are hesitant to switch because X." Lead with a subject and a plain verb, and avoid stacked "that ... and that ..." clauses (Plain Grammar in `style-guide.md`).
 - **Tutorials must introduce notation gradually and read as plain English.** Don't open with a wall of keybindings or commands, don't use slogan headings, taglines, or *Verdict:*-style label scaffolds, and teach each key where it's first used (Tutorials and Guides in `style-guide.md`).
 - **The first answer is almost never a full draft.** The user wants an editor. Generating 2,000 words before the thesis is agreed wastes the most valuable step.

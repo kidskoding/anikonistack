@@ -135,6 +135,16 @@ Flowing is not the same as long. A sentence that hangs everything off an abstrac
 - Use words literally ("a long list of keys", not "a wiki of keys"). A figurative noun makes the reader translate before they can follow.
 - Read the sentence aloud. If you would not say it that way to a friend, rewrite it.
 
+## Paragraph Breaks
+
+Flowing sentences still need white space. Break a paragraph when it changes jobs, not only when it gets long:
+
+- Keep paragraphs to about 2–4 sentences or 75 words. Past that, find the turn and split there.
+- Split between context and action: "We develop on Ubuntu under WSL, where setup is imperative…" and "I declared everything in Nix instead…" are two paragraphs.
+- Give a bold conclusion its own short paragraph when it follows an explanation, so the skim path lands on a line by itself.
+- Split before a sentence that starts a new idea with "And because…", "I think that's what…", or "I assumed…".
+- Don't split one thought across paragraphs to look airy; a lone sentence is reserved for the opening and closing beats (Flowing Sentences).
+
 ## Tutorials and Guides
 
 Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should read like regular English prose, not a video script or a reference card. Being inspired by fast technical creators (Vimjoyer, No Boilerplate) means leading with demos and keeping density high; it does not mean adopting a punchy delivery.
