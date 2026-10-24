@@ -19,8 +19,9 @@ in {
       lib.mapAttrs' (rel: source:
         lib.nameValuePair "${config.programs.claude-code.configDir}/scripts/${rel}" {inherit source;})
       s.scripts
+      // anikonistackLib.linkSkills "${config.programs.claude-code.configDir}/skills" s.live
       // lib.optionalAttrs cfg.gruvbox {
-        "${config.programs.claude-code.configDir}/themes/gruvbox.json".source = ../themes/gruvbox.json;
+        "${config.programs.claude-code.configDir}/themes/gruvbox.json".source = anikonistackLib.gruvbox;
       };
 
     programs.claude-code = lib.mkMerge [

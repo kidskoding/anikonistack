@@ -14,5 +14,7 @@ in {
       settings.plugin = lib.mkIf (s.plugins != {}) (lib.attrValues s.plugins);
       inherit (s) skills;
     };
+
+    xdg.configFile = anikonistackLib.linkSkills "opencode/skills" s.live;
   };
 }

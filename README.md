@@ -253,7 +253,7 @@ experience ──► blog-post
 
 ## Full stack (Nix + home-manager)
 
-Use this when you want **the entire agent environment** (custom skills *and* upstream bundles) as read-only symlinks into the Nix store, rebuilt from pinned inputs.
+Use this when you want **the entire agent environment** (custom skills *and* upstream bundles) as symlinks into the Nix store, rebuilt from pinned inputs (or, for your own skills, [linked live to a clone](#live-edits-from-a-local-clone)).
 
 Requires [Nix](https://nixos.org/download) with flakes and [home-manager](https://nix-community.github.io/home-manager/). NixOS itself is **not** required (Linux, macOS, WSL all work).
 
@@ -315,6 +315,16 @@ programs.mcp = {
 ```
 
 Every enabled agent picks them up. Secrets as `${VAR}`: never in this repo.
+
+### Live edits from a local clone
+
+Store symlinks mean every skill tweak costs a commit, a lock bump and a rebuild. Point the module at a clone and the `custom` skills plus the gruvbox theme link straight to it:
+
+```nix
+anikonistack.checkout = "${config.home.homeDirectory}/anikonistack";
+```
+
+Edits under `skills/` and `themes/` then apply on the next agent session, no rebuild. Upstream bundles stay pinned through `flake.lock`. Adding a new skill directory, or changing bundles, still needs a switch. The clone must exist at that path on every machine that sets it.
 
 <details>
 <summary><strong>Migrating from older anikonistack</strong></summary>

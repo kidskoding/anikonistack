@@ -17,10 +17,21 @@ inputs: {
 
   enabled = lib.filter (a: cfg.agents.${a}.enable) agentNames;
 
-  forAgent = agent:
-    resolve.for {
+  live = lib.optionalAttrs (cfg.checkout != null) (lib.mapAttrs (name: _:
+    config.lib.file.mkOutOfStoreSymlink "${cfg.checkout}/skills/${name}")
+  catalog.custom.skills);
+
+  forAgent = agent: let
+    s = resolve.for {
       inherit catalog agent;
       inherit (cfg.agents.${agent}) bundles skip;
+    };
+    linked = lib.intersectLists (lib.attrNames live) (lib.attrNames s.skills);
+  in
+    s
+    // {
+      skills = removeAttrs s.skills linked;
+      live = lib.getAttrs linked live;
     };
 
   names = f: lib.unique (lib.concatMap f (lib.attrValues catalog));
@@ -41,6 +52,13 @@ in {
       default = [];
       example = ["custom" "superpowers" "spartan-core"];
       description = "Bundles every enabled agent gets, unless the agent sets its own `bundles`.";
+    };
+
+    checkout = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = lib.literalExpression ''"''${config.home.homeDirectory}/anikonistack"'';
+      description = "Local clone of this repo. When set, the custom bundle's skills and the gruvbox theme link straight to it, so edits apply without a rebuild.";
     };
 
     skip = lib.mkOption {
@@ -105,6 +123,13 @@ in {
     _module.args.anikonistackLib = {
       inherit inputs;
       for = forAgent;
+
+      linkSkills = dir: lib.mapAttrs' (name: source: lib.nameValuePair "${dir}/${name}" {inherit source;});
+
+      gruvbox =
+        if cfg.checkout != null
+        then config.lib.file.mkOutOfStoreSymlink "${cfg.checkout}/themes/gruvbox.json"
+        else ./themes/gruvbox.json;
 
       statusline = lib.getExe (pkgs.writeShellApplication {
         name = "statusline.sh";
