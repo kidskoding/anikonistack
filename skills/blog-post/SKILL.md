@@ -27,8 +27,9 @@ If nothing is given, ask what the post is about: an experience, a project, somet
 | An existing draft | **Critique** | "Critique Mode" in `editor-workflow.md` |
 | A `dev.to` URL or pasted DEV.to article | **Import** | Mode A below |
 | News, a launch, or an industry move they did not work on | **News analysis** | `news-analysis.md` |
+| A stream, game, sports run or viral moment they want to turn into workplace / career lessons, usually for LinkedIn | **Career reflection** | `career-reflection.md` + `style-guide.md` |
 
-If unsure between Editor and News analysis, ask.
+If unsure between Editor, News analysis and Career reflection, ask.
 
 ## The Core Idea
 
@@ -80,6 +81,8 @@ Decide where the post goes before Stage 5:
 - **Tutorials must introduce notation gradually and read as plain English.** Don't open with a wall of keybindings or commands, don't use slogan headings, taglines, or *Verdict:*-style label scaffolds, and teach each key where it's first used (Tutorials and Guides in `style-guide.md`).
 - **The first answer is almost never a full draft.** The user wants an editor. Generating 2,000 words before the thesis is agreed wastes the most valuable step.
 - **Never invent numbers, quotes, error messages, or events.** If a detail is missing, ask for it or leave it out.
+- **Introduce every person, creator or group on first mention.** Not every reader follows streaming, sports or the industry; give a sentence or two on who they are and what they're known for (Introduce People in `style-guide.md`).
+- **Never write the user's experiences for them.** First-person anecdotes, opinions and commitments you draft get listed back for the user to confirm before publishing.
 - **Internship posts carry disclosure risk.** Run the confidentiality check in `style-guide.md` on every draft about professional work, and never quote employer code into a post.
 - **Check what the target renders before planning visuals.** Mermaid, numbered lists, and embeds depend on the site. Planning a Mermaid diagram for a site that can't render it wastes Stage 4.
 - **A post about several technologies drifts into documentation.** If a section starts with "X is a...", rewrite it to start from the situation where X mattered.

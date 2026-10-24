@@ -267,6 +267,12 @@ Example pair:
 - "The interesting engineering happens at the boundaries between systems."
 - "You haven't necessarily learned a technology just because you've used it before."
 
+## Introduce People
+
+Assume the reader doesn't know who anyone is. On first mention of a person, creator, team or company the post depends on, give one to three sentences: who they are, what they're known for, and why that matters to the story (Jynxzi: "became one of the biggest streamers on Twitch playing Rainbow Six Siege on an Xbox controller"). When several people carry the story, give them their own short section (`## Meet the team`, one `###` each) before the events.
+
+Keep introductions LinkedIn-safe and relevant: skip bans, gambling, lawsuits or drama unless the post is about them, and don't pad with follower counts that aren't part of the point.
+
 ## Company Context and Confidentiality
 
 Use company context only when it explains why a pattern is interesting. Prefer framing like "In a company operating across many products and digital experiences..." over describing internal topology.
