@@ -1,6 +1,6 @@
 ---
 name: project-journal
-description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"). Not for routine commits, config tweaks, refactors, or branch housekeeping.
+description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Asks once per project before journaling, since it is opt-in. Not for routine commits, config tweaks, refactors, or branch housekeeping.
 ---
 
 # Project Journal
@@ -24,19 +24,37 @@ The vault always describes the app **as it works now**. It is not a history of t
 
 The vault belongs to the person learning, not to the repo. **Never commit it and never add it to `.gitignore`**, because both change the shared repo. Exclude it locally with `.git/info/exclude`, which only affects this clone. Anyone who installs this skill builds their own vault from the repo on their own machine, so the skill works for any developer, on any project, without touching what the team shares.
 
-## Disabled Projects
+## Opt-In Per Project
 
-Skip the skill silently (no vault, no notes, no asking) in any project the user's own agent instructions (e.g. `CLAUDE.md`, `AGENTS.md`) list as disabled for project-journal, matched against the basename of the git repo root. The list lives in each user's instructions, not in this skill.
+Not every project needs a journal, so the journal is **off until the user says yes** for that project. The choice is stored in the clone's local git config, which is never committed or shared:
+
+```bash
+git config --local --get project-journal.enabled   # true, false, or nothing (not asked yet)
+```
+
+Check it before doing anything else, every time the skill triggers:
+
+- **`true`**: go ahead.
+- **`false`**: skip silently. Don't ask again, and don't mention the journal.
+- **Not set**: if a vault for this project already exists (`~/vaults/<project>`), the user opted in before; run `git config --local project-journal.enabled true`, say so in one line, and go ahead. Otherwise, ask once, the first time a real trigger happens (not on routine commits): "Want a project journal for `<project>`? It keeps a private, git-excluded Obsidian vault explaining how this app works, and can teach and quiz you on it. You can turn it on or off any time." Store the answer with `git config --local project-journal.enabled true` or `false`. On yes, set up the vault (see Vault Location); on no, skip.
+- **Listed as disabled in the user's own agent instructions** (e.g. `CLAUDE.md`, `AGENTS.md`, matched against the repo root's basename): treat as `false` and never ask. That list lives in each user's instructions, not in this skill.
+
+The user can change it whenever they want:
+
+- **"Enable/turn on the project journal"**: set `true`, then set up or update the vault.
+- **"Disable/turn off the project journal"**: set `false`. Keep the vault and its symlink; tell the user where it is and that turning it back on picks up where it left off. Delete the vault only if they explicitly ask.
+- **"Note this", "journal this", or a Teach Mode request while it's `false`**: the user is asking directly, so ask whether to turn the journal back on instead of skipping.
 
 ## When to Use
 
-Update the vault when the work changes how the application works:
+Only when the journal is enabled for this project (see Opt-In Per Project). Update the vault when the work changes how the application works:
 
 - A PR or finished feature adds a new part of the system, a new tool, or changes how the parts connect (for example: the Worker starts talking to PostgreSQL, a rate limiter is added, a new data model appears)
 - A part of the system is removed or replaced, so the overview and term notes are now wrong
 - The user says "note this", "journal this", "help me understand how this works"
 - The user wants to study, be quizzed, or rehearse explaining the project (use Teach Mode)
 - The project has no vault yet, or has an old-style vault (see Old-Style Vaults)
+- The user asks to enable or disable the project journal
 
 Skip it, without asking, for everything else: routine commits on an unfinished feature, config tweaks, dependency bumps, refactors and renames, tests-only or docs-only changes, typo and formatting fixes, and git housekeeping (stashes, rebases, branch cleanup). Small commits that build toward a feature are covered when that feature's PR is opened or merged.
 
@@ -64,7 +82,7 @@ Areas are subjects a textbook chapter would use ("Cloudflare", "Database", "Fron
 <repo>/vault -> ~/vaults/<project>   # symlink, ignored locally only
 ```
 
-If the vault doesn't exist, set it up from the repo root:
+Once the journal is enabled and the vault doesn't exist, set it up from the repo root:
 
 ```bash
 project=$(basename "$(git rev-parse --show-toplevel)")
