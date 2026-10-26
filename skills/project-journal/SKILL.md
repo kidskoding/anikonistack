@@ -1,6 +1,6 @@
 ---
 name: project-journal
-description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; or when the user asks to "note this", "journal this", or "explain how this works". Not for routine commits, config tweaks, refactors, or branch housekeeping.
+description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"). Not for routine commits, config tweaks, refactors, or branch housekeeping.
 ---
 
 # Project Journal
@@ -13,6 +13,8 @@ The vault has two kinds of notes:
 
 - **`Home.md`, the architecture overview.** What problem the app solves, the main parts of the system, how they connect, and how one real request moves through them. Diagrams with explanations.
 - **Term notes.** One note per key term: a tool (Cloudflare Workers, Durable Objects, PostgreSQL, Drizzle ORM) or a part of the app (`ReportRepository`, the shared API contract). Each one explains what the term is, what problem it solves in this app, how it works, and how it connects to other terms.
+
+The skill has two jobs on the same vault: **writing** it (keeping the journal accurate as the project changes) and **teaching** from it (see Teach Mode), so the user can explain the project out loud. Teaching also improves the journal: any gap it finds gets written back.
 
 The vault always describes the app **as it works now**. It is not a history of the project. There are no per-PR notes.
 
@@ -34,6 +36,7 @@ Update the vault when the work changes how the application works:
 - A PR or finished feature adds a new part of the system, a new tool, or changes how the parts connect (for example: the Worker starts talking to PostgreSQL, a rate limiter is added, a new data model appears)
 - A part of the system is removed or replaced, so the overview and term notes are now wrong
 - The user says "note this", "journal this", "help me understand how this works"
+- The user wants to study, be quizzed, or rehearse explaining the project (use Teach Mode)
 - The project has no vault yet, or has an old-style vault (see Old-Style Vaults)
 
 Skip it, without asking, for everything else: routine commits on an unfinished feature, config tweaks, dependency bumps, refactors and renames, tests-only or docs-only changes, typo and formatting fixes, and git housekeeping (stashes, rebases, branch cleanup). Small commits that build toward a feature are covered when that feature's PR is opened or merged.
@@ -44,7 +47,8 @@ One vault per project. The real files live **outside the repo**, and a symlink m
 
 ```
 ~/vaults/<project>/        # real vault; <project> = basename of the git repo root
-├── Home.md                # architecture overview: problem, parts, diagrams, terms index
+├── Home.md                # architecture overview: problem, parts, diagrams, learning order, terms index
+├── Practice.md            # Teach Mode results: strong and weak terms, questions missed
 ├── Cloudflare/            # area folder: term notes about one subject
 │   ├── Cloudflare Workers.md
 │   ├── Durable Objects.md
@@ -87,6 +91,48 @@ Use `.git/info/exclude` (local-only ignore list), **never** the shared `.gitigno
 
 A vault with per-PR milestone notes, separate concept notes, or area "map" notes comes from an earlier version of this skill. Don't extend that shape. Tell the user the vault needs a one-time rebuild into the overview-plus-terms shape, and offer to do it: move the old vault to `~/vaults/<project>.bak-<YYYY-MM-DD>`, then write `Home.md` and term notes fresh from the repo, using the old notes only as a source of facts (problems hit, decisions and their reasons) that are still true.
 
+## Teach Mode
+
+A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
+
+### 1. Pick the audience
+
+Ask who the user is preparing for, unless they already said. The audience decides what gets taught and what gets asked:
+
+- **Interviewer.** A software engineer or hiring manager. Cares about architecture, why each tool was chosen over the alternatives, tradeoffs, limits, failure cases, how it would scale, and what the user would change.
+- **Demo customer.** Someone who might use or buy the app. Cares about the problem it solves for them, what they'd actually do in the app, whether it's reliable, whether their data is safe, and what happens when something goes wrong. Technical detail only as far as it answers those.
+
+### 2. Teach what to learn
+
+Read `Practice.md` first: start with terms marked weak and questions missed last time. Then teach in the `Home.md` Learning order, choosing what this audience needs:
+
+- For an **interviewer**: the problem, the parts and how a request flows through them, then each key term (what it is, what problem it solves here, how it works, its limits), and the main tradeoffs.
+- For a **demo customer**: the problem in their words, what the app does about it, and the main flow as they'd see it, with just enough of the system to answer "how does it know?" and "what if it breaks?".
+
+Teach one piece at a time from its note, in plain words, then ask the user to say it back in a sentence or two before moving on. Correct anything wrong or missing and link the note.
+
+### 3. Question the user in character
+
+Tell the user the questioning round is starting, then play the audience. Stay in character for the whole round (about five to eight questions) and don't correct answers mid-round; a real interviewer or customer wouldn't. Ask one question at a time and wait for the answer. Build each next question on what the user just said, the way a real listener digs in.
+
+Go from easy to hard. Open with "walk me through it" (a 30-second version, then two minutes). Then follow up on the user's own answer. Then ask the hard ones, every one grounded in a note or the repo:
+
+- **Interviewer:** "Why X instead of Y?", "What happens if this part goes down?", "What breaks at 100 times the traffic?", "How would you debug a slow request?", "What would you change if you started over?"
+- **Demo customer:** "Why would I use this instead of what I do now?", "What happens if I lose signal?", "Who can see my data?", "How do I know a report is accurate?", "What does it cost me to switch?"
+
+The user can say "pause" at any point to step out of the round and ask for help.
+
+### 4. Debrief and write it down
+
+Step out of character. For each question, say what landed, what was missing or wrong, link the note that covers it, and give a stronger version of the answer in the user's own voice. End with the terms to revisit and the one-line "How I'd say it" for each.
+
+Then update the journal:
+
+- **`Practice.md`**: rewrite it to the current picture (not a log): terms the user explains well, terms that are weak, questions that tripped them up with a pointer to the note that answers each, and the date of the last session.
+- **Notes**: if the user asked something the vault couldn't answer, find the answer in the repo or official docs and add it to the right note. If a note turned out to be wrong, fix it.
+
+Rules for every session: one question at a time; never answer your own question; every explanation and judgment traces to a note or the repo, never memory.
+
 ## Note Shapes
 
 Headings are not fixed. Name each section after what it is actually about ("Why a Worker can't keep a database connection", "Counting requests from every location at once"). "Sources" is the only generic heading allowed. Open every note with a plain paragraph saying what the thing is and why it matters, with no summary callout.
@@ -108,7 +154,8 @@ Cover, in this order:
 3. **Diagrams, each followed by a walkthrough** (see Diagrams): the system diagram, a sequence diagram of one real request end to end, and a data-model diagram if the app stores data.
 4. **Why it is built this way.** The main architectural choices and what they trade off, in plain words, linking the term notes that explain each piece.
 5. **What doesn't exist yet**, if the app is unfinished, so the reader knows which parts of the diagrams are planned.
-6. **Terms index**, grouped by area, linking every term note with a few words each.
+6. **Learning order**: the terms in the order a newcomer should study them, following `learn-first` (parts the user touches first, then what they depend on).
+7. **Terms index**, grouped by area, linking every term note with a few words each.
 
 ### Term notes
 
@@ -121,9 +168,13 @@ area: <Area>
 tags: [term]
 aliases: ["<short names, abbreviations, class names used in code>"]
 official-docs: <url>
-related: ["[[...]]"]
+learn-first: ["[[<terms the reader must understand before this one>]]"]
+uses: ["[[<terms this one calls, reads from, or depends on>]]"]
+used-by: ["[[<terms that call or depend on this one>]]"]
 ---
 ```
+
+`learn-first`, `uses`, and `used-by` make the links say **how** terms relate, not just that they do, and give Teach Mode a learning order. Keep them true in both directions: if A `uses` B, B is `used-by` A.
 
 Every term note must cover:
 
@@ -137,6 +188,21 @@ Every term note must cover:
 - **How I'd say it**: a heading with exactly this name, closing the note with two or three sentences the user could say out loud in an interview or demo to explain the term and why the app uses it.
 
 A term note about a part of the app (e.g. a repository class or the API contract) follows the same shape; "official-docs" can be omitted.
+
+### `Practice.md`
+
+Written only by Teach Mode, and always rewritten to the current picture rather than appended to.
+
+```yaml
+---
+type: practice
+project: <project>
+last-session: YYYY-MM-DD
+audiences: [interviewer, demo-customer]
+---
+```
+
+It lists terms the user explains well, terms that are weak (linked), and the questions that tripped them up, each with the audience that asked it and a link to the note that answers it.
 
 ### `<Project>.base` (optional)
 
@@ -178,5 +244,8 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 | Defining a tool from its docs only | Define it by the job it does in **this** app |
 | Organizing notes by PR, package, or project part | Organize term notes by subject in area folders |
 | Italicizing a term or emphasis (`*Worker*`) | Bold it instead (`**Worker**`) |
+| Links that don't say how terms relate | Fill `learn-first`, `uses`, `used-by`, kept true in both directions |
+| Teach Mode lecturing without making the user explain | Ask the user to explain first, then correct from the notes |
+| Teach Mode answering from memory when the vault lacks it | Check the repo or docs, answer, then write it into the vault |
 | Committing notes to the repo | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` |
 | Inventing problems or decisions | Only record what the repo, PRs, or session show |
