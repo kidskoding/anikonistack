@@ -6,7 +6,9 @@ description: >-
   says "explain X eli5", "ELI5 X", "explain it like I'm five", "what is X",
   "how does X work", "break down X", asks for a study guide or cert walkthrough
   (e.g. "course databricks"), or wants a specific module of a named course
-  explained. Prefer over ad-hoc explanation unless the user only wants code changes.
+  explained. Prefer over ad-hoc explanation unless the user only wants code changes. Not for
+  how the current project works or rehearsing it for an interview or demo (project-journal
+  Teach Mode handles that), or a multi-session course (/teach).
 ---
 
 # eli5

@@ -1,6 +1,6 @@
 ---
 name: project-journal
-description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Asks once per project before journaling, since it is opt-in. Not for routine commits, config tweaks, refactors, or branch housekeeping.
+description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this project works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Asks once per project before journaling, since it is opt-in. Not for general topics unrelated to this project (eli5 explains those; /teach runs a course on them), or for routine commits, config tweaks, refactors, or branch housekeeping.
 ---
 
 # Project Journal
@@ -114,9 +114,19 @@ A vault with per-PR milestone notes, separate concept notes, or area "map" notes
 
 A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
 
+### Which teaching skill handles what
+
+Three skills teach, and each owns one job. Stay in your lane and hand off:
+
+- **project-journal Teach Mode** (this): how **this project** works, and rehearsing it for an interview, demo, or teammate. Grounded in the vault and repo.
+- **`eli5`**: a quick, one-off explanation of a general topic, not tied to this project ("what is a Durable Object in general?").
+- **`/teach`** (user-invoked): a multi-session course on a general topic or tool, with lessons and spaced review ("I want to really learn PostGIS").
+
+If the user asks a general question mid-session, answer it briefly in this project's terms and keep going. If a debrief shows a gap in a tool itself rather than in how this project uses it (for example spatial indexes in general), say so and suggest `/teach <tool>`, or `eli5` for a quick explanation, instead of turning the session into a course. If any of these skills isn't installed, just do the brief explanation yourself.
+
 ### 1. Know the learner and pick the audience
 
-If `Practice.md` doesn't record the user's background yet (for example new grad, frontend developer, backend developer, product manager), ask once and record it. Pitch every explanation to that background: define what they wouldn't know, skip what they would.
+If `Practice.md` doesn't record the user's **mission** yet (why they're learning this project: an interview, a demo, onboarding onto the team, taking over the code), ask once and record it; every session is grounded in it. Likewise, if it doesn't record the user's background yet (for example new grad, frontend developer, backend developer, product manager), ask once and record it. Pitch every explanation to that background: define what they wouldn't know, skip what they would.
 
 Then ask who the user is preparing for, unless they already said. The audience decides what gets taught and what gets asked:
 
@@ -125,12 +135,12 @@ Then ask who the user is preparing for, unless they already said. The audience d
 
 ### 2. Teach what to learn
 
-Read `Practice.md` first: start with terms marked weak and questions missed last time. Then teach in the `Home.md` Learning order, choosing what this audience needs:
+Read `Practice.md` first and space the review: start with terms marked weak, then terms not reviewed for the longest time, then questions missed last time. Mix in a strong term now and then so it stays fresh. Then teach in the `Home.md` Learning order, choosing what this audience needs:
 
 - For an **interviewer**: the problem, the parts and how a request flows through them, then each key term (what it is, what problem it solves here, how it works, its limits), and the main tradeoffs.
 - For a **demo customer**: the problem in their words, what the app does about it, and the main flow as they'd see it, with just enough of the system to answer "how does it know?" and "what if it breaks?".
 
-Teach one piece at a time from its note, in plain words, then ask the user to say it back in a sentence or two before moving on. Correct anything wrong or missing and link the note.
+Teach one piece at a time from its note, in plain words, then ask the user to recall it in their own words before moving on; recall from memory beats rereading. If you use a multiple-choice question, make every option the same length and vary where the right one sits, so the format gives nothing away. Correct anything wrong or missing and link the note.
 
 ### 3. Question the user in character
 
@@ -219,12 +229,13 @@ Written only by Teach Mode, and always rewritten to the current picture rather t
 type: practice
 project: <project>
 last-session: YYYY-MM-DD
+mission: <why the user is learning this project: interview, demo, onboarding, ...>
 learner-background: <e.g. new grad, backend developer, product manager>
 audiences: [interviewer, demo-customer]
 ---
 ```
 
-It lists terms the user explains well, terms that are weak (linked), and the questions that tripped them up, each with the audience that asked it and a link to the note that answers it.
+It lists each term studied with its status (strong or weak) and the date it was last reviewed, so the next session can space the review, and the questions that tripped them up, each with the audience that asked it and a link to the note that answers it.
 
 ### `<Project>.base` (optional)
 
