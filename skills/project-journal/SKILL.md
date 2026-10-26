@@ -1,6 +1,6 @@
 ---
 name: project-journal
-description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; when the user asks to "note this", "journal this", or "explain how this project works"; or when the user wants to learn or rehearse the project ("teach me this project", "quiz me on X", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Asks once per project before journaling, since it is opt-in. Not for general topics unrelated to this project (eli5 explains those; /teach runs a course on them), or for routine commits, config tweaks, refactors, or branch housekeeping.
+description: Keeps a private, git-excluded Obsidian vault that explains how the current project works (architecture overview plus in-depth term notes with diagrams) and teaches and rehearses it with the user. Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model); when the user says "note this", "journal this", or "explain how this project works"; when the user wants to learn or rehearse this project ("teach me this project", "quiz me on this project", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Opt-in: asks once per project. Not for general topics unrelated to this project, multi-session courses on a tool, code navigation questions, or routine commits, config tweaks, refactors, and branch housekeeping.
 ---
 
 # Project Journal
@@ -114,17 +114,21 @@ A vault with per-PR milestone notes, separate concept notes, or area "map" notes
 
 A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
 
-### Which teaching skill handles what
+### Working alongside other skills
 
-Three skills teach, and each owns one job. Stay in your lane and hand off:
+Users install many skills, and this one must never fight them. project-journal owns exactly one thing: the user's **private vault for this project** and **learning and rehearsing how this project works** from it. Look at which skills are installed, then sort a request by category, not by name:
 
-- **project-journal Teach Mode** (this): how **this project** works, and rehearsing it for an interview, demo, or teammate. Grounded in the vault and repo.
-- **`eli5`**: a quick, one-off explanation of a general topic, not tied to this project ("what is a Durable Object in general?").
-- **`/teach`** (user-invoked): a multi-session course on a general topic or tool, with lessons and spaced review ("I want to really learn PostGIS").
+- **General-topic explainers** (for example `eli5`): a quick explanation of a topic not tied to this project ("what is a Durable Object in general?"). Defer to them.
+- **Course or tutor skills** (for example `/teach`): a multi-session course on a general topic or tool. Defer to them.
+- **Code-analysis and navigation skills** (for example `graphify`, `understand`, `understand-explain`, `understand-onboard`): where something lives, what a file does, how modules depend on each other. Defer to them. If they've left output (e.g. `graphify-out/`), you may read it as a source of facts, but the vault stays the user's place to learn.
+- **Other note, doc, or memory skills** (Obsidian helpers, ADR writers, `CLAUDE.md` or `AGENTS.md` updaters): they own their own files. Never write project-journal notes into their files, and never write their content into the vault.
 
-Code-analysis skills (`graphify`, `understand`, `understand-explain`, `understand-onboard`) answer questions about the code: where something lives, what a file does, how modules depend on each other. They don't keep a learning vault or rehearse the user. Leave code-navigation questions to them; when they're installed and have output (e.g. `graphify-out/`), you may use it as a source of facts while writing notes or teaching, but the vault stays the user's place to learn.
+Rules that keep it seamless:
 
-If the user asks a general question mid-session, answer it briefly in this project's terms and keep going. If a debrief shows a gap in a tool itself rather than in how this project uses it (for example spatial indexes in general), say so and suggest `/teach <tool>`, or `eli5` for a quick explanation, instead of turning the session into a course. If any of these skills isn't installed, just do the brief explanation yourself.
+- **Don't duplicate.** If a more specific installed skill clearly fits the request, let it handle it; don't run both.
+- **Hand off out loud.** Never chain into another skill silently. Say in one line what would help and how to start it ("for a full course on PostGIS itself, try `/teach PostGIS`"), and let the user choose.
+- **Degrade gracefully.** If the skill you'd hand off to isn't installed, give a brief answer yourself in this project's terms and carry on.
+- **Mid-session general questions** get a brief answer in this project's terms, then the session continues. If a debrief shows a gap in a tool itself rather than in how this project uses it, say so and suggest the general-topic or course skill instead of turning the session into a course.
 
 ### 1. Know the learner and pick the audience
 
