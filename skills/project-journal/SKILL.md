@@ -1,22 +1,42 @@
 ---
 name: project-journal
-description: Use after a commit, finished task, drafted or merged PR, or other milestone in a project the user is learning from; when the user asks to "note this", "journal this", or "explain what we just did"; or when a project's Obsidian vault is missing earlier milestones and needs backfilling.
+description: Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model) in a project the user is learning from; or when the user asks to "note this", "journal this", or "explain how this works". Not for routine commits, config tweaks, refactors, or branch housekeeping.
 ---
 
 # Project Journal
 
 ## Overview
 
-The user is learning by building. After each milestone, write Obsidian notes that let them **explain what was built, why it matters, and how the tools work** to anyone, from a non-technical friend to a senior engineer.
+The user is learning by building. The vault exists so they **understand how the application works**: what problem it solves, and how it solves it technically. An AI should be able to teach the system from these notes, and the user should be able to read them in Obsidian on their own. Either way, the result is the same: they can explain the app's architecture in a demo, an interview, or to a teammate, and answer follow-up questions.
 
-**Core principle:** notes are about deep understanding, not code and not summaries. The goal is for the user to understand the application, its architecture, and every tool it uses on a deep level: what each piece is, how it works internally, why it was chosen, and how the pieces fit together. A note succeeds when the user can close it and explain the work out loud in detail, answer follow-up questions, and reason about how they would change it.
+The vault has two kinds of notes:
+
+- **`Home.md`, the architecture overview.** What problem the app solves, the main parts of the system, how they connect, and how one real request moves through them. Diagrams with explanations.
+- **Term notes.** One note per key term: a tool (Cloudflare Workers, Durable Objects, PostgreSQL, Drizzle ORM) or a part of the app (`ReportRepository`, the shared API contract). Each one explains what the term is, what problem it solves in this app, how it works, and how it connects to other terms.
+
+The vault always describes the app **as it works now**. It is not a history of the project. There are no per-PR notes.
+
+**The depth bar.** Every note goes in depth, and the bar for "deep enough" is: a smart newcomer who reads only this note (and follows its links), or is taught it by an AI, can explain the term and answer "why?" and "what happens if...?" follow-ups. Go as deep as that needs and no further. A note fails if it only names a term without making it understandable, and it also fails if the explanation is buried under detail the reader doesn't need.
+
+## Disabled Projects
+
+Never journal in these projects (matched against the basename of the git repo root). Don't create a vault, don't write notes, and don't ask; just skip the skill silently:
+
+- `home-manager`
+- `nvim`
+
+To disable another project, add its name here and in `claude-md/01-project-journal.md`.
 
 ## When to Use
 
-- After a commit, a finished task, or a PR (drafted, opened, or merged)
-- The user says "note this", "journal this", "help me understand what we did"
-- The vault is new or missing earlier milestones (see Backfilling)
-- Not for trivial edits (typo fixes, formatting-only commits): skip them or fold them into the next milestone note
+Update the vault when the work changes how the application works:
+
+- A PR or finished feature adds a new part of the system, a new tool, or changes how the parts connect (for example: the Worker starts talking to PostgreSQL, a rate limiter is added, a new data model appears)
+- A part of the system is removed or replaced, so the overview and term notes are now wrong
+- The user says "note this", "journal this", "help me understand how this works"
+- The project has no vault yet, or has an old-style vault (see Old-Style Vaults)
+
+Skip it, without asking, for everything else: routine commits on an unfinished feature, config tweaks, dependency bumps, refactors and renames, tests-only or docs-only changes, typo and formatting fixes, and git housekeeping (stashes, rebases, branch cleanup). Small commits that build toward a feature are covered when that feature's PR is opened or merged.
 
 ## Vault Location
 
@@ -24,12 +44,20 @@ One vault per project. The real files live **outside the repo**, and a symlink m
 
 ```
 ~/vaults/<project>/        # real vault; <project> = basename of the git repo root
-├── Home.md                # the project in plain English + milestone timeline
-├── Milestones/            # one note per PR or milestone
-├── Tools/                 # one evergreen note per tool, grows over time
-├── Concepts/              # ideas that aren't tools (connection pooling, DI, ...)
-└── <Project>.base         # Obsidian Bases overview: Milestones, Not merged yet, Tools, Concepts views
+├── Home.md                # architecture overview: problem, parts, diagrams, terms index
+├── Cloudflare/            # area folder: term notes about one subject
+│   ├── Cloudflare Workers.md
+│   ├── Durable Objects.md
+│   └── ...
+├── Database/
+├── Frontend/
+├── <Area>/                # e.g. Backend and APIs, Tooling, Testing
+└── <Project>.base         # optional Obsidian Bases index of terms by area
+```
 
+Areas are subjects a textbook chapter would use ("Cloudflare", "Database", "Frontend"), not names of packages or PRs. Create a new area folder only when a term doesn't fit an existing one. Note names must be unique across the vault, because wikilinks resolve by name.
+
+```
 <repo>/vault -> ~/vaults/<project>   # symlink, ignored locally only
 ```
 
@@ -37,159 +65,116 @@ If the vault doesn't exist, set it up from the repo root:
 
 ```bash
 project=$(basename "$(git rev-parse --show-toplevel)")
-mkdir -p ~/vaults/"$project"/{Milestones,Tools,Concepts}
+mkdir -p ~/vaults/"$project"
 ln -sfn ~/vaults/"$project" vault
 grep -qxF '/vault' .git/info/exclude || echo '/vault' >> .git/info/exclude
 ```
 
-Then create `Home.md`. Use `.git/info/exclude` (local-only ignore list), **never** the shared `.gitignore`, so the repo itself is unchanged. Confirm with `git status` that `vault` doesn't appear. Obsidian treats any folder as a vault; the user opens it with "Open folder as vault".
+Use `.git/info/exclude` (local-only ignore list), **never** the shared `.gitignore`, so the repo itself is unchanged. Confirm with `git status` that `vault` doesn't appear. Obsidian treats any folder as a vault; the user opens it with "Open folder as vault".
 
 `~/vaults` itself may be a symlink. On WSL it points to a Windows folder (e.g. `/mnt/c/Users/<user>/Documents/vaults`) so the Windows Obsidian app can open the vaults; Windows can't follow Linux symlinks, so the real files must stay on the Windows side. Always write through `~/vaults/...`, and never replace that symlink with a real directory.
 
-**REQUIRED SUB-SKILLS:** Load `obsidian-markdown` before writing notes (wikilinks, callouts, properties). Load `obsidian-bases` before creating or editing the vault's `<Project>.base` overview file.
+**REQUIRED SUB-SKILLS:** Load `obsidian-markdown` before writing notes (wikilinks, callouts, properties, mermaid). Load `obsidian-bases` before creating or editing the vault's `<Project>.base` file.
 
 ## Workflow
 
-1. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the project's roadmap/README, and command output from this session. Never write from memory alone.
-2. **Check the timeline.** If `Home.md` is missing or earlier merged PRs have no milestone note, backfill them first (see Backfilling) so the vault tells the story in order.
-3. **Update `Home.md`**: capture the project's purpose if it isn't there yet, and add the milestone to the timeline.
-4. **Write the milestone note** (template below).
-5. **Create or update a `Tools/` note** for every tool the milestone used. If the note exists, add a "How we used it" entry instead of rewriting it.
-6. **Create `Concepts/` notes** only for ideas the milestone actually relied on.
-7. **Tell the user** which notes you wrote and give the one-sentence summary.
+1. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the README, config files (e.g. `wrangler.jsonc`, `compose.yml`, `package.json`), and command output from this session. Never write from memory alone.
+2. **Update `Home.md`** so the problem statement, the list of parts, every diagram, and the terms index match the app as it works now. If the vault is new, write it from the whole repo, not just this change.
+3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name *and* by `aliases` before creating anything (`find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
+4. **Tell the user** in one or two sentences what changed in their understanding of the app, and which notes you created or updated.
 
-## Backfilling
+## Old-Style Vaults
 
-When starting a vault mid-project, rebuild the story from the beginning:
+A vault with per-PR milestone notes, separate concept notes, or area "map" notes comes from an earlier version of this skill. Don't extend that shape. Tell the user the vault needs a one-time rebuild into the overview-plus-terms shape, and offer to do it: move the old vault to `~/vaults/<project>.bak-<YYYY-MM-DD>`, then write `Home.md` and term notes fresh from the repo, using the old notes only as a source of facts (problems hit, decisions and their reasons) that are still true.
 
-1. List merged PRs oldest first: `gh pr list --state merged --limit 100 --json number,title,mergedAt,url --jq 'sort_by(.mergedAt)'`. Also include pre-PR history (initial scaffold commits) as a "Milestone 0" note.
-2. For each PR, read its body and diff (`gh pr view <n>`, `gh pr diff <n>`). Use the roadmap (e.g. `TODO.md`) for intent.
-3. Write one milestone note per PR in chronological order, building tool notes as each tool first appears. Later notes link back to earlier ones.
-4. Set `status: merged` and `backfilled: true` in properties. Mark "Problems we hit" as "Not recorded" unless the PR body, commits, or review comments show one. Don't invent struggles.
+## Note Shapes
 
-## Milestone Note Template
+Headings are not fixed. Name each section after what it is actually about ("Why a Worker can't keep a database connection", "Counting requests from every location at once"). "Sources" is the only generic heading allowed. Open every note with a plain paragraph saying what the thing is and why it matters, with no summary callout.
 
-File: `Milestones/<NN> PR-<n> <short title>.md` (`NN` is a zero-padded sequence so the folder sorts in story order; use `00` for pre-PR scaffold)
+### `Home.md`: the architecture overview
 
-```markdown
+```yaml
 ---
-type: milestone
-tags: [milestone]
-aliases: ["PR #<n>"]
+type: home
 project: <project>
-sequence: <NN>
-date: YYYY-MM-DD
-pr: <url or "not opened yet">
-status: <local | draft | open | merged>
-tools: ["[[Tool A]]", "[[Tool B]]"]
-previous: "[[<previous milestone>]]"
+repo: <repo url>
 ---
-
-# <Plain-English title: what it lets the product do>
-
-> [!abstract] In one sentence
-> <What we built and why, no jargon.>
-
-## Why it matters
-<The problem for the product or its users, explained fully. Describe what the app looked like before this milestone, what would break or be painful without it, and how it fits into the bigger architecture.>
-
-## What we built
-<Several connected paragraphs, in plain language, describing what now exists, what each part does, and how it connects to the rest of the application.>
-
-## How it works
-<Mermaid diagram of the moving parts, then a detailed step-by-step walkthrough in prose: what happens first, what each part does with the data, what happens when something goes wrong, and why it is built this way. Quote short real snippets from the repo (with file paths) where they help, and explain each line in words.>
-
-## Tools we used
-- [[Tool A]]: <its job in this milestone, in a sentence or two>
-
-## Decisions and tradeoffs
-<Each meaningful choice, the alternatives that existed, and the reasoning, written as connected paragraphs. Include who decided if known (e.g. "boss asked for...").>
-
-## Problems we hit
-<What broke, the real root cause, how we fixed it. These are the best interview stories.>
-
-## Explain it to...
-> [!example]- A non-technical person
-> <2-3 sentences in everyday words: what it does and why anyone should care.>
-
-> [!example]- Your manager
-> <2-3 sentences: value, risk, what it unlocks next.>
-
-> [!example]- An engineer
-> <2-3 sentences: the architecture and the interesting technical detail.>
-
-## Check yourself
-> [!question]- <Question 1>
-> <Answer>
-
-<5-8 questions that test *why* and *how*, not trivia, with full answers.>
-
-## What's next
-<What this unlocks, linked to the next milestone if known.>
-
-## Sources
-<PR link, commit SHAs, docs actually consulted.>
 ```
 
-## Tool Note Template
+Cover, in this order:
 
-File: `Tools/<Tool Name>.md`
+1. **The problem.** Who the app is for, what is broken or missing without it, and what the app does about it, in a few concrete paragraphs.
+2. **The parts of the system.** Each main part (frontend, backend, database, hosting, shared packages), what it is responsible for, and which tools it uses, linking every term.
+3. **Diagrams, each followed by a walkthrough** (see Diagrams): the system diagram, a sequence diagram of one real request end to end, and a data-model diagram if the app stores data.
+4. **Why it is built this way.** The main architectural choices and what they trade off, in plain words, linking the term notes that explain each piece.
+5. **What doesn't exist yet**, if the app is unfinished, so the reader knows which parts of the diagrams are planned.
+6. **Terms index**, grouped by area, linking every term note with a few words each.
 
-```markdown
+### Term notes
+
+File: `<Area>/<Term>.md`.
+
+```yaml
 ---
-type: tool
-tags: [tool]
+type: term
+area: <Area>
+tags: [term]
+aliases: ["<short names, abbreviations, class names used in code>"]
 official-docs: <url>
-first-used: "[[<milestone note>]]"
+related: ["[[...]]"]
 ---
-
-# <Tool Name>
-
-> [!abstract] In one sentence
-> <What it is, no jargon.>
-
-## What problem it solves
-<The problem that existed before this tool, explained fully.>
-
-## How it works under the hood
-<What the tool actually does internally, step by step, in plain language. Enough depth that the user could explain it to an engineer.>
-
-## Why this project uses it (instead of alternatives)
-<The real alternatives and the tradeoffs between them.>
-
-## Key ideas to understand
-<Each core concept of the tool, explained in its own paragraph or subsection, with how it shows up in this project.>
-
-## How it fits into our architecture
-<Which parts of the app depend on it, what it talks to, and what would change if we removed it.>
-
-## How we used it
-- [[<milestone note>]]: <what we did with it>
-
-## Gotchas we hit
 ```
+
+Every term note must cover:
+
+- **What it is**, defined from scratch in plain words, then named: "...a program Cloudflare runs for each HTTP request, close to the user. Cloudflare calls this a *Worker*."
+- **What problem it solves in this app.** This is the center of the note. What would go wrong without it, and why this tool or part was chosen for the job over the real alternatives.
+- **How it works, step by step, in depth.** The mechanism behind its job here, its limits, and what happens in the failure cases. General ideas it relies on (connection pooling, rate limiting, migrations, dependency injection) are explained right here, in a paragraph, at the depth this term needs; they don't get their own notes.
+- **Where it sits**: a small mermaid diagram of the term and what it talks to, followed by a short explanation.
+- **How it connects to other terms**: wikilinks, and why each connection exists ("the Worker reaches the Durable Object through a [[Workers bindings|binding]], because...").
+- **How it's used in this app**: real file paths and, if useful, a few real lines of code copied from the repo.
+- **Problems hit**, if any are on record (PR bodies, commits, review comments, this session), with root cause and fix in a `> [!bug]` callout. Never invent them.
+- **How I'd say it**: a heading with exactly this name, closing the note with two or three sentences the user could say out loud in an interview or demo to explain the term and why the app uses it.
+
+A term note about a part of the app (e.g. a repository class or the API contract) follows the same shape; "official-docs" can be omitted.
+
+### `<Project>.base` (optional)
+
+An Obsidian Bases file with a view of term notes grouped by `area`. Create it once the vault has more than a handful of terms.
+
+## Diagrams
+
+Use lots of mermaid diagrams, and **always follow each diagram with text that walks through it**: what the boxes are, what moves along each arrow, and why. A diagram without an explanation is incomplete.
+
+- **System diagram** (`flowchart`) in `Home.md`: every main part and tool, and how they connect. Mark planned or not-yet-built pieces with dotted arrows and say so in the text.
+- **Sequence diagram** (`sequenceDiagram`) in `Home.md`: one real request, from the user's action to the response, through every part it actually touches. Add more sequence diagrams for other important flows (login, a write, a background job) when they exist.
+- **Data-model diagram** (`erDiagram`) in `Home.md`, only if the app stores data: the real tables or collections and their relationships.
+- **Where-it-sits diagram** in every term note: the term in the middle and the terms it talks to around it.
+- Add other diagrams (state machines for a lifecycle, a flowchart for a decision the code makes) whenever they make an explanation easier to follow.
 
 ## Writing Rules
 
-- **Accuracy over polish.** Every factual claim must trace to the diff, PR, command output, or official docs. If unsure, write "Not certain" in the note rather than guessing.
+- **Accuracy over polish.** Every factual claim must trace to the repo, PR, command output, or official docs. If unsure, write "Not certain" rather than guessing.
 - **No invented code.** Code is optional; if included, copy a few real lines from the repo with the file path. Never sketch API usage from memory.
-- **Write flowing prose, not fragments.** Use full sentences that connect to each other with words like "because", "so", "which means", and "once that's in place". Each paragraph should read like someone explaining it out loud to a curious friend. Avoid strings of short, clipped sentences and avoid turning explanations into bullet lists.
-- **Plain language, explained thoroughly.** Assume a smart reader with no background. Say what the thing is and what it does directly, then name the technical term: "...a small program that every other part of the app talks to when it needs data. Engineers call this a *service*." Define each term the first time it appears.
-- **Explain the real thing directly.** Describe what actually happens and why, in concrete terms, rather than comparing it to something from everyday life.
-- **Why before how.** Answer "why does this matter?" before "how does it work?"
-- **Link generously.** Every tool and concept mention is a `[[wikilink]]`.
-- **Go deep, not short.** Length is fine when it serves understanding. Explain every moving part, how it works internally, and how it connects to the rest of the system. Never stop at a one-line summary when a thorough explanation is possible. Depth must still come from real sources (the repo, PRs, official docs), never from guessing.
+- **Meet the depth bar, then stop.** Explain every moving part the reader needs to understand the term's job in this app. Leave out tool features the app doesn't use, long quotations from docs, and the history of how the code changed.
+- **Plain language, explained thoroughly.** Assume a smart reader with no background. Say what the thing does directly, then name the technical term. Define each term the first time it appears.
+- **Why before how.** Answer "what problem does this solve?" before "how does it work?"
+- **No analogies or metaphors.** Describe what actually happens and why, in concrete terms.
+- **Write like a person's own notes, not a filled-in form.** Connected paragraphs; bullets only for things a person would naturally list.
+- **Link generously.** Every mention of another term is a `[[wikilink]]`, so the vault reads as a connected map of the system.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 |---|---|
-| Thin, summary-level notes | Expand into a thorough explanation of how it works, why, and how it connects to the rest of the app |
-| Choppy, clipped sentences or bullet-only explanations | Rewrite as connected paragraphs where each sentence leads into the next |
-| Comparing the idea to something from everyday life instead of explaining it | Describe what actually happens, in plain words |
-| Restating the diff file by file | Describe the capability gained, not the files touched |
-| Defining a tool from its docs only | Define it by the job it did in *this* project |
+| Note only names a term ("Durable Objects store state") | Explain what it is, what problem it solves here, and how it works until the depth bar is met |
+| Explanation buried under unused features, doc quotes, or history | Cut everything that doesn't help someone understand this term's job in this app |
+| Diagram with no text after it | Walk through the diagram: boxes, arrows, and why |
+| Writing a note per PR or a project timeline | Update `Home.md` and the term notes so they describe the app as it works now |
+| Appending "update: ..." paragraphs when something changed | Rewrite the part that is no longer true |
+| Creating a duplicate note for a term that exists under an alias | Search file names and `aliases` first, then extend the existing note |
+| Separate notes for general ideas like connection pooling | Explain the idea inside the term note that needs it |
+| Defining a tool from its docs only | Define it by the job it does in *this* app |
+| Organizing notes by PR, package, or project part | Organize term notes by subject in area folders |
 | Committing notes to the repo | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` |
-| Starting the vault at the current PR | Backfill earlier milestones first so the story is complete |
-| Rewriting an existing tool note | Append to "How we used it" and fix only what's wrong |
-| Inventing problems for backfilled PRs | Write "Not recorded" unless the PR history shows one |
+| Inventing problems or decisions | Only record what the repo, PRs, or session show |
