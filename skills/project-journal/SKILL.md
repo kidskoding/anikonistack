@@ -7,7 +7,7 @@ description: Use when a PR or finished feature changes how the application works
 
 ## Overview
 
-The user is learning by building. The vault exists so they **understand how the application works**: what problem it solves, and how it solves it technically. An AI should be able to teach the system from these notes, and the user should be able to read them in Obsidian on their own. Either way, the result is the same: they can explain the app's architecture in a demo, an interview, or to a teammate, and answer follow-up questions.
+The user is learning a project, often one where AI wrote much of the code, and the barrier is that nobody fully understands what was built. The vault exists so they **understand how the application works**: what problem it solves, and how it solves it technically. An AI should be able to teach the system from these notes, and the user should be able to read them in Obsidian on their own. Either way, the result is the same: they can explain the app's architecture in a demo, an interview, or to a teammate, and answer follow-up questions.
 
 The vault has two kinds of notes:
 
@@ -20,14 +20,13 @@ The vault always describes the app **as it works now**. It is not a history of t
 
 **The depth bar.** Every note goes in depth, and the bar for "deep enough" is: a smart newcomer who reads only this note (and follows its links), or is taught it by an AI, can explain the term and answer "why?" and "what happens if...?" follow-ups. Go as deep as that needs and no further. A note fails if it only names a term without making it understandable, and it also fails if the explanation is buried under detail the reader doesn't need.
 
+## Never Committed, Always Excluded
+
+The vault belongs to the person learning, not to the repo. **Never commit it and never add it to `.gitignore`**, because both change the shared repo. Exclude it locally with `.git/info/exclude`, which only affects this clone. Anyone who installs this skill builds their own vault from the repo on their own machine, so the skill works for any developer, on any project, without touching what the team shares.
+
 ## Disabled Projects
 
-Never journal in these projects (matched against the basename of the git repo root). Don't create a vault, don't write notes, and don't ask; just skip the skill silently:
-
-- `home-manager`
-- `nvim`
-
-To disable another project, add its name here and in `claude-md/01-project-journal.md`.
+Skip the skill silently (no vault, no notes, no asking) in any project the user's own agent instructions (e.g. `CLAUDE.md`, `AGENTS.md`) list as disabled for project-journal, matched against the basename of the git repo root. The list lives in each user's instructions, not in this skill.
 
 ## When to Use
 
@@ -76,7 +75,9 @@ grep -qxF '/vault' .git/info/exclude || echo '/vault' >> .git/info/exclude
 
 Use `.git/info/exclude` (local-only ignore list), **never** the shared `.gitignore`, so the repo itself is unchanged. Confirm with `git status` that `vault` doesn't appear. Obsidian treats any folder as a vault; the user opens it with "Open folder as vault".
 
-`~/vaults` itself may be a symlink. On WSL it points to a Windows folder (e.g. `/mnt/c/Users/<user>/Documents/vaults`) so the Windows Obsidian app can open the vaults; Windows can't follow Linux symlinks, so the real files must stay on the Windows side. Always write through `~/vaults/...`, and never replace that symlink with a real directory.
+`~/vaults` itself may be a symlink to somewhere else (for example, on WSL, a Windows folder so the Windows Obsidian app can open it). Always write through `~/vaults/...`, and never replace that symlink with a real directory.
+
+If the vault path or the `vault` symlink would ever show up in `git status`, stop and fix the exclude before writing anything.
 
 **REQUIRED SUB-SKILLS:** Load `obsidian-markdown` before writing notes (wikilinks, callouts, properties, mermaid). Load `obsidian-bases` before creating or editing the vault's `<Project>.base` file.
 
@@ -95,9 +96,11 @@ A vault with per-PR milestone notes, separate concept notes, or area "map" notes
 
 A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
 
-### 1. Pick the audience
+### 1. Know the learner and pick the audience
 
-Ask who the user is preparing for, unless they already said. The audience decides what gets taught and what gets asked:
+If `Practice.md` doesn't record the user's background yet (for example new grad, frontend developer, backend developer, product manager), ask once and record it. Pitch every explanation to that background: define what they wouldn't know, skip what they would.
+
+Then ask who the user is preparing for, unless they already said. The audience decides what gets taught and what gets asked:
 
 - **Interviewer.** A software engineer or hiring manager. Cares about architecture, why each tool was chosen over the alternatives, tradeoffs, limits, failure cases, how it would scale, and what the user would change.
 - **Demo customer.** Someone who might use or buy the app. Cares about the problem it solves for them, what they'd actually do in the app, whether it's reliable, whether their data is safe, and what happens when something goes wrong. Technical detail only as far as it answers those.
@@ -198,6 +201,7 @@ Written only by Teach Mode, and always rewritten to the current picture rather t
 type: practice
 project: <project>
 last-session: YYYY-MM-DD
+learner-background: <e.g. new grad, backend developer, product manager>
 audiences: [interviewer, demo-customer]
 ---
 ```
@@ -247,5 +251,5 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 | Links that don't say how terms relate | Fill `learn-first`, `uses`, `used-by`, kept true in both directions |
 | Teach Mode lecturing without making the user explain | Ask the user to explain first, then correct from the notes |
 | Teach Mode answering from memory when the vault lacks it | Check the repo or docs, answer, then write it into the vault |
-| Committing notes to the repo | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` |
+| Committing the vault or adding it to `.gitignore` | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` only |
 | Inventing problems or decisions | Only record what the repo, PRs, or session show |
