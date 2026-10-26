@@ -1,0 +1,6 @@
+# project-journal
+- **project-journal** - Architecture notes in Obsidian, one vault per project at `~/vaults/<project>/`, symlinked as `<repo>/vault`.
+Invoke the Skill tool with `skill: "project-journal"` only when a PR or finished feature changes how the app works or adds a new tool or part of the system. The vault is an architecture overview (`Home.md`) plus in-depth term notes, kept describing the app as it works now; there are no per-PR notes. Skip routine commits on an unfinished feature, config tweaks, dependency bumps, refactors, tests/docs-only changes, and git housekeeping; fold that work into the overview and term-note updates once its PR is opened or merged. The journal is opt-in per project: the skill asks once and stores the answer in `git config --local project-journal.enabled`; the user can enable or disable it any time. Also invoke it when the user asks to enable or disable the project journal, or when the user says "note this" or "journal this", or wants to study or rehearse the project ("teach me this project", "quiz me", "mock interview", "prep me for a demo"), which runs its Teach Mode.
+Disabled projects for project-journal (git repo root basename): `home-manager`, `nvim`. Never invoke the skill, create a vault, or write notes in these, even after commits.
+
+---
