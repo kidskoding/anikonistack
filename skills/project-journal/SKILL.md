@@ -80,7 +80,7 @@ Use `.git/info/exclude` (local-only ignore list), **never** the shared `.gitigno
 
 1. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the README, config files (e.g. `wrangler.jsonc`, `compose.yml`, `package.json`), and command output from this session. Never write from memory alone.
 2. **Update `Home.md`** so the problem statement, the list of parts, every diagram, and the terms index match the app as it works now. If the vault is new, write it from the whole repo, not just this change.
-3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name *and* by `aliases` before creating anything (`find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
+3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name **and** by `aliases` before creating anything (`find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
 4. **Tell the user** in one or two sentences what changed in their understanding of the app, and which notes you created or updated.
 
 ## Old-Style Vaults
@@ -127,7 +127,7 @@ related: ["[[...]]"]
 
 Every term note must cover:
 
-- **What it is**, defined from scratch in plain words, then named: "...a program Cloudflare runs for each HTTP request, close to the user. Cloudflare calls this a *Worker*."
+- **What it is**, defined from scratch in plain words, then named: "...a program Cloudflare runs for each HTTP request, close to the user. Cloudflare calls this a **Worker**."
 - **What problem it solves in this app.** This is the center of the note. What would go wrong without it, and why this tool or part was chosen for the job over the real alternatives.
 - **How it works, step by step, in depth.** The mechanism behind its job here, its limits, and what happens in the failure cases. General ideas it relies on (connection pooling, rate limiting, migrations, dependency injection) are explained right here, in a paragraph, at the depth this term needs; they don't get their own notes.
 - **Where it sits**: a small mermaid diagram of the term and what it talks to, followed by a short explanation.
@@ -161,6 +161,7 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 - **Why before how.** Answer "what problem does this solve?" before "how does it work?"
 - **No analogies or metaphors.** Describe what actually happens and why, in concrete terms.
 - **Write like a person's own notes, not a filled-in form.** Connected paragraphs; bullets only for things a person would naturally list.
+- **Bold, never italics.** Use `**bold**` for emphasis and for a technical term the first time it's named. Never use `*italics*` or `_italics_` anywhere in a note.
 - **Link generously.** Every mention of another term is a `[[wikilink]]`, so the vault reads as a connected map of the system.
 
 ## Common Mistakes
@@ -174,7 +175,8 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 | Appending "update: ..." paragraphs when something changed | Rewrite the part that is no longer true |
 | Creating a duplicate note for a term that exists under an alias | Search file names and `aliases` first, then extend the existing note |
 | Separate notes for general ideas like connection pooling | Explain the idea inside the term note that needs it |
-| Defining a tool from its docs only | Define it by the job it does in *this* app |
+| Defining a tool from its docs only | Define it by the job it does in **this** app |
 | Organizing notes by PR, package, or project part | Organize term notes by subject in area folders |
+| Italicizing a term or emphasis (`*Worker*`) | Bold it instead (`**Worker**`) |
 | Committing notes to the repo | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` |
 | Inventing problems or decisions | Only record what the repo, PRs, or session show |
