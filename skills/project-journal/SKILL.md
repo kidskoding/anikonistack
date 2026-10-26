@@ -122,6 +122,8 @@ Three skills teach, and each owns one job. Stay in your lane and hand off:
 - **`eli5`**: a quick, one-off explanation of a general topic, not tied to this project ("what is a Durable Object in general?").
 - **`/teach`** (user-invoked): a multi-session course on a general topic or tool, with lessons and spaced review ("I want to really learn PostGIS").
 
+Code-analysis skills (`graphify`, `understand`, `understand-explain`, `understand-onboard`) answer questions about the code: where something lives, what a file does, how modules depend on each other. They don't keep a learning vault or rehearse the user. Leave code-navigation questions to them; when they're installed and have output (e.g. `graphify-out/`), you may use it as a source of facts while writing notes or teaching, but the vault stays the user's place to learn.
+
 If the user asks a general question mid-session, answer it briefly in this project's terms and keep going. If a debrief shows a gap in a tool itself rather than in how this project uses it (for example spatial indexes in general), say so and suggest `/teach <tool>`, or `eli5` for a quick explanation, instead of turning the session into a course. If any of these skills isn't installed, just do the brief explanation yourself.
 
 ### 1. Know the learner and pick the audience
