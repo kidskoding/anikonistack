@@ -99,11 +99,13 @@ If the vault path or the `vault` symlink would ever show up in `git status`, sto
 
 **REQUIRED SUB-SKILLS:** Load `obsidian-markdown` before writing notes (wikilinks, callouts, properties, mermaid). Load `obsidian-bases` before creating or editing the vault's `<Project>.base` file.
 
+**Reading the vault:** if the `obsidian-cli` skill is installed and Obsidian is running, load it and read through it instead of opening files one by one: `search` to find a term, `read` for one note, `backlinks` and `links` to follow how notes connect. Target the Obsidian vault that contains the project folder with `vault=<name>`. If the project folder sits inside a larger vault, scope searches to it with `path=<project folder>`; for `read`, `links`, and `backlinks`, name the note with `file=<note name>` (resolved like a wikilink, which works because note names are unique). Treat empty output from a query that should match as a failure. Walk the notes' `learn-first`, `uses`, and `used-by` frontmatter to find related terms and the learning order before opening whole notes. If `obsidian-cli` isn't installed, Obsidian isn't running, or a command fails, fall back to plain file reads and searches.
+
 ## Workflow
 
 1. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the README, config files (e.g. `wrangler.jsonc`, `compose.yml`, `package.json`), and command output from this session. Never write from memory alone.
 2. **Update `Home.md`** so the problem statement, the list of parts, every diagram, and the terms index match the app as it works now. If the vault is new, write it from the whole repo, not just this change.
-3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name **and** by `aliases` before creating anything (`find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
+3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name **and** by `aliases` before creating anything (see Reading the vault; without `obsidian-cli`: `find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
 4. **Tell the user** in one or two sentences what changed in their understanding of the app, and which notes you created or updated.
 
 ## Old-Style Vaults
@@ -112,7 +114,7 @@ A vault with per-PR milestone notes, separate concept notes, or area "map" notes
 
 ## Teach Mode
 
-A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
+A study session has one goal: by the end, the user can explain the project to a real audience and handle their questions. The session teaches first, then questions the user the way that audience would, then debriefs. The vault is the source of truth and the repo is the check; read it as described in Reading the vault. If the project has no vault or an old-style vault, say so and offer to build or rebuild it first.
 
 ### Working alongside other skills
 
