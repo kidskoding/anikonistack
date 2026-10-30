@@ -33,6 +33,14 @@
       url = "github:kepano/obsidian-skills";
       flake = false;
     };
+    taste-skill = {
+      url = "github:Leonxlnx/taste-skill";
+      flake = false;
+    };
+    impeccable = {
+      url = "github:pbakaus/impeccable";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

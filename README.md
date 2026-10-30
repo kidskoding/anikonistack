@@ -422,6 +422,8 @@ Single skills pulled from several repos:
 | `tui-designer` | [ckorhonen/claude-skills](https://github.com/ckorhonen/claude-skills) |
 | `typst` | [ChanMeng666/typst-claude-skill](https://github.com/ChanMeng666/typst-claude-skill) |
 | `graphify` | [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) |
+| `design-taste-frontend` | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) |
+| `impeccable` | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) |
 
 ### `firecrawl`
 
