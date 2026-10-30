@@ -85,6 +85,10 @@
       url = "github:kharmanskyi/open-steps";
       flake = false;
     };
+    vercel-plugin = {
+      url = "github:vercel/vercel-plugin";
+      flake = false;
+    };
   };
 
   outputs = {

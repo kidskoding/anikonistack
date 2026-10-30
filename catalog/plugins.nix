@@ -55,4 +55,9 @@
     description = "claude-duet commands (Claude Code only)";
     plugin = "${inputs.claude-duet}/plugins/duet";
   };
+
+  vercel = {
+    description = "Vercel skills, agents, commands and the Vercel MCP server";
+    plugin = inputs.vercel-plugin;
+  };
 }

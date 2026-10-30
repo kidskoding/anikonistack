@@ -449,6 +449,12 @@ Source: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail)
 
 Skills: `ponytail`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`, `ponytail-review`. Native on Codex and OpenCode.
 
+### `vercel`
+
+Source: [vercel/vercel-plugin](https://github.com/vercel/vercel-plugin)
+
+Vercel skills, agents (`ai-architect`, `deployment-expert`, `performance-optimizer`), commands (`bootstrap`, `deploy`, `env`, `status`) and the Vercel MCP server (`https://mcp.vercel.com`, OAuth). Claude Code only.
+
 ### `open-steps`
 
 Source: [kharmanskyi/open-steps](https://github.com/kharmanskyi/open-steps)
