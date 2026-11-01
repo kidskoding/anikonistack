@@ -90,7 +90,22 @@ PICK 3 ...
 START WITH    #<N> because <one sentence>
 SKIPPED       #<N> <reason>, #<N> <reason>   (one line, not a paragraph each)
 NEXT STEP     claim needed: yes/no | comment must state: <who to address>, <the fix direction in one clause>, <ask whether anyone is on it>
+
+DRAFT COMMENT (for #<N>, the START WITH pick; you refine and post it, Claude does not)
+  <3 to 5 plain sentences: address the maintainer, state the fix direction, name the file,
+   mention prior art if any, ask whether anyone is on it. No headings, no bullet lists,
+   no "I'd be happy to", nothing the user could not have written themselves.>
+  AI policy note: <what the repo's policy requires of this comment, e.g. "disclose AI use",
+   "must be in your own words", or "none">
 ```
+
+## Step 6: Draft the claim comment, never post it
+
+The draft is raw material for the user. They rewrite it in their own words and post it themselves. That is the human-in-the-loop the repo's AI policy asks for, so drafting is allowed even when the policy bans AI-authored comments.
+
+- Write it only in the output above. Never call `gh issue comment`, the GitHub MCP comment tools, or any other tool that sends it.
+- Short and specific. Use only facts from Steps 3 and 4: the maintainer quote, the file, the PR history.
+- If the AI policy requires disclosure, say so in the note. Do not add the disclosure text yourself; the user decides the wording.
 
 ## Gotchas
 
@@ -99,6 +114,7 @@ NEXT STEP     claim needed: yes/no | comment must state: <who to address>, <the 
 - **A PR closed for AI-policy reasons is a green light, not a warning.** The maintainer liked the patch. A human-authored redo of the same idea is welcome. Report it as prior art.
 - **Maintainer-filed issues with zero comments beat labeled issues with ten.** The maintainer already wants it and nobody is arguing about the design.
 - **Stale open PR still blocks.** Ask on the issue whether the PR is abandoned before starting. Never open a competing PR silently.
-- **Do not comment, assign, or react on anyone's behalf.** Output what the claim comment must contain, never its text. Repos with an AI policy close PRs whose comments read as generated. GREEN test drafted a full comment; that is the failure this line exists for.
+- **Draft, never post.** Do not comment, assign, or react on anyone's behalf. A draft the user refines and posts follows AI policy; a comment Claude sends does not. Refusing to draft because "the policy bans AI comments" is wrong: the user is the author, the draft is a starting point.
+- **A draft that reads as generated gets the PR closed.** Repos with an AI policy close PRs whose comments read like an LLM wrote them. Keep the draft plain and short so the user's rewrite is small.
 - **CONTRIBUTING's tier list is the query order.** uv names `help wanted`, then `bug`, then everything else with a check-in. First three runs never queried `bug` at all and recommended only tier-3 issues. Read the tiers, query each tier in order.
 - **Eight vetted candidates, not fourteen.** GREEN test vetted 14 because the cap was phrased as a stopping point for collection, not a ceiling for vetting. The cap is a ceiling.
