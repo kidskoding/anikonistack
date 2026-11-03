@@ -64,6 +64,22 @@
         "type": "github"
       }
     },
+    "databricks-agent-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793694188,
+        "narHash": "sha256-NZGiNWaqwjazr0YgKN5KDs+Q4C3rPXGTeysMeUXGXW4=",
+        "owner": "databricks",
+        "repo": "databricks-agent-skills",
+        "rev": "4fef825aac71a17efa4934f193386efc50c09575",
+        "type": "github"
+      },
+      "original": {
+        "owner": "databricks",
+        "repo": "databricks-agent-skills",
+        "type": "github"
+      }
+    },
     "firecrawl-plugin": {
       "flake": false,
       "locked": {
@@ -230,6 +246,7 @@
         "ckorhonen-skills": "ckorhonen-skills",
         "claude-duet": "claude-duet",
         "claude-plugins-official": "claude-plugins-official",
+        "databricks-agent-skills": "databricks-agent-skills",
         "firecrawl-plugin": "firecrawl-plugin",
         "graphify": "graphify",
         "impeccable": "impeccable",

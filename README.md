@@ -455,6 +455,12 @@ Source: [vercel/vercel-plugin](https://github.com/vercel/vercel-plugin)
 
 Vercel skills, agents (`ai-architect`, `deployment-expert`, `performance-optimizer`), commands (`bootstrap`, `deploy`, `env`, `status`) and the Vercel MCP server (`https://mcp.vercel.com`, OAuth). Claude Code only.
 
+### `databricks`
+
+Source: [databricks/databricks-agent-skills](https://github.com/databricks/databricks-agent-skills)
+
+Databricks skills (CLI, Apps, Lakebase, Model Serving, Lakeflow Jobs, Spark Declarative Pipelines, DABs, serverless migration) and commands, from `plugins/databricks/claude`. Claude Code only.
+
 ### `open-steps`
 
 Source: [kharmanskyi/open-steps](https://github.com/kharmanskyi/open-steps)

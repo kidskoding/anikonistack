@@ -60,4 +60,9 @@
     description = "Vercel skills, agents, commands and the Vercel MCP server";
     plugin = inputs.vercel-plugin;
   };
+
+  databricks = {
+    description = "Databricks skills for the CLI, Apps, Lakebase, Model Serving, Jobs, Pipelines and DABs";
+    plugin = "${inputs.databricks-agent-skills}/plugins/databricks/claude";
+  };
 }
