@@ -18,6 +18,8 @@ Modes:
 Env:
   DESKTOP_SCREENSHOT_DIR  Default dir when output omitted
                           (default: /tmp/desktop-screenshots)
+  DESKTOP_SCREENSHOT_NOTIFY  Set to 0 to skip the desktop notification
+                          (default: on, via notify-send)
 EOF
 }
 
@@ -100,7 +102,13 @@ finish() {
     echo "error: capture produced no file at $out" >&2
     exit 2
   fi
-  realpath "$out" 2>/dev/null || readlink -f "$out" 2>/dev/null || echo "$out"
+  local abs
+  abs="$(realpath "$out" 2>/dev/null || readlink -f "$out" 2>/dev/null || echo "$out")"
+  # Sent after grim, so the popup never lands in this shot (it can in the next one).
+  if [[ "${DESKTOP_SCREENSHOT_NOTIFY:-1}" != 0 ]] && command -v notify-send >/dev/null 2>&1; then
+    notify-send -a Screenshot -i "$abs" 'Agent screenshot' "$abs" || true
+  fi
+  echo "$abs"
 }
 
 mode="${1:-full}"

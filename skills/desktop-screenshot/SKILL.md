@@ -100,6 +100,9 @@ nix shell nixpkgs#grim -c grim /tmp/agent-screen.png
 - Session: Wayland + **niri**
 - Screenshot dir (niri UI): `~/Pictures/Screenshots/`
 - Agent captures: prefer `/tmp/desktop-screenshots/` (explicit path)
+- Each capture sends a desktop notification ("Agent screenshot") so the user
+  sees it happen. For back-to-back shots (README scenes, before/after), set
+  `DESKTOP_SCREENSHOT_NOTIFY=0`, or the popup lands in the next shot.
 - Interactive region select needs `slurp`: `grim -g "$(slurp)" out.png`
   (agents should prefer numeric `region` so capture is non-blocking)
 
