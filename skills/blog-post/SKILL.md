@@ -76,6 +76,7 @@ Decide where the post goes before Stage 5:
 
 - **Titles must read plainly to a stranger.** No punchline or metaphor titles ("The Halloween Bottleneck Was Printed Plastic"); the user finds them choppy and meaningless. Use "What X taught me about Y" or a plain statement of the topic (Titles in `style-guide.md`).
 - **Project posts start from the real problem, not the project.** Before the details, explain why the problem matters outside the repo (linked public facts), where the data comes from (checked in the repo, never guessed), and later who it would help. Name companies from the exact industry modeled, one short paragraph each with brands in bold, no subheadings (Project Posts Need Context in `style-guide.md`).
+- **Plain words, no idioms:** no figurative phrases or similes ("never meant to meet", "and friends", "fails loudly", "a minefield"); write the literal meaning (Plain Grammar in `style-guide.md`).
 - **Bold followed by more text ends with a colon, never a period:** "**These products share two traits:** each one…", including takeaway bullets ("**Treat the join as the riskiest step:** matching…"). The user rejects "**Bold.** Next sentence" (Bold in `style-guide.md`).
 
 - **Inline code vs bold is strict.** Backticks = paths, keys, commands, identifiers, plugin/package ids. Bold = key points, standout lines, and argument turns, generously (1–3 per section, every section), plus language/format names (**Lua**, **JSON**, …). Never backtick a language name; never bold a file path. See Bold and Inline code in `style-guide.md`.

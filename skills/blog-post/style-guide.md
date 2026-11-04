@@ -159,6 +159,7 @@ Flowing is not the same as long. A sentence that hangs everything off an abstrac
 - No stacked "that ... and that ..." clauses. If a sentence needs two, use "because" or split it into two full sentences.
 - One idea per sentence, two at most when joined by a connector. Flowing means connected, not chained.
 - Use words literally ("a long list of keys", not "a wiki of keys"). A figurative noun makes the reader translate before they can follow.
+- **No idioms or figurative phrases, even common ones.** The user reads them as weird and vague. Say the literal thing: "never meant to meet" → "collected separately and share no common ID"; "and friends" → "and others"; "fails loudly" → "fails with an error"; "leak allergens into" → "make one candy look like it contains"; "outvote" → "override"; "tighten the warnings" → "add allergen warnings"; "a minefield" → "a problem"; "the way a parent reads a wrapper" → "to find allergens". Similes ("a bit like Wikipedia for…") count too; cut them when the plain description already says it.
 - Read the sentence aloud. If you would not say it that way to a friend, rewrite it.
 
 ## Paragraph Breaks

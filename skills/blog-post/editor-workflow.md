@@ -119,7 +119,7 @@ Review the draft and report findings before changing anything large. Check for:
 - repetitive thesis statements
 - generic AI wording
 - choppy fragment runs outside the opening hook and closing beat (see Flowing Sentences in `style-guide.md`); merge them
-- run-on or abstract-noun sentences ("The reason is that...", stacked "that ... and that ..." clauses) and figurative wording; rewrite them as subject + verb + because (see Plain Grammar in `style-guide.md`)
+- run-on or abstract-noun sentences ("The reason is that...", stacked "that ... and that ..." clauses) and figurative wording, idioms or similes ("never meant to meet", "and friends"); rewrite them as subject + verb + because (see Plain Grammar in `style-guide.md`)
 - in tutorials: keys, commands, or syntax used before they're explained, dense key lists, slogan headings, taglines under headings, or repeated label scaffolds (see Tutorials and Guides in `style-guide.md`)
 - sections that don't serve the central argument
 - too few headings or a wall of text: a section doing two jobs that should split into `###` subsections, numbers buried in prose that belong in a stat table, no pull quote where a line deserves one (Structure and Skimmability in `style-guide.md`)
