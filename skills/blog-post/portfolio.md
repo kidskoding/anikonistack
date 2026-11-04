@@ -46,7 +46,7 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 
 ## Gotchas
 
-- **Table captions** go directly under the table as `<p class="text-sm text-nvim-gray -mt-4">Table 1.1: description</p>`, separated by a blank line. Markdown has no table caption, `**bold**` would render green, and `-mt-4` pulls the caption up against the table's `my-6` margin.
+- **Table captions** go directly under the table as `<p class="text-sm text-nvim-gray -mt-4 text-center">Table 1.1: description</p>`, separated by a blank line. Markdown has no table caption, `**bold**` would render green, and `-mt-4` pulls the caption up against the table's `my-6` margin.
 
 - **Frontmatter is `pubDate`, not `date`, and there is no `tags` or `subtitle` field.** Zod strips unknown keys silently.
 - **MDX treats `<` and `{` in prose as JSX.** `Effect<A, E, R>` or `{id}` outside backticks breaks the build.
