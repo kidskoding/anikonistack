@@ -112,7 +112,7 @@ Write the file for the output target (see "Output Target" in `SKILL.md`), follow
 Review the draft and report findings before changing anything large. Check for:
 - weak hook
 - a title that only makes sense after reading the post (punchline, metaphor or slogan; see Titles in `style-guide.md`)
-- project posts missing the real-world problem, the data source, a description of the data (entities, table with row counts, sample row) before the pipeline, or who it would help; facts about real companies without a linked public source; companies from the wrong industry, company context split into subheadings instead of paragraphs, brands not in bold (Project Posts Need Context in `style-guide.md`)
+- project posts missing the real-world problem, the data source, a description of the data (entities, table with row counts, sample row) before the pipeline, who it would help, or a closing `## References` list; facts about real companies without a linked public source; companies from the wrong industry, company context split into subheadings instead of paragraphs, brands not in bold (Project Posts Need Context in `style-guide.md`)
 - any bold text followed by more text that ends in a period instead of a colon, including takeaway bullets (Bold in `style-guide.md`)
 - unnecessary explanation
 - résumé language
