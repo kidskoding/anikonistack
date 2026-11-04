@@ -96,11 +96,12 @@ The user wants posts that are engaging to skim, not essays. A reader scrolling o
 - **Headings generously.** Give every major idea its own `##`, and split a section that does two jobs into `###` subsections (the backstory and the turn, or "On the stream" and "At work"). A full post usually has 8–15 headings. Headings stay plain and descriptive (Tutorials and Guides below), never slogans.
 - **Numbered lessons.** When a post teaches several takeaways, give each its own heading: `## Lesson 1: Great leaders design the win around someone else`, or `### 1. Give away the final hit` under a parent section. The heading states the lesson as a plain sentence.
 - **Pair the story with the meaning.** When a section has an event and a lesson, split it into `### On the [stream / job / project]` and `### At work` (or `### What it taught me`) so the reader sees both halves.
+- **Project posts lead with the actual results.** Show the real output (the result table, the measured numbers, the surprising rows) and the insight each one gives, taken from the repo's generated results file or tables, never estimated. The results are the payoff; the pipeline explains how they were reached.
 - **Stat tables for the numbers.** When a story has 3–5 numbers that matter (hours, attempts, deaths, users, latency), put them in a small table near the top instead of a sentence full of figures. Always give the table a header row; an empty one renders as a blank bordered row.
 - **Pull quotes.** Use 1–3 blockquotes (`>`) for the lines someone would screenshot, usually after the section that earns them. Not one under every heading.
 - **Show the real moment.** Embed the actual tweet, clip or screenshot (`<TweetEmbed>` on the portfolio) where the post describes it, as a visual rather than a citation.
 - **Introduce the cast early.** When the story depends on people or companies the reader may not know, a short `## Meet the team` section (one `###` each) comes before the events (Introduce People below).
-- **End on a takeaway list when it fits.** Reflection and career posts close with a short bulleted list where each bullet opens with a bold commitment ("**Set other people up to win.**"), then the closing reflection and the echo of the hook.
+- **End on a takeaway list when it fits.** Reflection and career posts close with a short bulleted list where each bullet opens with a bold commitment ("**Set other people up to win:** …", colon, never a period), then the closing reflection and the echo of the hook.
 
 Example skeleton (from "What a 73-Hour Minecraft Stream Taught Me About Great Teams"):
 
@@ -191,6 +192,8 @@ Bold is a skim path, not decoration. A reader who reads only the bold text shoul
 - Bold the sentence or clause where a section turns: the realization, the reframe, the line that connects one example to the next, and any line a reader would quote or remember. Always bold the thesis sentence when it finally lands.
 - Prefer a clause over a single word. "**the database stopped being something the function grabs from a module and became something it asks for**" beats "**dependency**".
 - Also bold **language and format names** when they matter in prose (**Lua**, **JSON**, **Python**, **TypeScript**, **Rust**). That is emphasis, not code.
+- Bold **consumer brand names** when a post introduces the companies behind a real-world problem (**Lay's**, **Doritos**, **Oreo**, **Cadbury**), so the reader recognizes the products at a glance.
+- **A bold sentence followed by more text in the same paragraph or bullet ends with a colon, inside the bold, never a period:** "**These products share two traits:** each one ships in…", "**Count usable capacity, not idle capacity:** check materials…". Continue in lowercase. This covers takeaway bullets and bold turns mid-paragraph. A period is only for a bold line that stands alone with nothing after it.
 
 Do not bold:
 - tool or company names used as résumé tokens (Effect, Nix, Cloudflare as a list) — different from language names above
@@ -272,13 +275,31 @@ Discover the assumptions you didn't know you were making.
 Learn it again.
 ```
 
+## Project Posts Need Context
+
+A post about a personal project (a simulation, a demo, a tool) must stand on its own for a reader who has never heard of it. After the hook and before the details, cover:
+- **The real problem.** Why it matters outside the project, with sourced facts (a trade-group stat, a company's public launch) linked inline. Name real companies only for what their public sources say, and introduce them (what they make).
+- **The companies it matters to, highlighted.** Pick the companies in the exact industry the project models (a candy simulation → candy makers like Hershey, Mars, Mondelez, not chip makers like PepsiCo). Fold them into the problem section as one short paragraph each, no subheadings: what it makes, its best-known brands in bold (linked to the company's official brand page), and its public product tied to the problem (a seasonal launch, a recall). No size or rank claims ("the largest", "its closest rival") unless a source says so; quote the sourced number instead.
+- **Where the data comes from.** Real dataset (name and link it), generated, or scraped. Check the repo even when the user names a source, and flag any mismatch instead of writing it.
+- **What the data looks like, before any pipeline or model.** Its own `##` section right after the problem: who or what is in it (the named factories, products, customers), a small table of the sources or tables with what each holds and its row count (from the repo's actual output files), one real sample row in a fenced block, and the validation it passes before modeling. A reader should understand the data before reading about bronze/silver/gold or the simulation.
+- **Who it would help.** A short "what this could mean for a real X" section near the end, modest about what a demo proves.
+
 ## Titles
 
 Idea-driven, not employer-driven. The job goes in the subtitle.
 
-Weak: "My First Month at Brunswick", "What I Learned During My First Month", "My Software Engineering Internship Experience".
+**A title must make sense to someone who has not read the post.** Read it cold, as a stranger scrolling a blog index: they should know what the post is about and why they might care. The user reads cryptic twist titles as choppy and meaningless. Avoid:
+- punchline titles that only make sense after the ending ("The Halloween Bottleneck Was Printed Plastic", "The Patch Window Went Negative")
+- metaphors and abstract nouns ("Learning Happens at the Seams")
+- slogans in title case ("Reproducibility Is a Team Feature")
 
-Better: "What a 73-Hour Minecraft Stream Taught Me About Great Teams", "The Patch Window Went Negative", "Learn It Again", "One Month In: Learn It Again", "The Things Your Development Environment Isn't Telling You", "Reproducibility Is a Team Feature", "Learning Happens at the Seams", "Making Assumptions Explicit".
+Prefer the "What X taught me about Y" or "Why X didn't Y" shape: name the concrete thing that happened, then the topic of the lesson in plain words. The twist belongs in the post, not the title.
+
+Weak: "My First Month at Brunswick", "What I Learned During My First Month", "My Software Engineering Internship Experience" (résumé titles), and "The Halloween Bottleneck Was Printed Plastic" (cryptic).
+
+Better: "What a 73-Hour Minecraft Stream Taught Me About Great Teams", "What a Halloween Factory Simulation Taught Me About Spare Capacity", "Learn It Again", "The Things Your Development Environment Isn't Telling You".
+
+Offer 2–3 options at Stage 3 and recommend the plainest one.
 
 Example pair:
 - title: `Learn It Again`

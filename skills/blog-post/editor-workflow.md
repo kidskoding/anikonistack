@@ -26,6 +26,7 @@ Gather raw material, then list what is there.
 - mistakes or changed assumptions
 - things learned
 - possible broader themes
+- for project posts: the real-world problem it models (with public sources to cite), where the data comes from (verified in the repo), and who the work would help (Project Posts Need Context in `style-guide.md`)
 
 ## Stage 2 — Find the Throughline
 
@@ -62,6 +63,8 @@ Structure the chosen thesis as a progression, usually small to large:
 ```text
 Hook
   ↓
+The real problem and why it matters (project posts: sourced facts, then where the data comes from)
+  ↓
 Concrete experience
   ↓
 Technical explanation (only what the thesis needs)
@@ -89,7 +92,7 @@ INFRASTRUCTURE  Cloudflare Workers   "What assumptions should production make?"
 PRINCIPLE       Good engineering makes assumptions explicit.
 ```
 
-**Output:** the outline with one line per section saying what it argues, plus 2–3 title options and a subtitle (see Titles in `style-guide.md`), plus the proposed opening lines.
+**Output:** the outline with one line per section saying what it argues, plus 2–3 title options and a subtitle (see Titles in `style-guide.md`), plus the proposed opening lines. Read each title cold: if a stranger scrolling the blog index couldn't tell what the post is about, rewrite it before showing it.
 
 ## Stage 4 — Visual Plan
 
@@ -108,6 +111,9 @@ Write the file for the output target (see "Output Target" in `SKILL.md`), follow
 
 Review the draft and report findings before changing anything large. Check for:
 - weak hook
+- a title that only makes sense after reading the post (punchline, metaphor or slogan; see Titles in `style-guide.md`)
+- project posts missing the real-world problem, the data source, a description of the data (entities, table with row counts, sample row) before the pipeline, or who it would help; facts about real companies without a linked public source; companies from the wrong industry, company context split into subheadings instead of paragraphs, brands not in bold (Project Posts Need Context in `style-guide.md`)
+- any bold text followed by more text that ends in a period instead of a colon, including takeaway bullets (Bold in `style-guide.md`)
 - unnecessary explanation
 - résumé language
 - repetitive thesis statements
