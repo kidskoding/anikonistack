@@ -21,7 +21,6 @@ in {
     type = lib.types.submodule {
       options.statusline = lib.mkEnableOption "the anikonistack statusline (hooks/statusline.sh)";
       options.gruvbox = lib.mkEnableOption "the gruvbox theme";
-      options.catppuccin = lib.mkEnableOption "the catppuccin mocha theme";
     };
   };
 
@@ -34,9 +33,6 @@ in {
       // directPlugins
       // lib.optionalAttrs cfg.gruvbox {
         "${config.programs.claude-code.configDir}/themes/gruvbox.json".source = anikonistackLib.gruvbox;
-      }
-      // lib.optionalAttrs cfg.catppuccin {
-        "${config.programs.claude-code.configDir}/themes/catppuccin-mocha.json".source = anikonistackLib.catppuccin;
       };
 
     programs.claude-code = lib.mkMerge [
@@ -51,9 +47,6 @@ in {
       }
       (lib.mkIf cfg.gruvbox {
         settings.theme = "custom:gruvbox";
-      })
-      (lib.mkIf cfg.catppuccin {
-        settings.theme = "custom:catppuccin-mocha";
       })
       (lib.mkIf cfg.statusline {
         hooks."statusline.sh" = anikonistackLib.statusline;

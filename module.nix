@@ -58,7 +58,7 @@ in {
       type = lib.types.nullOr lib.types.str;
       default = null;
       example = lib.literalExpression ''"''${config.home.homeDirectory}/anikonistack"'';
-      description = "Local clone of this repo. When set, the custom bundle's skills and the themes link straight to it, so edits apply without a rebuild.";
+      description = "Local clone of this repo. When set, the custom bundle's skills and the gruvbox theme link straight to it, so edits apply without a rebuild.";
     };
 
     skip = lib.mkOption {
@@ -130,11 +130,6 @@ in {
         if cfg.checkout != null
         then config.lib.file.mkOutOfStoreSymlink "${cfg.checkout}/themes/gruvbox.json"
         else ./themes/gruvbox.json;
-
-      catppuccin =
-        if cfg.checkout != null
-        then config.lib.file.mkOutOfStoreSymlink "${cfg.checkout}/themes/catppuccin-mocha.json"
-        else ./themes/catppuccin-mocha.json;
 
       statusline = lib.getExe (pkgs.writeShellApplication {
         name = "statusline.sh";
