@@ -318,7 +318,7 @@ Every enabled agent picks them up. Secrets as `${VAR}`: never in this repo.
 
 ### Live edits from a local clone
 
-Store symlinks mean every skill tweak costs a commit, a lock bump and a rebuild. Point the module at a clone and the `custom` skills plus the gruvbox theme link straight to it:
+Store symlinks mean every skill tweak costs a commit, a lock bump and a rebuild. Point the module at a clone and the `custom` skills plus the themes link straight to it:
 
 ```nix
 anikonistack.checkout = "${config.home.homeDirectory}/anikonistack";
@@ -504,7 +504,7 @@ Full command lists live in the toolkit’s `packs/*.yaml`; this repo reads those
 
 | Agent | What the adapter installs |
 |-------|---------------------------|
-| `claude-code` | plugins, skills, commands, rules, subagents, scripts, context; optional `statusline`, `gruvbox` |
+| `claude-code` | plugins, skills, commands, rules, subagents, scripts, context; optional `statusline`, `gruvbox`, `catppuccin` |
 | `codex` | native plugins (caveman, ponytail, superpowers, last30days), skills |
 | `opencode` | native plugins (ponytail, superpowers), skills |
 | `antigravity` | skills |
