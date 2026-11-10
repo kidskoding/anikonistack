@@ -1,25 +1,26 @@
 ---
 name: project-journal
 description: >-
-  Keeps a private, git-excluded Obsidian vault that explains how the current project works (architecture overview plus in-depth term notes with diagrams) and teaches and rehearses it with the user. Use when a PR or finished feature changes how the application works or adds a new tool or part of the system (for example the backend starts using a database, a new Cloudflare service, a new data model); when the user says "note this", "journal this", or "explain how this project works"; when the user wants to learn or rehearse this project ("teach me this project", "quiz me on this project", "mock interview", "prep me for a demo", "practice explaining this"); or when the user asks to enable or disable the project journal. Opt-in: asks once per project. Not for general topics unrelated to this project, multi-session courses on a tool, code navigation questions, or routine commits, config tweaks, refactors, and branch housekeeping.
+  Use when the user wants to understand, learn, explain, or rehearse how the current project works, or what skills and design principles they gained from it ("explain how this project works", "teach me this project", "quiz me on this project", "mock interview", "prep me for a demo", "what did I learn from this project"); when the user says "note this" or "journal this", or asks to set up, clean up, enable, or disable the project journal (their private Obsidian vault about this project); or when an opened or merged PR or finished feature changes how the application works or adds a new tool or part of the system. Not for general topics unrelated to this project, multi-session courses on a tool, code navigation questions, or routine commits, config tweaks, refactors, and branch housekeeping.
 ---
 
 # Project Journal
 
 ## Overview
 
-The user is learning a project, often one where AI wrote much of the code, and the barrier is that nobody fully understands what was built. The vault exists so they **understand how the application works**: what problem it solves, and how it solves it technically. An AI should be able to teach the system from these notes, and the user should be able to read them in Obsidian on their own. Either way, the result is the same: they can explain the app's architecture in a demo, an interview, or to a teammate, and answer follow-up questions.
+The user is learning a project, often one where AI wrote much of the code, and the barrier is that nobody fully understands what was built. The vault exists so they **understand how the application works**: what problem it solves, and how it solves it technically. An AI should be able to teach the system from these notes, and the user should be able to read them in Obsidian on their own. Either way, the result is the same: they can explain the app's architecture in a demo, an interview, or to a teammate, and answer follow-up questions. The vault also keeps the **skills** the user gained from the project, so they can still explain and prove them after the project ends.
 
-The vault has two kinds of notes:
+The vault has three kinds of notes:
 
 - **`Home.md`, the architecture overview.** What problem the app solves, the main parts of the system, how they connect, and how one real request moves through them. Diagrams with explanations.
-- **Term notes.** One note per key term: a tool (Cloudflare Workers, Durable Objects, PostgreSQL, Drizzle ORM) or a part of the app (`ReportRepository`, the shared API contract). Each one explains what the term is, what problem it solves in this app, how it works, and how it connects to other terms.
+- **Term notes, in two tiers.** One note per key term: a tool (Cloudflare Workers, Durable Objects, PostgreSQL, Drizzle ORM) or a part of the app (`ReportRepository`, the shared API contract). **Core** notes cover the handful of terms someone needs to explain the project's core focus, in depth; they are what the user studies. **Reference** notes are short and cover other terms with their own job in the app. Everything else gets one line in the terms index and no note (see Choosing what gets a note).
+- **`Skills.md`, what to retain.** Tailored to the project's core focus: the transferable skills the user built and the system design principles the project taught, each with the evidence for it (term notes, decisions, problems solved) and how they'd say it in an interview.
 
 The skill has two jobs on the same vault: **writing** it (keeping the journal accurate as the project changes) and **teaching** from it (see Teach Mode), so the user can explain the project out loud. Teaching also improves the journal: any gap it finds gets written back.
 
 The vault always describes the app **as it works now**. It is not a history of the project. There are no per-PR notes.
 
-**The depth bar.** Every note goes in depth, and the bar for "deep enough" is: a smart newcomer who reads only this note (and follows its links), or is taught it by an AI, can explain the term and answer "why?" and "what happens if...?" follow-ups. Go as deep as that needs and no further. A note fails if it only names a term without making it understandable, and it also fails if the explanation is buried under detail the reader doesn't need.
+**The depth bar.** Core notes go in depth, and the bar for "deep enough" is: a smart newcomer who reads only this note (and follows its links), or is taught it by an AI, can explain the term and answer "why?" and "what happens if...?" follow-ups. Go as deep as that needs and no further. A note fails if it only names a term without making it understandable, and it also fails if the explanation is buried under detail the reader doesn't need. Reference notes meet a lower bar: the reader can say what the term is and what job it does in this app.
 
 ## Never Committed, Always Excluded
 
@@ -66,7 +67,8 @@ One vault per project. The real files live **outside the repo**, and a symlink m
 ```
 ~/vaults/<project>/        # real vault; <project> = basename of the git repo root
 ├── Home.md                # architecture overview: problem, parts, diagrams, learning order, terms index
-├── Practice.md            # Teach Mode results: strong and weak terms, questions missed
+├── Practice.md            # Teach Mode results: strong and weak terms and skills, questions missed
+├── Skills.md              # what to retain: core skills and design principles, each with evidence
 ├── Cloudflare/            # area folder: term notes about one subject
 │   ├── Cloudflare Workers.md
 │   ├── Durable Objects.md
@@ -104,10 +106,12 @@ If the vault path or the `vault` symlink would ever show up in `git status`, sto
 
 ## Workflow
 
-1. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the README, config files (e.g. `wrangler.jsonc`, `compose.yml`, `package.json`), and command output from this session. Never write from memory alone.
-2. **Update `Home.md`** so the problem statement, the list of parts, every diagram, and the terms index match the app as it works now. If the vault is new, write it from the whole repo, not just this change.
-3. **Create, update, or correct term notes.** List every term the change adds or affects. For each, search the vault by file name **and** by `aliases` before creating anything (see Reading the vault; without `obsidian-cli`: `find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
-4. **Tell the user** in one or two sentences what changed in their understanding of the app, and which notes you created or updated.
+1. **Know the project's core focus.** Every project is about something in particular for the user: taking a backend to production, real-time collaboration, a data pipeline, a mobile app's offline mode. Read the `mission` and `core-focus` in `Practice.md`. If they aren't recorded, ask the user once what they most want to retain from this project, and record it. The core focus decides what `Home.md` emphasizes and which skills and principles go in `Skills.md`; don't assume one project's focus applies to another.
+2. **Gather facts first.** Read the diff (`git diff`, `git log`), the PR body, the README, config files (e.g. `wrangler.jsonc`, `compose.yml`, `package.json`), and command output from this session. Never write from memory alone.
+3. **Update `Home.md`** so the problem statement, the list of parts, every diagram, the core-focus section, and the terms index match the app as it works now. If the vault is new, write it from the whole repo, not just this change.
+4. **Create, update, or correct term notes.** List every term the change adds or affects, and give each new one a tier (see Choosing what gets a note); an index-only term gets a line in the terms index and no note. For each term that gets a note, search the vault by file name **and** by `aliases` before creating anything (see Reading the vault; without `obsidian-cli`: `find ~/vaults/<project> -name '*.md'`, `grep -ril '<term>' ~/vaults/<project>`). If the note exists, work the new understanding into the place it fits. If something in a note is no longer true, rewrite or delete that part; don't append "update: ..." paragraphs. If a part of the app was removed, delete or rewrite its note and fix every link to it.
+5. **Update `Skills.md`** when the change taught the user a new transferable skill or design principle, or gave new evidence for one (a design decision, a tradeoff, a problem solved). Add or extend its section and link the term notes that prove it. Skip it for changes that add nothing new.
+6. **Tell the user** in one or two sentences what changed in their understanding of the app, and which notes you created or updated.
 
 ## Old-Style Vaults
 
@@ -144,7 +148,7 @@ Then ask who the user is preparing for, unless they already said. The audience d
 
 ### 2. Teach what to learn
 
-Read `Practice.md` first and space the review: start with terms marked weak, then terms not reviewed for the longest time, then questions missed last time. Mix in a strong term now and then so it stays fresh. Then teach in the `Home.md` Learning order, choosing what this audience needs:
+Read `Practice.md` first and space the review: start with terms, skills, and principles marked weak, then ones not reviewed for the longest time, then questions missed last time. Mix in a strong one now and then so it stays fresh. If the user's mission is about keeping skills (an internship, a job search, a portfolio), teach from `Skills.md`, core focus first: for each skill or principle, have the user explain it in their own words, then name where this project applies it, before you correct and link the notes. Otherwise, teach in the `Home.md` Learning order, core notes first, choosing what this audience needs:
 
 - For an **interviewer**: the problem, the parts and how a request flows through them, then each key term (what it is, what problem it solves here, how it works, its limits), and the main tradeoffs.
 - For a **demo customer**: the problem in their words, what the app does about it, and the main flow as they'd see it, with just enough of the system to answer "how does it know?" and "what if it breaks?".
@@ -193,9 +197,25 @@ Cover, in this order:
 2. **The parts of the system.** Each main part (frontend, backend, database, hosting, shared packages), what it is responsible for, and which tools it uses, linking every term.
 3. **Diagrams, each followed by a walkthrough** (see Diagrams): the system diagram, a sequence diagram of one real request end to end, and a data-model diagram if the app stores data.
 4. **Why it is built this way.** The main architectural choices and what they trade off, in plain words, linking the term notes that explain each piece.
-5. **What doesn't exist yet**, if the app is unfinished, so the reader knows which parts of the diagrams are planned.
-6. **Learning order**: the terms in the order a newcomer should study them, following `learn-first` (parts the user touches first, then what they depend on).
-7. **Terms index**, grouped by area, linking every term note with a few words each.
+5. **The core focus**, named after it (for example "Getting to production" or "Keeping clients in sync"). Teach the project's core focus (see Workflow) in this project's terms, and show where the project stands on it: what is done, what is in progress, and what is left, linking the term notes. What it covers depends entirely on the focus; don't copy another project's structure.
+6. **What doesn't exist yet**, if the app is unfinished, so the reader knows which parts of the diagrams are planned.
+7. **Learning order**: the core terms first, in the order someone needs them to explain the core focus (following `learn-first`), then the reference terms worth reading after.
+8. **Terms index**, grouped by area: every term note with a few words each, core notes marked, plus one line for each index-only term (no note).
+
+### Choosing what gets a note
+
+Sort every term the project uses into a tier before writing or reorganizing term notes, using the core focus from `Practice.md`:
+
+1. **Core** (`tier: core`): the terms someone must understand to explain the core focus and the main request flow. Usually five to ten. They get the full term-note shape below.
+2. **Reference** (`tier: reference`): terms with their own job in the app that core notes link to, but that aren't central to the core focus (a package manager, a UI library, a linter). They get the short shape below.
+3. **Index only**: everything else. One line in the `Home.md` terms index, or a sentence inside the note that uses it, and no note of its own.
+
+| Tier | Length | Covers |
+|---|---|---|
+| Core | 1,000 to 1,800 words | The full term-note shape below |
+| Reference | 300 to 600 words | The reference shape below |
+
+When the core focus changes, sort the terms again: promote, demote, merge, or delete notes, and fix every link to them.
 
 ### Term notes
 
@@ -204,6 +224,7 @@ File: `<Area>/<Term>.md`.
 ```yaml
 ---
 type: term
+tier: <core | reference>
 area: <Area>
 tags: [term]
 aliases: ["<short names, abbreviations, class names used in code>"]
@@ -216,7 +237,7 @@ used-by: ["[[<terms that call or depend on this one>]]"]
 
 `learn-first`, `uses`, and `used-by` make the links say **how** terms relate, not just that they do, and give Teach Mode a learning order. Keep them true in both directions: if A `uses` B, B is `used-by` A.
 
-Every term note must cover:
+Every core note must cover:
 
 - **What it is**, defined from scratch in plain words, then named: "...a program Cloudflare runs for each HTTP request, close to the user. Cloudflare calls this a **Worker**."
 - **What problem it solves in this app.** This is the center of the note. What would go wrong without it, and why this tool or part was chosen for the job over the real alternatives.
@@ -229,6 +250,8 @@ Every term note must cover:
 
 A term note about a part of the app (e.g. a repository class or the API contract) follows the same shape; "official-docs" can be omitted.
 
+A reference note has the same frontmatter and covers, in this order: an opening paragraph saying what the term is, defined from scratch; its job in this app and why it was chosen; where the app uses it, with real file paths; any problems hit, in a `> [!bug]` callout; and `## How I'd say it`. It links to the core notes that rely on it instead of re-explaining them. A diagram is optional.
+
 ### `Practice.md`
 
 Written only by Teach Mode, and always rewritten to the current picture rather than appended to.
@@ -238,17 +261,40 @@ Written only by Teach Mode, and always rewritten to the current picture rather t
 type: practice
 project: <project>
 last-session: YYYY-MM-DD
-mission: <why the user is learning this project: interview, demo, onboarding, ...>
+mission: <why the user is learning this project: interview, demo, onboarding, an internship, ...>
+core-focus: <what this project is really about for the user, e.g. taking a backend to production>
 learner-background: <e.g. new grad, backend developer, product manager>
 audiences: [interviewer, demo-customer]
 ---
 ```
 
-It lists each term studied with its status (strong or weak) and the date it was last reviewed, so the next session can space the review, and the questions that tripped them up, each with the audience that asked it and a link to the note that answers it.
+It lists each term and skill studied with its status (strong or weak) and the date it was last reviewed, so the next session can space the review, and the questions that tripped them up, each with the audience that asked it and a link to the note that answers it.
+
+### `Skills.md`: what to retain
+
+```yaml
+---
+type: skills
+project: <project>
+core-focus: <the project's core focus, the same as in Practice.md>
+---
+```
+
+The short list of what the user should still know after the project ends, tailored to its core focus. It is the study layer of the vault: term notes are reference, and this note is what gets drilled. Open with a short paragraph on what the project was, its core focus, and what the user did on it. Then two parts.
+
+**Skills**: what the user can now do that carries over to other projects (for example "Designing abuse protection", "Testing against the real runtime"), not the tools themselves; tools live in term notes. One section per skill, headed by the skill, covering:
+
+- **What the user can now do**, in plain words, as something they could do again on a different project.
+- **The evidence**: the decisions they made and why, the tradeoffs they weighed, and the problems they solved, each linked to the term note or `Home.md` section that explains it. Link the `> [!bug]` callouts that make good stories.
+- **How I'd say it**: two or three sentences the user could say in an interview, naming the skill and one concrete example.
+
+**System design principles**: the general ideas the project's design rests on (for example "fail fast and say whether to retry", "one source of truth for the API", "make retries safe", "put a limit where it can be counted exactly"). One short section per principle: the principle stated so it applies to any system, where and why this project applies it, the tradeoff it cost, and links to the term notes. Only principles the project actually demonstrates.
+
+Order everything from most to least important for the core focus. Like every note, rewrite it to the current picture rather than appending; a skill or principle only appears once there is real evidence for it in the repo, the PRs, or the session.
 
 ### `<Project>.base` (optional)
 
-An Obsidian Bases file with a view of term notes grouped by `area`. Create it once the vault has more than a handful of terms.
+An Obsidian Bases file with a view of term notes grouped by `area`, with `tier` as a column. Create it once the vault has more than a handful of terms.
 
 ## Diagrams
 
@@ -257,7 +303,7 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 - **System diagram** (`flowchart`) in `Home.md`: every main part and tool, and how they connect. Mark planned or not-yet-built pieces with dotted arrows and say so in the text.
 - **Sequence diagram** (`sequenceDiagram`) in `Home.md`: one real request, from the user's action to the response, through every part it actually touches. Add more sequence diagrams for other important flows (login, a write, a background job) when they exist.
 - **Data-model diagram** (`erDiagram`) in `Home.md`, only if the app stores data: the real tables or collections and their relationships.
-- **Where-it-sits diagram** in every term note: the term in the middle and the terms it talks to around it.
+- **Where-it-sits diagram** in every core note: the term in the middle and the terms it talks to around it.
 - Add other diagrams (state machines for a lifecycle, a flowchart for a decision the code makes) whenever they make an explanation easier to follow.
 
 ## Writing Rules
@@ -276,6 +322,7 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 
 | Mistake | Fix |
 |---|---|
+| Every tool gets an equally long, in-depth note | Sort terms into core, reference, and index only; keep reference notes to 300 to 600 words |
 | Note only names a term ("Durable Objects store state") | Explain what it is, what problem it solves here, and how it works until the depth bar is met |
 | Explanation buried under unused features, doc quotes, or history | Cut everything that doesn't help someone understand this term's job in this app |
 | Diagram with no text after it | Walk through the diagram: boxes, arrows, and why |
@@ -291,3 +338,6 @@ Use lots of mermaid diagrams, and **always follow each diagram with text that wa
 | Teach Mode answering from memory when the vault lacks it | Check the repo or docs, answer, then write it into the vault |
 | Committing the vault or adding it to `.gitignore` | Real files in `~/vaults/<project>/`; `<repo>/vault` is a symlink excluded via `.git/info/exclude` only |
 | Inventing problems or decisions | Only record what the repo, PRs, or session show |
+| A skill in `Skills.md` with no evidence | Link the term notes, decisions, and problems solved that prove it, or leave the skill out |
+| Copying another project's core-focus section or skills list | Ask what this project is about for the user and tailor `Home.md` and `Skills.md` to that |
+| A design principle stated only in this project's terms | State it so it applies to any system, then show where this project applies it |
