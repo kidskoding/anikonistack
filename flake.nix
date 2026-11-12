@@ -41,6 +41,10 @@
       url = "github:pbakaus/impeccable";
       flake = false;
     };
+    humanizer = {
+      url = "github:blader/humanizer";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

@@ -424,6 +424,7 @@ Single skills pulled from several repos:
 | `graphify` | [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) |
 | `design-taste-frontend` | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) |
 | `impeccable` | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) |
+| `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
 
 ### `firecrawl`
 

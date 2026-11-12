@@ -9,6 +9,7 @@
       graphify = "${inputs.graphify}/graphify/skill.md";
       design-taste-frontend = "${inputs.taste-skill}/skills/taste-skill";
       impeccable = "${inputs.impeccable}/.agents/skills/impeccable";
+      humanizer = "${inputs.humanizer}";
     };
   };
 }
