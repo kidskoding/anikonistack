@@ -53,6 +53,10 @@
       url = "github:lemomo-ai/lemo-opuscar";
       flake = false;
     };
+    marketingskills = {
+      url = "github:coreyhaines31/marketingskills";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

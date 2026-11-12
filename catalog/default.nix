@@ -10,6 +10,7 @@
   raw = lib.foldl' (acc: f: acc // import f args) {} [
     ./custom.nix
     ./mattpocock.nix
+    ./coreyhaines.nix
     ./obsidian.nix
     ./extras.nix
     ./plugins.nix

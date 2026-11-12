@@ -397,6 +397,12 @@ Engineering + productivity skills for real apps (grill sessions, TDD, architectu
 | Productivity | `handoff`, `teach`, `loop-me`, `claude-handoff`, `chief-of-staff`, `software-factory`, `wait-what` |
 | Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape`, `writing-for-agents` |
 
+### `coreyhaines`
+
+Source: [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills)
+
+Corey Haines' 53 marketing and growth skills (CRO, copywriting, SEO, analytics, paid ads, launch). Every directory under `skills/` is picked up, so new upstream skills arrive with `nix flake update`.
+
 ### `caveman`
 
 Source: [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
