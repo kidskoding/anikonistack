@@ -392,10 +392,10 @@ Engineering + productivity skills for real apps (grill sessions, TDD, architectu
 
 | Area | Skills |
 |------|--------|
-| Align / plan | `grill-me`, `grilling`, `grill-with-docs`, `ask-matt`, `to-spec`, `to-tickets`, `triage`, `wayfinder`, `implement` |
-| Code quality | `tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `domain-modeling`, `improve-codebase-architecture`, `prototype`, `research`, `wizard` |
-| Productivity | `handoff`, `teach`, `loop-me`, `claude-handoff` |
-| Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape` |
+| Align / plan | `grill-me`, `grilling`, `grill-with-docs`, `ask-matt`, `to-spec`, `to-tickets`, `triage`, `wayfinder`, `implement`, `implement-spec`, `to-questionnaire` |
+| Code quality | `tdd`, `diagnosing-bugs`, `code-review`, `codebase-design`, `domain-modeling`, `improve-codebase-architecture`, `prototype`, `research`, `wizard`, `pr`, `retro` |
+| Productivity | `handoff`, `teach`, `loop-me`, `claude-handoff`, `chief-of-staff`, `software-factory`, `wait-what` |
+| Setup / misc | `setup-matt-pocock-skills`, `setup-pre-commit`, `setup-ts-deep-modules`, `git-guardrails-claude-code`, `scaffold-exercises`, `migrate-to-shoehorn`, `writing-beats`, `writing-fragments`, `writing-shape`, `writing-for-agents` |
 
 ### `caveman`
 
