@@ -11,6 +11,6 @@
       "obsidian-cli"
       "json-canvas"
       "defuddle"
-    ] (n: "${inputs.obsidian-skills}/skills/${n}");
+    ] (n: "${inputs.obsidian-skills}/plugins/obsidian/skills/${n}");
   };
 }
