@@ -80,6 +80,22 @@
         "type": "github"
       }
     },
+    "emil-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794439813,
+        "narHash": "sha256-M7tLmxBk8cQEF02d7vIzUGTbu8RsiSCeJdN0gKKWOwY=",
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "rev": "4061b67b8d976a186aca118594f54b638c5f718a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emilkowalski",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "firecrawl-plugin": {
       "flake": false,
       "locked": {
@@ -263,6 +279,7 @@
         "claude-duet": "claude-duet",
         "claude-plugins-official": "claude-plugins-official",
         "databricks-agent-skills": "databricks-agent-skills",
+        "emil-skills": "emil-skills",
         "firecrawl-plugin": "firecrawl-plugin",
         "graphify": "graphify",
         "humanizer": "humanizer",

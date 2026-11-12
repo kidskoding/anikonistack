@@ -45,6 +45,10 @@
       url = "github:blader/humanizer";
       flake = false;
     };
+    emil-skills = {
+      url = "github:emilkowalski/skills";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

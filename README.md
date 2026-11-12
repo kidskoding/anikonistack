@@ -425,6 +425,7 @@ Single skills pulled from several repos:
 | `design-taste-frontend` | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) |
 | `impeccable` | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) |
 | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
+| `apple-design` | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
 
 ### `firecrawl`
 

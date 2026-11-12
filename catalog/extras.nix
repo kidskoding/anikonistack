@@ -10,6 +10,7 @@
       design-taste-frontend = "${inputs.taste-skill}/skills/taste-skill";
       impeccable = "${inputs.impeccable}/.agents/skills/impeccable";
       humanizer = "${inputs.humanizer}";
+      apple-design = "${inputs.emil-skills}/skills/apple-design";
     };
   };
 }
