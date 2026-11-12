@@ -438,7 +438,7 @@ Single skills pulled from several repos:
 
 Source: [firecrawl/firecrawl-claude-plugin](https://github.com/firecrawl/firecrawl-claude-plugin)
 
-Web scraping and search. Skills: `firecrawl`, `firecrawl-developer-index`, `firecrawl-research-index`
+Web scraping and search. Skills: `firecrawl`, `firecrawl-developer-index`, `firecrawl-research-index`, `seo-audit` (Claude Code only, as `firecrawl:seo-audit`; other agents get the `coreyhaines` one)
 
 ### `frontend-design`
 

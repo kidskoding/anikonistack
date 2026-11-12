@@ -3,7 +3,7 @@
 
   pluginSkills = b:
     if b.plugin != null && builtins.pathExists "${b.plugin}/skills"
-    then skillDirs "${b.plugin}/skills"
+    then removeAttrs (skillDirs "${b.plugin}/skills") (b.pluginSkip or [])
     else {};
 in {
   inherit pluginSkills;

@@ -11,6 +11,8 @@
   firecrawl = {
     description = "Firecrawl web scraping and search";
     plugin = inputs.firecrawl-plugin;
+    # non-native agents get plugin skills flattened; coreyhaines owns seo-audit there
+    pluginSkip = ["seo-audit"];
   };
 
   frontend-design = {
