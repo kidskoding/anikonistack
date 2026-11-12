@@ -192,6 +192,22 @@
         "type": "github"
       }
     },
+    "lemo-opuscar": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794463191,
+        "narHash": "sha256-GbZYLkPByxgKa16elmy2wBJB+Cd5pyWgqvuVWwJKrAs=",
+        "owner": "lemomo-ai",
+        "repo": "lemo-opuscar",
+        "rev": "f2471cacca270963baa2e1c72b8a7b25dfe0d95c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lemomo-ai",
+        "repo": "lemo-opuscar",
+        "type": "github"
+      }
+    },
     "mattpocock-skills": {
       "flake": false,
       "locked": {
@@ -286,6 +302,7 @@
         "impeccable": "impeccable",
         "lanej-dotfiles": "lanej-dotfiles",
         "last30days": "last30days",
+        "lemo-opuscar": "lemo-opuscar",
         "mattpocock-skills": "mattpocock-skills",
         "nixpkgs": "nixpkgs",
         "obsidian-skills": "obsidian-skills",

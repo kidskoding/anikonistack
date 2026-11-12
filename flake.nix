@@ -49,6 +49,10 @@
       url = "github:emilkowalski/skills";
       flake = false;
     };
+    lemo-opuscar = {
+      url = "github:lemomo-ai/lemo-opuscar";
+      flake = false;
+    };
 
     # spartan AI toolkit
     spartan = {

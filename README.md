@@ -426,6 +426,7 @@ Single skills pulled from several repos:
 | `impeccable` | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) |
 | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
 | `apple-design` | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
+| `lemo-opuscar` | [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) (clones its style library into `~/lemo-opuscar` on first use) |
 
 ### `firecrawl`
 

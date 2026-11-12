@@ -11,6 +11,7 @@
       impeccable = "${inputs.impeccable}/.agents/skills/impeccable";
       humanizer = "${inputs.humanizer}";
       apple-design = "${inputs.emil-skills}/skills/apple-design";
+      lemo-opuscar = "${inputs.lemo-opuscar}/plugin/skills/lemo-opuscar";
     };
   };
 }
