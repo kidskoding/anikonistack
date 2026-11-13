@@ -331,7 +331,8 @@
         "typst-claude-skill": "typst-claude-skill",
         "understand-anything": "understand-anything",
         "vercel-plugin": "vercel-plugin",
-        "vercel-skills": "vercel-skills"
+        "vercel-skills": "vercel-skills",
+        "youtube-skills": "youtube-skills"
       }
     },
     "spartan": {
@@ -444,6 +445,22 @@
       "original": {
         "owner": "vercel-labs",
         "repo": "skills",
+        "type": "github"
+      }
+    },
+    "youtube-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789990896,
+        "narHash": "sha256-3jEgDRt5QTBrr8o+qI88ZC/1pK9jTg5nc0ZlmQ0tsvM=",
+        "owner": "ZeroPointRepo",
+        "repo": "youtube-skills",
+        "rev": "4f7994b94e7d5e250c3b51102d609992e04d5d0d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ZeroPointRepo",
+        "repo": "youtube-skills",
         "type": "github"
       }
     }

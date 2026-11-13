@@ -433,6 +433,7 @@ Single skills pulled from several repos:
 | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
 | `apple-design` | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
 | `lemo-opuscar` | [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) (clones its style library into `~/lemo-opuscar` on first use) |
+| `youtube-full` | [ZeroPointRepo/youtube-skills](https://github.com/ZeroPointRepo/youtube-skills) (needs `TRANSCRIPT_API_KEY` from transcriptapi.com; free tier 100 credits) |
 
 ### `firecrawl`
 

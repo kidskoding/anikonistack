@@ -12,6 +12,7 @@
       humanizer = "${inputs.humanizer}";
       apple-design = "${inputs.emil-skills}/skills/apple-design";
       lemo-opuscar = "${inputs.lemo-opuscar}/plugin/skills/lemo-opuscar";
+      youtube-full = "${inputs.youtube-skills}/skills/youtube-full";
     };
   };
 }

@@ -53,6 +53,10 @@
       url = "github:lemomo-ai/lemo-opuscar";
       flake = false;
     };
+    youtube-skills = {
+      url = "github:ZeroPointRepo/youtube-skills";
+      flake = false;
+    };
     marketingskills = {
       url = "github:coreyhaines31/marketingskills";
       flake = false;
