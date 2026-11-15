@@ -471,6 +471,18 @@ Source: [databricks/databricks-agent-skills](https://github.com/databricks/datab
 
 Databricks skills (CLI, Apps, Lakebase, Model Serving, Lakeflow Jobs, Spark Declarative Pipelines, DABs, serverless migration) and commands, from `plugins/databricks/claude`. Claude Code only.
 
+### `cloudflare`
+
+Source: [cloudflare/skills](https://github.com/cloudflare/skills)
+
+Cloudflare platform skills (Workers, Durable Objects, Agents SDK, Wrangler, `cf` CLI, Sandbox, Turnstile, Cloudflare One) and the Cloudflare MCP server (`https://mcp.cloudflare.com/mcp`, OAuth on first use). Other agents get the skills only.
+
+### `aws`
+
+Source: [aws/agent-toolkit-for-aws](https://github.com/aws/agent-toolkit-for-aws)
+
+The `aws-core` plugin: AWS skills (CDK, CloudFormation, IAM, Bedrock, serverless, containers, databases, observability, SDKs, cost, Well-Architected), the AWS MCP server (`uvx mcp-proxy-for-aws-cli`), and a hook that blocks fetching Secrets Manager values directly. Other agents get the skills only.
+
 ### `open-steps`
 
 Source: [kharmanskyi/open-steps](https://github.com/kharmanskyi/open-steps)

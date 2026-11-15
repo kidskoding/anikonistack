@@ -113,6 +113,14 @@
       url = "github:databricks/databricks-agent-skills";
       flake = false;
     };
+    cloudflare-skills = {
+      url = "github:cloudflare/skills";
+      flake = false;
+    };
+    agent-toolkit-for-aws = {
+      url = "github:aws/agent-toolkit-for-aws";
+      flake = false;
+    };
   };
 
   outputs = {

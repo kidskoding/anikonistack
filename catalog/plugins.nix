@@ -67,4 +67,14 @@
     description = "Databricks skills for the CLI, Apps, Lakebase, Model Serving, Jobs, Pipelines and DABs";
     plugin = "${inputs.databricks-agent-skills}/plugins/databricks/claude";
   };
+
+  cloudflare = {
+    description = "Cloudflare platform skills and the Cloudflare MCP server";
+    plugin = inputs.cloudflare-skills;
+  };
+
+  aws = {
+    description = "AWS core skills, the AWS MCP server and a Secrets Manager safety hook";
+    plugin = "${inputs.agent-toolkit-for-aws}/plugins/aws-core";
+  };
 }
