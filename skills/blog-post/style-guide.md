@@ -70,6 +70,15 @@ Do not dumb down the engineering. Another developer should learn something. Good
 
 Every technical element must answer: **why does this matter to the thesis?** Cut details that only prove the author knows them.
 
+### Making a technical case
+
+An argument post ("why X in the age of Y") is convincing when every reason rests on something real, not on opinion:
+
+- **Quote real artifacts:** the exact command a tool ran, a number read off a real screen or log ("loaded 10 of 52 plugins in about 88 ms"), a pipe that works (`git diff | claude -p "…"`).
+- **Read the source before explaining how a tool works:** protocol details, file locations, and API names come from the code or official docs, never from memory.
+- **Check every absolute word:** "all", "every", "only", "never" claims are the ones readers catch. "All of the review happens in an editor" was false, because the agent's CLI shows diffs itself; the accurate claim was "as soon as a change needs more than yes or no, you're editing."
+- **Order the reasons so each answers the question the last one raised,** and number them as `###` headings under one `##`.
+
 Snippets: 5–30 lines, trimmed with `// ...`, language tag on every fence, explained after the code. Use `diff` fences for before/after.
 
 ## Diagrams
@@ -175,6 +184,20 @@ Flowing sentences still need white space. Break a paragraph when it changes jobs
 - Split before a sentence that starts a new idea with "And because…", "I think that's what…", or "I assumed…".
 - Don't split one thought across paragraphs to look airy; a lone sentence is reserved for the opening and closing beats (Flowing Sentences).
 
+## Formatting Pass
+
+Run this on every finished post, whatever its mode, before the humanizer pass:
+
+- **Paragraphs:** none over about 75 words or 4 sentences; split at the turn (Paragraph Breaks).
+- **Bold:** every `##`, `###`, and section intro has 1–3 bold key lines; reading only the bold tells the argument; bold followed by more text ends with a colon, otherwise the bold line gets its own paragraph (Bold).
+- **Language names:** **Python**, **Lua**, **JSON** bold in prose, never in backticks.
+- **Pull quotes:** 1–3 blockquotes, each at the end of the section that earns it.
+- **Figures and tables:** numbered in order, introduced in bold in the sentence before ("In **Figure 1.2**, …"), captioned underneath.
+- **Punctuation:** no em or en dashes in prose.
+- **Build:** run the target's build check last.
+
+A quick way to find gaps: list each section's bold lines longer than about 20 characters (skipping language names and defined terms) and flag any section with none.
+
 ## Tutorials and Guides
 
 Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should read like regular English prose, not a video script or a reference card. Being inspired by fast technical creators (Vimjoyer, No Boilerplate) means leading with demos and keeping density high; it does not mean adopting a punchy delivery.
@@ -187,6 +210,8 @@ Tutorial-style posts (a tool switch, a setup walkthrough, "from X to Y") should 
 - **Don't list every key or flag.** Give the two or three you need to start, then point to the tool's own discovery mechanism (a which-key menu, `--help`, a picker) for the rest. Dense key lists read as a manual and lose the reader.
 - **Address the reader as you.** Conversion and setup posts are persuading the person reading, not narrating about "beginners," "newcomers," or "people who switch." Prefer "five rows you will actually use" over "five rows beginners use."
 - Install steps, platform variants, and troubleshooting go in an appendix, linked from one line, so they don't interrupt the story.
+- **Explain how the pieces fit before the first install command.** Before any `git clone` or config file, say in plain words what each moving part is and why it exists (for Neovim: the config folder, what a plugin is, what the plugin manager does and why it's named that, the distribution, the external tools), ideally with a small diagram of how they load. Jumping straight into a tool's UI ("now run `:Lazy`") loses beginners.
+- **Show each claim working right after you state it,** the way fast technical creators do: a short muted, looping clip with the keys visible on screen, or a screenshot, directly under the sentence it proves.
 
 ## Bold
 
@@ -194,6 +219,8 @@ Bold is a skim path, not decoration. A reader who reads only the bold text shoul
 
 - Bold generously: the user wants the key points and the lines that stand out to pop. Expect 1–3 per section and roughly 15–25 in a full post, and treat a section with no bold, including the reflection paragraphs near the end, as a miss.
 - Bold the sentence or clause where a section turns: the realization, the reframe, the line that connects one example to the next, and any line a reader would quote or remember. Always bold the thesis sentence when it finally lands.
+- Bold the thesis in the opening paragraph too. The hook's setup (a joke, a scene, a question) stays plain, and the clause that states the post's claim is bold, so a reader skimming only the bold gets the argument from the first paragraph: "Vim is famous for one joke: nobody can figure out how to quit it. … **the editor's job is reading, checking, and fixing that draft, and an editor that lives in the terminal is the one built for it.**"
+- Section intros count as sections. The paragraph under a `##` before its first `###`, and short setup sections (a sample project, a prerequisites list), each get a bold key line.
 - Prefer a clause over a single word. "**the database stopped being something the function grabs from a module and became something it asks for**" beats "**dependency**".
 - Also bold **language and format names** when they matter in prose (**Lua**, **JSON**, **Python**, **TypeScript**, **Rust**). That is emphasis, not code.
 - Bold **consumer brand names** when a post introduces the companies behind a real-world problem (**Lay's**, **Doritos**, **Oreo**, **Cadbury**), so the reader recognizes the products at a glance.
@@ -205,6 +232,9 @@ Do not bold:
 - text that repeats a heading
 - the final echo lines (the last two or three short lines that mirror the opening hook land through white space, not weight); the reflection paragraphs before them still get bold
 - UI labels that are not code (Find Word, Marketplace, Settings Sync): leave plain
+- the setup line of a hook (the joke, the scene); bold the claim it leads to instead
+
+Bolding in bulk is error-prone in MDX: never add bold inside inline code, link text, or a sentence that is already bold (nested `**` renders as literal asterisks). After any bolding pass, grep for `****` and run the build.
 
 ## Inline code (backticks)
 
