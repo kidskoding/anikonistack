@@ -139,7 +139,7 @@ Recommend deleting entire sections when they don't earn their place.
 
 For a harder second opinion, dispatch a fresh subagent with only the draft path, `style-guide.md`, and this checklist. A reviewer that did not write the draft is less forgiving of it.
 
-Apply the edits the user agrees to, then run the target's build check if it has one.
+Apply the edits the user agrees to. Then invoke the `humanizer` skill on the post's prose to strip remaining AI tells. `style-guide.md` wins where the two disagree: keep the bold skim path, inline code, headings, tables, embeds, numbers, and every fact unchanged. Finally run the target's build check if it has one.
 
 ## Critique Mode
 
