@@ -211,11 +211,11 @@ Do not bold:
 Use backticks only for things that are code or point at code. Everything else stays plain or bold per the rules above.
 
 **Backtick:**
-- file and directory paths: `settings.json`, `lua/plugins/gruvbox.lua`, `~/.config/nvim`
+- file and directory paths: `settings.json`, `lua/plugins/catppuccin.lua`, `~/.config/nvim`
 - commands and keys: `nvim`, `:Lazy`, `:Mason`, `ciw`, `<Leader>ff`, `F7`, `Esc`
 - identifiers, options, and code tokens: `opts`, `nil`, `priority`, `SignColumn`, `owner/repo`, `pack.python`
-- plugin / package / binary ids when naming the installable: `lualine`, `bufferline`, `lazygit`, `claudecode.nvim`, `ty`, `ruff`, `lua_ls`, `gruvbox` (as a colorscheme id), `which-key`
-- short inline snippets: `opts = { ... }`, `"ellisonleao/gruvbox.nvim"`
+- plugin / package / binary ids when naming the installable: `lualine`, `bufferline`, `lazygit`, `claudecode.nvim`, `ty`, `ruff`, `lua_ls`, `catppuccin` (as a colorscheme id), `which-key`
+- short inline snippets: `opts = { ... }`, `"catppuccin/nvim"`
 
 **Do not backtick:**
 - language or format names in running prose: write **Lua** / **JSON**, not `Lua` / `JSON`
@@ -227,7 +227,7 @@ Right: **Lua** files, a **JSON** blob, open the Marketplace; edit `settings.json
 
 ### Vim / Neovim mode names (portfolio)
 
-When a post names editor modes in prose (not inside a code fence), use the `VimMode` chip so they match the gruvbox statusline: yellow Normal, blue Insert, orange Visual, green Command, purple Terminal.
+When a post names editor modes in prose (not inside a code fence), use the `VimMode` chip so they match the catppuccin statusline: blue Normal, green Insert, mauve Visual, peach Command, pink Terminal.
 
 ```mdx
 import VimMode from '../../../components/VimMode.astro';
