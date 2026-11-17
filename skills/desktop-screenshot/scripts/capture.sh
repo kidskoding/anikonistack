@@ -74,24 +74,17 @@ list_info() {
   fi
 }
 
-capture_niri_window() {
-  local out="$1"
-  local shot_dir="${HOME}/Pictures/Screenshots"
-  mkdir -p "$shot_dir"
-  local before
-  before="$(find "$shot_dir" -maxdepth 1 -type f -name '*.png' -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 || true)"
+have_niri() { [[ -n "${NIRI_SOCKET:-}" ]] && command -v niri >/dev/null 2>&1; }
 
-  niri msg action screenshot-window
-
-  local i newest
-  for i in $(seq 1 30); do
+# niri's own screenshot, pointer hidden. Usage: niri_shot screen|window OUT
+# niri writes the file asynchronously, so wait for it.
+niri_shot() {
+  local kind="$1" out="$2" i
+  rm -f "$out"
+  niri msg action "screenshot-$kind" --show-pointer false --path "$out" >/dev/null || return 1
+  for i in $(seq 1 50); do
+    [[ -s "$out" ]] && return 0
     sleep 0.1
-    newest="$(find "$shot_dir" -maxdepth 1 -type f -name '*.png' -printf '%T@ %p\n' 2>/dev/null | sort -n | tail -1 || true)"
-    if [[ -n "$newest" && "$newest" != "$before" ]]; then
-      local path="${newest#* }"
-      cp -f "$path" "$out"
-      return 0
-    fi
   done
   return 1
 }
@@ -125,26 +118,22 @@ resolve_grim
 case "$mode" in
   full|screen)
     out="$(abspath "${1:-$(default_out)}")"
-    if command -v niri >/dev/null 2>&1; then
-      focused="$(niri msg -j focused-output 2>/dev/null | sed -n 's/.*"name":"\([^"]*\)".*/\1/p' | head -1)"
-      if [[ -n "$focused" ]]; then
-        "${GRIM[@]}" -o "$focused" "$out"
-      else
-        "${GRIM[@]}" "$out"
-      fi
+    have_niri && niri_shot screen "$out" || "${GRIM[@]}" "$out"
+    finish "$out"
+    ;;
+  all)
+    out="$(abspath "${1:-$(default_out)}")"
+    # niri only shoots the focused screen; use it when that is the whole desktop.
+    if have_niri && [[ "$(niri msg -j outputs | jq length)" == 1 ]] && niri_shot screen "$out"; then
+      :
     else
       "${GRIM[@]}" "$out"
     fi
     finish "$out"
     ;;
-  all)
-    out="$(abspath "${1:-$(default_out)}")"
-    "${GRIM[@]}" "$out"
-    finish "$out"
-    ;;
   window)
     out="$(abspath "${1:-$(default_out)}")"
-    if command -v niri >/dev/null 2>&1 && capture_niri_window "$out"; then
+    if have_niri && niri_shot window "$out"; then
       finish "$out"
     else
       echo "warn: window capture via niri failed; falling back to full screen" >&2

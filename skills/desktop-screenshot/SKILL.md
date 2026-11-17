@@ -59,9 +59,9 @@ Default output: `/tmp/desktop-screenshots/shot-<timestamp>.png`
 
 | Mode | What it captures |
 |------|------------------|
-| `full` / `screen` (default) | Focused monitor (niri) or primary output |
+| `full` / `screen` (default) | Focused monitor; niri's own screenshot with the pointer hidden, else grim |
 | `all` | All monitors |
-| `window` | Focused window via niri; falls back to full |
+| `window` | Focused window via niri (pointer hidden); falls back to full |
 | `output NAME` | Named output (`eDP-1`, …) |
 | `region "x,y WxH"` | Fixed rectangle |
 | `list` | Session + outputs + focused window (no file) |
@@ -78,8 +78,9 @@ grim -o eDP-1 /tmp/agent-screen.png
 # Region
 grim -g "100,100 800x600" /tmp/agent-region.png
 
-# Focused window (niri → ~/Pictures/Screenshots/)
-niri msg action screenshot-window
+# niri, pointer hidden (also copies to the clipboard)
+niri msg action screenshot-screen --show-pointer false --path /tmp/agent-screen.png
+niri msg action screenshot-window --show-pointer false --path /tmp/agent-window.png
 ```
 
 If `grim` is missing but Nix is available:
@@ -103,6 +104,11 @@ nix shell nixpkgs#grim -c grim /tmp/agent-screen.png
 - Each capture sends a desktop notification ("Agent screenshot") so the user
   sees it happen. For back-to-back shots (README scenes, before/after), set
   `DESKTOP_SCREENSHOT_NOTIFY=0`, or the popup lands in the next shot.
+- Never show the pointer: on niri the script passes `--show-pointer false`.
+  Hover highlights (a lit menu row, a hovered button) still show wherever the
+  mouse sits, so ask the user to park the mouse in a corner first.
+- niri's screenshot posts its own "Screenshot captured" notification and
+  replaces the clipboard; it can land in the next shot, so retake if it does.
 - Interactive region select needs `slurp`: `grim -g "$(slurp)" out.png`
   (agents should prefer numeric `region` so capture is non-blocking)
 
