@@ -137,6 +137,18 @@ The author:
 
 Not personal branding. The technical idea is the interesting part.
 
+**Warmly introduce every new thing where it first appears:** this is what makes Vimjoyer's and No Boilerplate's technical videos easy to follow. Every tool, term, key, or concept gets a short, friendly introduction the first time it shows up, before the post uses it ("Before we install it, let's meet AstroNvim. AstroNvim is a Neovim distribution, a complete configuration that…", "Meet the leader key: it's a key you press before a shortcut, and in this setup it's Space"). Check by first use, not by whether a definition exists somewhere later in the post, and turn later definitions into back-references ("the leader key from earlier"). Only do this for things the reader needs to follow the post's main path; a side detail (how the clips were recorded, an API or a socket in an aside) can stay unexplained.
+
+**Match the author's writing sample:** the user's own prose is in `~/uiuc/go-mama-27/portfolio/src/content/blog/halloween-candy-food-allergies/index.mdx`. Read its opening and one results section before drafting, and match it, including when running the `humanizer` skill (a writing sample overrides its default patterns). Its habits:
+- opens on a relatable second-person scene ("If you had gone trick-or-treating anytime during your youth, chances are…")
+- curious first person that leads into the work ("I was curious to see…", then "So I built…")
+- "we" when walking the reader through what comes next ("Later on, we will see…")
+- every tool or term explained inline in plain words ("Kaggle, a website where people share free datasets")
+- casual, warm word choices and the occasional exclamation ("pretty much everywhere", "quite common", "built around peanut butter!") instead of neutral, clipped phrasing
+- bold claims that open with a colon, and every number labeled
+
+**Write as the author, in first person:** the writer names and guides, not the document. Write "I'll refer to this as **the review loop**, as shown in **Figure 1.3**" and "For the rest of this post, I'll build the editor with you step by step", not "this post calls it the review loop" or "the rest of this post builds the editor". Using "this post" as a place is fine ("later in this post"); using it as the one doing something is not.
+
 **Prefer:** short paragraphs, clear sentences that flow into each other (the user's voice: connected, conversational sentences joined with "but rather", "so", "because", not stacks of two-word fragments), specific language, natural first-person reflection, confidence without pretending to know everything, sections that flow into each other, rhetorical questions when useful, code and diagrams between prose.
 
 **Avoid:** choppy runs of fragments ("Nothing wrong with it. It works.", "Same query, same builder.", "Checkmark."), which the user reads as choppy; keep staccato lines for the closing beat only. Also avoid corporate marketing language, fake enthusiasm, piles of adjectives, motivational LinkedIn tone, "I'm thrilled to announce", "In today's rapidly evolving technological landscape", generic AI introductions, constant bullet lists, walls of text with no headings, the thesis repeated word for word in every section, excessive em dashes, a motivational line closing every section.
