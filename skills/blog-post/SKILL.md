@@ -25,7 +25,7 @@ Every time you write or rewrite post prose (a full draft, a rewrite, a restructu
 
 1. **Formatting Pass** from `style-guide.md`.
 2. **Invoke the `humanizer` skill with the Skill tool** on the post file. Writing with its rules in mind does not count, and neither does running it on an earlier version.
-3. **Run the target's build** (`bun run build` on the portfolio).
+3. **Run the target's build** (`bun run build` on the portfolio). The build skips `draft: true` posts, so also load a draft in the dev server and confirm it returns HTTP 200.
 
 Then tell the user that all three ran. Only DEV.to Import skips step 2.
 
