@@ -30,7 +30,7 @@ import TweetEmbed from '../../../components/TweetEmbed.astro';
 - Optional `titleLink: { text, href }` links one phrase of the post-page h1. Never put Markdown links in `title`: it is plain text in tabs, cards, and previews.
 - Optional `coverCaption` renders as a muted gray line under the cover (say where or what the photo is).
 - `coverImage` (served from `public/blog/`) and the `TweetEmbed` import only when used. Tweets embed as `<TweetEmbed url="..." />`.
-- News analysis posts end with a `## References` section and cite inline with `<sup>[N](#references)</sup>`. The References list is bulleted (see Gotchas).
+- News analysis posts end with a `## References` section and cite inline with `<sup>[N](#references)</sup>`. The References list is numbered to match those footnotes (see Gotchas).
 - Add `*Originally published on [DEV](<url>).*` only for posts actually on DEV.
 
 After writing or revising, run `bun run build` in the portfolio root and fix any MDX error before reporting back.
@@ -50,7 +50,7 @@ After writing or revising, run `bun run build` in the portfolio root and fix any
 
 - **Frontmatter is `pubDate`, not `date`, and there is no `tags` or `subtitle` field.** Zod strips unknown keys silently.
 - **MDX treats `<` and `{` in prose as JSX.** `Effect<A, E, R>` or `{id}` outside backticks breaks the build.
-- **`## References` is always a bulleted list (`-`), never numbered,** in every mode, including posts that cite inline with `<sup>[N](#references)</sup>`; the user wants bullets. Keep the bullets in first-citation order so `[N]` still means the Nth bullet, and put `<a name="references"></a>` under the heading so the citation links land.
+- **`## References` is numbered (`1.`, `2.`, …) when the post cites inline with `<sup>[N](#references)</sup>`,** so footnote [4] is item 4. List it in first-citation order, and renumber both the footnotes and the list whenever a citation moves. Posts with no numbered footnotes use a bulleted list (`-`). Blog pages show list numbers through `[&_ol]:list-decimal` in `src/pages/blog/[...id].astro`. Put `<a name="references"></a>` under the heading so the citation links land.
 - **Mermaid renders** at build time: a ```` ```mermaid ```` fence becomes a catppuccin SVG (flowchart, state, sequence, class, ER, xychart; via `beautiful-mermaid` in `src/lib/mermaid.mjs`). Use it for flows and boundaries; keep ASCII ```` ```text ```` fences for annotated code, trees, and side-by-side before/after columns, which Mermaid draws worse.
 - **No `og:image` or Twitter card tags** in the blog layout, so LinkedIn link previews show no cover. Mention it when the user plans to share on LinkedIn.
 - **Bold renders mauve** (`[&_strong]:text-nvim-purple` in `src/pages/blog/[...id].astro`; italic is mauve too; never red, which catppuccin reserves for errors), so every bold phrase is a bright highlight. Bold the key and standout lines per `style-guide.md` (1–3 per section); keep each bold to a clause or sentence rather than whole paragraphs, so the green reads as highlights. Language names (**Lua**, **JSON**, …) are bold by design; do not put them in backticks.
