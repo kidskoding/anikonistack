@@ -216,7 +216,7 @@ Run this on every finished post, whatever its mode, before the humanizer pass:
 - **Bold:** every `##`, `###`, and section intro has 1–3 bold key lines; reading only the bold tells the argument; bold followed by more text ends with a colon, otherwise the bold line gets its own paragraph (Bold).
 - **Language names:** **Python**, **Lua**, **JSON** bold in prose, never in backticks.
 - **Pull quotes:** 1–3 blockquotes, each at the end of the section that earns it.
-- **Figures and tables:** numbered in order, introduced in bold in the sentence before ("In **Figure 1.2**, …"), captioned underneath.
+- **Figures, tables and listings:** numbered in order, introduced in bold in the sentence before ("In **Figure 1.2**, …"), captioned underneath. Code the prose discusses is a listing ("**Listing 1.1:** the agent added `Cancelled` but missed the `match`"), the way The Rust Book does it. The command output that follows gets a plain lead-in ("Here's the error:") and no caption or number. One-line commands and two-line config stay uncaptioned. Each type keeps its own counter in reading order (Listing 1.1, Figure 1.1, Listing 1.2, Table 1.1).
 - **Punctuation:** no em or en dashes in prose.
 - **Build:** run the target's build check last.
 
