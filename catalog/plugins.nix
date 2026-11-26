@@ -10,7 +10,12 @@
 
   firecrawl = {
     description = "Firecrawl web scraping and search";
-    plugin = inputs.firecrawl-plugin;
+    # drop the plugin's remote MCP; the nixpkgs firecrawl-mcp is configured through programs.mcp instead
+    plugin = builtins.path {
+      name = "firecrawl-plugin";
+      path = inputs.firecrawl-plugin;
+      filter = path: _: baseNameOf path != ".mcp.json";
+    };
     # non-native agents get plugin skills flattened; coreyhaines owns seo-audit there
     pluginSkip = ["seo-audit"];
   };
